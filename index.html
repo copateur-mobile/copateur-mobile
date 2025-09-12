@@ -4,7 +4,7 @@
 
 	<!-- Basic Page Needs
 	================================================== -->
-	<title>Copa Premier</title>
+	<title id='league_name'></title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="description" content="Sports Club, League and News HTML Template">
@@ -31,7 +31,7 @@
 	================================================== -->
 	<!-- Vendor CSS -->
 	<link href="assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
-	<link href="assets/fonts/font-awesome/css/all.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
 	<link href="assets/fonts/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
 	<link href="assets/vendor/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
 	<link href="assets/vendor/slick/slick.css" rel="stylesheet">
@@ -42,8 +42,19 @@
 	<!-- Custom CSS-->
 	<link href="assets/css/custom.css" rel="stylesheet">
 
+	<style type="text/css">
+		.league_logo_url {
+			max-width: 148px;
+		}
+		.table-borderless td {
+			border:  0 !important;
+			padding-left: 0 !important;
+		}
+	</style>
+
 </head>
 <body data-template="template-soccer">
+
 
 	<div class="site-wrapper clearfix">
 		<div class="site-overlay"></div>
@@ -54,18 +65,16 @@
 		<!-- Header Mobile -->
 		<div class="header-mobile clearfix" id="header-mobile">
 			<div class="header-mobile__logo">
-				<a href="_soccer_index.html"><img src="assets/images/soccer/logo.png" srcset="assets/images/soccer/logo@2x.png 2x" alt="Alchemists" class="header-mobile__logo-img"></a>
+				<a href="_soccer_index.html">
+					<img src="" class="header-mobile__logo-img league_logo_url"></a>
 			</div>
 			<div class="header-mobile__inner">
 				<a id="header-mobile__toggle" class="burger-menu-icon"><span class="burger-menu-icon__line"></span></a>
-				<span class="header-mobile__search-icon" id="header-mobile__search-icon"></span>
 			</div>
 		</div>
 		
 		<!-- Header Desktop -->
 		<header class="header header--layout-1">
-		
-		
 			<!-- Header Primary -->
 			<div class="header__primary">
 				<div class="container">
@@ -73,7 +82,8 @@
 		
 						<!-- Header Logo -->
 						<div class="header-logo">
-							<a href="_soccer_index.html"><img src="assets/images/soccer/logo.png" srcset="assets/images/soccer/logo@2x.png 2x" alt="Alchemists" class="header-logo__img"></a>
+							<a href="_soccer_index.html">
+								<img src="" class="header-logo__img league_logo_url"></a>
 						</div>
 						<!-- Header Logo / End -->
 		
@@ -282,11 +292,11 @@
 		
 				<div class="card card--has-table standings">
 					<div class="card__header">
-						<h4>F7. TORNEO DE VERANO 2024</h4>
+						<h4 class="tournament_name"></h4>
 					</div>
 					<div class="card__content">
 						<div class="table-responsive">
-							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer">
+							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer x-table-standings">
 								<thead>
 									<tr>
 										<th class="team-standings__pos">#</th>
@@ -303,138 +313,7 @@
 								</thead>
 								<tbody>
 		
-									<tr>
-										<td class="team-standings__pos">1</td>
-										<td class="team-standings__team">
-											<div class="team-meta">
-												<figure class="team-meta__logo">
-													<img src="https://tvn.copateur.com/storage/img/equipos/24/4202.png" alt="">
-												</figure>
-												<div class="team-meta__info">
-													<h6 class="team-meta__name">JAGGER F.C.</h6>
-												</div>
-											</div>
-										</td>
-										<td class="team-standings__total-points">18</td>
-										<td class="team-standings__played">6</td>
-										<td class="team-standings__win">6</td>
-										<td class="team-standings__drawn">0</td>
-										<td class="team-standings__lose">0</td>
-										<td class="team-standings__goals-for">49</td>
-										<td class="team-standings__goals-against">15</td>
-										<td class="team-standings__goals-diff">34</td>
-									</tr>
 
-									<tr>
-										<td class="team-standings__pos">2</td>
-										<td class="team-standings__team">
-											<div class="team-meta">
-												<figure class="team-meta__logo">
-													<img src="https://tvn.copateur.com/storage/img/equipos/24/1812.png" alt="">
-												</figure>
-												<div class="team-meta__info">
-													<h6 class="team-meta__name">ALTO PASTO</h6>
-												</div>
-											</div>
-										</td>
-										<td class="team-standings__total-points">15</td>
-										<td class="team-standings__played">6</td>
-										<td class="team-standings__win">5</td>
-										<td class="team-standings__drawn">0</td>
-										<td class="team-standings__lose">1</td>
-										<td class="team-standings__goals-for">41</td>
-										<td class="team-standings__goals-against">24</td>
-										<td class="team-standings__goals-diff">17</td>
-									</tr>
-
-									<tr>
-										<td class="team-standings__pos">3</td>
-										<td class="team-standings__team">
-											<div class="team-meta">
-												<figure class="team-meta__logo">
-													<img src="https://tvn.copateur.com/storage/img/equipos/24/3699.png" alt="">
-												</figure>
-												<div class="team-meta__info">
-													<h6 class="team-meta__name">El Paraiso</h6>
-												</div>
-											</div>
-										</td>
-										<td class="team-standings__total-points">15</td>
-										<td class="team-standings__played">6</td>
-										<td class="team-standings__win">5</td>
-										<td class="team-standings__drawn">0</td>
-										<td class="team-standings__lose">1</td>
-										<td class="team-standings__goals-for">41</td>
-										<td class="team-standings__goals-against">24</td>
-										<td class="team-standings__goals-diff">17</td>
-									</tr>
-
-									<tr>
-										<td class="team-standings__pos">4</td>
-										<td class="team-standings__team">
-											<div class="team-meta">
-												<figure class="team-meta__logo">
-													<img src="https://tvn.copateur.com/storage/img/equipos/24/4112.png" alt="">
-												</figure>
-												<div class="team-meta__info">
-													<h6 class="team-meta__name">Los Bichos F.C.</h6>
-												</div>
-											</div>
-										</td>
-										<td class="team-standings__total-points">15</td>
-										<td class="team-standings__played">6</td>
-										<td class="team-standings__win">5</td>
-										<td class="team-standings__drawn">0</td>
-										<td class="team-standings__lose">1</td>
-										<td class="team-standings__goals-for">41</td>
-										<td class="team-standings__goals-against">24</td>
-										<td class="team-standings__goals-diff">17</td>
-									</tr>
-
-									<tr>
-										<td class="team-standings__pos">5</td>
-										<td class="team-standings__team">
-											<div class="team-meta">
-												<figure class="team-meta__logo">
-													<img src="https://tvn.copateur.com/storage/img/equipos/24/4203.png" alt="">
-												</figure>
-												<div class="team-meta__info">
-													<h6 class="team-meta__name">Casi 100</h6>
-												</div>
-											</div>
-										</td>
-										<td class="team-standings__total-points">15</td>
-										<td class="team-standings__played">6</td>
-										<td class="team-standings__win">5</td>
-										<td class="team-standings__drawn">0</td>
-										<td class="team-standings__lose">1</td>
-										<td class="team-standings__goals-for">41</td>
-										<td class="team-standings__goals-against">24</td>
-										<td class="team-standings__goals-diff">17</td>
-									</tr>
-
-									<tr>
-										<td class="team-standings__pos">6</td>
-										<td class="team-standings__team">
-											<div class="team-meta">
-												<figure class="team-meta__logo">
-													<img src="https://tvn.copateur.com/storage/img/equipos/24/4204.png" alt="">
-												</figure>
-												<div class="team-meta__info">
-													<h6 class="team-meta__name">Roma 22</h6>
-												</div>
-											</div>
-										</td>
-										<td class="team-standings__total-points">15</td>
-										<td class="team-standings__played">6</td>
-										<td class="team-standings__win">5</td>
-										<td class="team-standings__drawn">0</td>
-										<td class="team-standings__lose">1</td>
-										<td class="team-standings__goals-for">41</td>
-										<td class="team-standings__goals-against">24</td>
-										<td class="team-standings__goals-diff">17</td>
-									</tr>
-		
 								</tbody>
 							</table>
 						</div>
@@ -443,11 +322,11 @@
 
 				<div class="card card--has-table top-scorers">
 					<div class="card__header">
-						<h4>F7. TORNEO DE VERANO 2024</h4>
+						<h4 class="tournament_name"></h4>
 					</div>
 					<div class="card__content">
 						<div class="table-responsive">
-							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer">
+							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer x-table-top-scorers">
 								<thead>
 									<tr>
 										<th class="team-standings__pos">#</th>
@@ -458,40 +337,6 @@
 								</thead>
 								<tbody>
 		
-									<tr>
-										<td class="team-standings__pos">1</td>
-										<td class="team-standings__team">
-											<div class="team-meta">
-												<figure class="team-meta__logo">
-													<img src="https://tvn.copateur.com/storage/img/equipos/24/3699.png" alt="">
-												</figure>
-												<div class="team-meta__info">
-													<h6 class="team-meta__name">EL PARAISO</h6>
-												</div>
-											</div>
-										</td>
-										<td class="team-standings__player">GARCIA Fernando</td>
-										<td class="team-standings__goals-for">19</td>
-									</tr>
-
-									<tr>
-										<td class="team-standings__pos">2</td>
-										<td class="team-standings__team">
-											<div class="team-meta">
-												<figure class="team-meta__logo">
-													<img src="https://tvn.copateur.com/storage/img/equipos/24/3699.png" alt="">
-												</figure>
-												<div class="team-meta__info">
-													<h6 class="team-meta__name">EL PARAISO</h6>
-												</div>
-											</div>
-										</td>
-										<td class="team-standings__player">NAVARRO Agustin</td>
-										<td class="team-standings__goals-for">11</td>
-									</tr>
-
-								
-		
 								</tbody>
 							</table>
 						</div>
@@ -500,59 +345,22 @@
 
 				<div class="card card--has-table sanctions">
 					<div class="card__header">
-						<h4>F7. TORNEO DE VERANO 2024</h4>
+						<h4 class="tournament_name"></h4>
 					</div>
 					<div class="card__content">
 						<div class="table-responsive">
-							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer">
+							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer x-table-sanctions">
 								<thead>
 									<tr>
 										<th class="team-standings__team">Equipo</th>
 										<th class="">JUGADOR</th>
-										<th class="">TA</th>
-										<th class="">TR</th>
+										<th class=""><i class="icon-svg icon-yellow-card"></i></th>
+										<th class=""><i class="icon-svg icon-red-card"></i></th>
 										<th class="">ESTADO</th>
 									</tr>
 								</thead>
 								<tbody>
-		
-									<tr>
-										<td class="team-standings__team">
-											<div class="team-meta">
-												<figure class="team-meta__logo">
-													<img src="https://tvn.copateur.com/storage/img/equipos/24/3699.png" alt="">
-												</figure>
-												<div class="team-meta__info">
-													<h6 class="team-meta__name">EL PARAISO</h6>
-												</div>
-											</div>
-										</td>
-										<td class="team-standings__player">HANNA Santiago</td>
-										<td class="">1</td>
-										<td class="">0</td>
-										<td class="">HABILITADO</td>
-									</tr>
 
-									<tr>
-										<td class="team-standings__team">
-											<div class="team-meta">
-												<figure class="team-meta__logo">
-													<img src="https://tvn.copateur.com/storage/img/equipos/24/3699.png" alt="">
-												</figure>
-												<div class="team-meta__info">
-													<h6 class="team-meta__name">EL PARAISO</h6>
-												</div>
-											</div>
-										</td>
-										<td class="team-standings__player">DI SABATO Sebastian</td>
-										<td class="">1</td>
-										<td class="">1</td>
-										<td class="">INHABILITADO</td>
-									</tr>
-
-
-								
-		
 								</tbody>
 							</table>
 						</div>
@@ -561,20 +369,67 @@
 
 				<div class="card card--has-table fixture">
 					<div class="card__header">
-						<h4>F7. TORNEO DE VERANO 2024</h4>
+						<h4 class="tournament_name"></h4>
 					</div>
 					<div class="card__content">
-						Completar
+						<div class="table-responsive">
+							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer x-table-fixture">
+								<thead>
+									<tr>
+										<th class="team-standings__team">Fecha <span id="fixture_number">1</span></th>
+										<th class="">Resultado</th>
+										<th class="">Día y Sede</th>
+										<th class="">Estado</th>
+									</tr>
+								</thead>
+								<tbody>
+
+									<tr>
+										<td>
+											<table class="table table-borderless">
+												<tbody style="text-align: left;">
+													<tr>
+														<td>
+															<img src="https://tvn.copateur.com/storage/img/equipos/24/502.png" width="30px" height="30px">
+															<span class="nombre-equipo">VILLAGE F.C.</span>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<img src="https://tvn.copateur.com/storage/img/equipos/24/502.png" width="30px" height="30px">
+															<span class="nombre-equipo">VILLAGE F.C.</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+										<td>
+											<table class="table table-borderless">
+												<tr>
+													<td>2</td>
+												</tr>
+												<tr>
+													<td>2</td>
+												</tr>
+											</table>
+										</td>
+										<td>Sede Pendiente</td>
+										<td>Finalizado</td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 
 				<div class="card card--has-table best-defense">
 					<div class="card__header">
-						<h4>F7. TORNEO DE VERANO 2024</h4>
+						<h4 class="tournament_name"></h4>
 					</div>
 					<div class="card__content">
 						<div class="table-responsive">
-							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer">
+							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer x-table-best-defense">
 								<thead>
 									<tr>
 										<th class="team-standings__pos">#</th>
@@ -583,36 +438,7 @@
 									</tr>
 								</thead>
 								<tbody>
-		
-									<tr>
-										<td class="team-standings__pos">1</td>
-										<td class="team-standings__team">
-											<div class="team-meta">
-												<figure class="team-meta__logo">
-													<img src="https://tvn.copateur.com/storage/img/equipos/24/3699.png" alt="">
-												</figure>
-												<div class="team-meta__info">
-													<h6 class="team-meta__name">EL PARAISO</h6>
-												</div>
-											</div>
-										</td>
-										<td class="">0</td>
-									</tr>
-
-									<tr>
-										<td class="team-standings__pos">2</td>
-										<td class="team-standings__team">
-											<div class="team-meta">
-												<figure class="team-meta__logo">
-													<img src="https://tvn.copateur.com/storage/img/equipos/24/4232.png" alt="">
-												</figure>
-												<div class="team-meta__info">
-													<h6 class="team-meta__name">EL REJUNTE</h6>
-												</div>
-											</div>
-										</td>
-										<td class="">1</td>
-									</tr>
+									
 		
 								</tbody>
 							</table>
@@ -635,14 +461,258 @@
 	<script src="assets/vendor/jquery/jquery-migrate.min.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/js/core.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
 	
 	
 	<!-- Template JS -->
 	<script src="assets/js/init.js"></script>
 	<script src="assets/js/custom.js"></script>
 
+	<script id="standings-template" type="x-tmpl-mustache">
+	  {{#standings}}
+	  	<tr>
+			  <td class="team-standings__pos">{{pos}}</td>
+			  <td class="team-standings__team">
+			    <div class="team-meta">
+			      <figure class="team-meta__logo">
+			        <img src="{{team_logo_url}}" alt="">
+			      </figure>
+			      <div class="team-meta__info">
+			        <h6 class="team-meta__name">{{team_name}}</h6>
+			      </div>
+			    </div>
+			  </td>
+			  <td class="team-standings__total-points">{{pts}}</td>
+			  <td class="team-standings__played">{{pj}}</td>
+			  <td class="team-standings__win">{{pg}}</td>
+			  <td class="team-standings__drawn">{{pe}}</td>
+			  <td class="team-standings__lose">{{pp}}</td>
+			  <td class="team-standings__goals-for">{{gf}}</td>
+			  <td class="team-standings__goals-against">{{gc}}</td>
+			  <td class="team-standings__goals-diff">{{dg}}</td>
+			</tr>
+	  {{/standings}}
+	</script>
+
+	<script id="top-scorers-template" type="x-tmpl-mustache">
+	  {{#top_scorers}}
+	  	<tr>
+				<td class="team-standings__pos">{{pos}}</td>
+				<td class="team-standings__team">
+					<div class="team-meta">
+						<figure class="team-meta__logo">
+							<img src="{{team_logo_url}}" alt="">
+						</figure>
+						<div class="team-meta__info">
+							<h6 class="team-meta__name">{{team_name}}</h6>
+						</div>
+					</div>
+				</td>
+				<td class="team-standings__player">{{player_name}}</td>
+				<td class="team-standings__goals-for">{{goals}}</td>
+			</tr>
+	  {{/top_scorers}}
+	</script>
+
+	<script id="sanctions-template" type="x-tmpl-mustache">
+	  {{#sanctions}}
+	  	<tr>
+				<td class="team-standings__team">
+					<div class="team-meta">
+						<figure class="team-meta__logo">
+							<img src="{{team_logo_url}}" alt="">
+						</figure>
+						<div class="team-meta__info">
+							<h6 class="team-meta__name">{{team_name}}</h6>
+						</div>
+					</div>
+				</td>
+				<td class="team-standings__player">{{player_name}}</td>
+				<td class="">{{ta}}</td>
+				<td class="">{{tr}}</td>
+				<td class="">{{status}}</td>
+			</tr>
+	  {{/sanctions}}
+	</script>
+
+	<script id="best-defense-template" type="x-tmpl-mustache">
+	  {{#best_defense}}
+	  	<tr>
+				<td class="team-standings__pos">{{pos}}</td>
+				<td class="team-standings__team">
+					<div class="team-meta">
+						<figure class="team-meta__logo">
+							<img src="{{team_logo_url}}" alt="">
+						</figure>
+						<div class="team-meta__info">
+							<h6 class="team-meta__name">{{team_name}}</h6>
+						</div>
+					</div>
+				</td>
+				<td class="">{{gc}}</td>
+			</tr>
+	  {{/best_defense}}
+	</script>
+
+
+
+	<script id="fixtures-template" type="x-tmpl-mustache">
+	  {{#fixtures}}
+	  	<tr>
+				<td class="team-standings__pos">{{pos}}</td>
+				<td class="team-standings__team">
+					<div class="team-meta">
+						<figure class="team-meta__logo">
+							<img src="{{team_logo_url}}" alt="">
+						</figure>
+						<div class="team-meta__info">
+							<h6 class="team-meta__name">{{team_name}}</h6>
+						</div>
+					</div>
+				</td>
+				<td class="team-standings__player">{{player_name}}</td>
+				<td class="team-standings__goals-for">{{goals}}</td>
+			</tr>
+	  {{/fixtures}}
+	</script>
+
+
+
 	<script>
+		// DATA
+		const data = {
+			"league_name": "Copa Premier",
+		  "league_logo_url": "https://play-lh.googleusercontent.com/sy9m4dDRp0ugDq3O38XxJa6TETdFQvVrCWxnwFFT_qeTil45-CxaNQnyQ3yF-YOhQvNV",
+		  "tournaments": [
+		    {
+		    	"tournament_name": "F7 +35 Sabados",
+		      "standings": [
+		        {"pos":1,"team_name":"Team A","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":15,"pj":5,"pg":5,"pe":0,"pp":0,"gf":18,"gc":5,"dg":13},
+		        {"pos":2,"team_name":"Team B","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":12,"pj":5,"pg":4,"pe":0,"pp":1,"gf":15,"gc":7,"dg":8},
+		        {"pos":3,"team_name":"Team C","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":10,"pj":5,"pg":3,"pe":1,"pp":1,"gf":12,"gc":8,"dg":4},
+		        {"pos":4,"team_name":"Team D","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":8,"pj":5,"pg":2,"pe":2,"pp":1,"gf":10,"gc":9,"dg":1},
+		        {"pos":5,"team_name":"Team E","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":5,"pj":5,"pg":1,"pe":2,"pp":2,"gf":7,"gc":12,"dg":-5},
+		        {"pos":6,"team_name":"Team F","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":0,"pj":5,"pg":0,"pe":0,"pp":5,"gf":3,"gc":22,"dg":-19}
+		      ],
+		      "top_scorers": [
+		        {"pos":1,"team_name":"Team A","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 1","goals":6},
+		        {"pos":2,"team_name":"Team B","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 2","goals":5},
+		        {"pos":3,"team_name":"Team C","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 3","goals":4},
+		        {"pos":4,"team_name":"Team D","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 4","goals":3},
+		        {"pos":5,"team_name":"Team E","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 5","goals":2}
+		      ],
+		      "sanctions": [
+		        {"team_name":"Team A","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 1","ta":1,"tr":0,"status":"Activo"},
+		        {"team_name":"Team B","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 2","ta":2,"tr":1,"status":"Suspendido"},
+		        {"team_name":"Team C","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 3","ta":0,"tr":0,"status":"Activo"},
+		        {"team_name":"Team D","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 4","ta":3,"tr":0,"status":"Advertido"}
+		      ],
+		      "best_defense": [
+		        {"pos":1,"team_name":"Team A","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":5},
+		        {"pos":2,"team_name":"Team B","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":7},
+		        {"pos":3,"team_name":"Team C","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":8},
+		        {"pos":4,"team_name":"Team D","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":9},
+		        {"pos":5,"team_name":"Team E","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":12},
+		        {"pos":6,"team_name":"Team F","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":22}
+		      ],
+		      "fixtures": [
+		      	{
+		      		"fixture_number": 1,
+		      		"date": "25/12/2024",
+		      		"matches": [
+		      			{
+				      		"team_1_name": "JUAN PASTRÁN F8",
+				      		"team_1_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4336.png",
+				      		"team_1_goals": 4,
+				      		"team_2_name": "LOS MISMOS DE SIEMPRE F8",
+				      		"team_2_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4335.png",
+				      		"team_2_goals": 5,
+				      		"status": "finished",
+				      		"stadium": "TVN Cancha 2",
+				      	},
+				      	{
+				      		"team_1_name": "Tercer Tiempo F8",
+				      		"team_1_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4230.png",
+				      		"team_1_goals": 10,
+				      		"team_2_name": "LOS PIBES DEL TALLER",
+				      		"team_2_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4229.png",
+				      		"team_2_goals": 1,
+				      		"status": "finished",
+				      		"stadium": "TVN Cancha 1",
+				      	},
+		      		]
+		      	},
+		      	{
+		      		"fixture_number": 2,
+		      		"date": "25/12/2024",
+		      		"matches": [
+		      			{
+				      		"team_1_name": "LOS PIBES DEL TALLER",
+				      		"team_1_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4229.png",
+				      		"team_1_goals": 3,
+				      		"team_2_name": "LOS GUERREROS F.C.",
+				      		"team_2_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4234.png",
+				      		"team_2_goals": 4,
+				      		"status": "finished",
+				      		"stadium": "TVN Cancha 2",
+				      	},
+				      	{
+				      		"team_1_name": "Tercer Tiempo F8",
+				      		"team_1_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4230.png",
+				      		"team_1_goals": 2,
+				      		"team_2_name": "LOS MISMOS DE SIEMPRE F8",
+				      		"team_2_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4335.png",
+				      		"team_2_goals": 2,
+				      		"status": "finished",
+				      		"stadium": "TVN Cancha 1",
+				      	}
+		      		]
+		      	},
+		      	
+		      ]
+		    }
+		  ]
+		};
+
+		// TABS
 		document.addEventListener("DOMContentLoaded", () => {
+			const currentTournament = data.tournaments[0];
+
+			document.querySelector("#league_name").innerHTML = data['league_name'];
+			document.querySelectorAll(".league_logo_url").forEach(img => {
+			  img.src = data.league_logo_url;
+			});
+
+			document.querySelectorAll(".tournament_name").forEach(el => {
+				el.innerHTML = currentTournament['tournament_name'];
+			});
+
+	    // Standings
+	    const standingsTemplate = document.getElementById("standings-template").innerHTML;
+	    const standingsHtml = Mustache.render(standingsTemplate, currentTournament);
+	    document.querySelector(".x-table-standings tbody").innerHTML = standingsHtml;
+
+	    // Top Scorers
+	    const topScorersTemplate = document.getElementById("top-scorers-template").innerHTML;
+	    const topScorersHtml = Mustache.render(topScorersTemplate, currentTournament);
+	    document.querySelector(".x-table-top-scorers tbody").innerHTML = topScorersHtml;
+
+	    // Sanctions
+	    const sanctionsTemplate = document.getElementById("sanctions-template").innerHTML;
+	    const sanctionsHtml = Mustache.render(sanctionsTemplate, currentTournament);
+	    document.querySelector(".x-table-sanctions tbody").innerHTML = sanctionsHtml;
+
+	    // Best Defense
+	    const bestDefenseTemplate = document.getElementById("best-defense-template").innerHTML;
+	    const bestDefenseHtml = Mustache.render(bestDefenseTemplate, currentTournament);
+	    document.querySelector(".x-table-best-defense tbody").innerHTML = bestDefenseHtml;
+
+	    // Fixture
+	    // const fixtureTemplate = document.getElementById("fixtures-template").innerHTML;
+	    // const fixtureHtml = Mustache.render(fixtureTemplate, currentTournament);
+	    // document.querySelector(".x-table-fixture tbody").innerHTML = fixtureHtml;
+
+	    // TABS
 		  const tabs = document.querySelectorAll(".content-filter__link");
 		  const cards = document.querySelectorAll(".card");
 
