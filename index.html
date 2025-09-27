@@ -19,7 +19,8 @@
 
 	<!-- Mobile Specific Metas
 	================================================== -->
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 
 	<!-- Google Web Fonts
 	================================================== -->
@@ -43,6 +44,11 @@
 	<link href="assets/css/custom.css" rel="stylesheet">
 
 	<style type="text/css">
+		html, body {
+			touch-action: manipulation; /* disables double-tap zoom on some browsers */
+			overscroll-behavior: none;  /* optional: stops bounce effect on iOS */
+		}
+
 		.league_logo_url {
 			max-width: 148px;
 		}
@@ -50,6 +56,15 @@
 			border:  0 !important;
 			padding-left: 0 !important;
 		}
+		.fixture-number {
+			color: #000;
+			font-size: 12px;
+		}
+		.widget-results__item.first-match {
+			border-top: none !important;
+		}
+	
+
 	</style>
 
 </head>
@@ -119,20 +134,6 @@
 								<li class=""><a href="_soccer_index.html">Reglamento</a></li>
 								
 							</ul>
-		
-							<!-- Social Links -->
-							<ul class="social-links social-links--inline social-links--main-nav">
-								<li class="social-links__item">
-									<a href="#" class="social-links__link" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fab fa-facebook"></i></a>
-								</li>
-								<li class="social-links__item">
-									<a href="#" class="social-links__link" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i class="fab fa-twitter"></i></a>
-								</li>
-								<li class="social-links__item">
-									<a href="#" class="social-links__link" data-toggle="tooltip" data-placement="bottom" title="Instagram"><i class="fab fa-instagram"></i></a>
-								</li>
-							</ul>
-							<!-- Social Links / End -->
 		
 						</nav>
 						<!-- Main Navigation / End -->
@@ -290,7 +291,7 @@
 		<div class="site-content">
 			<div class="container">
 		
-				<div class="card card--has-table standings">
+				<div class="card card--has-table card-container standings">
 					<div class="card__header">
 						<h4 class="tournament_name"></h4>
 					</div>
@@ -320,7 +321,7 @@
 					</div>
 				</div>
 
-				<div class="card card--has-table top-scorers">
+				<div class="card card--has-table card-container top-scorers">
 					<div class="card__header">
 						<h4 class="tournament_name"></h4>
 					</div>
@@ -343,7 +344,7 @@
 					</div>
 				</div>
 
-				<div class="card card--has-table sanctions">
+				<div class="card card--has-table card-container sanctions">
 					<div class="card__header">
 						<h4 class="tournament_name"></h4>
 					</div>
@@ -367,63 +368,23 @@
 					</div>
 				</div>
 
-				<div class="card card--has-table fixture">
-					<div class="card__header">
-						<h4 class="tournament_name"></h4>
-					</div>
-					<div class="card__content">
-						<div class="table-responsive">
-							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer x-table-fixture">
-								<thead>
-									<tr>
-										<th class="team-standings__team">Fecha <span id="fixture_number">1</span></th>
-										<th class="">Resultado</th>
-										<th class="">Día y Sede</th>
-										<th class="">Estado</th>
-									</tr>
-								</thead>
-								<tbody>
-
-									<tr>
-										<td>
-											<table class="table table-borderless">
-												<tbody style="text-align: left;">
-													<tr>
-														<td>
-															<img src="https://tvn.copateur.com/storage/img/equipos/24/502.png" width="30px" height="30px">
-															<span class="nombre-equipo">VILLAGE F.C.</span>
-														</td>
-													</tr>
-													<tr>
-														<td>
-															<img src="https://tvn.copateur.com/storage/img/equipos/24/502.png" width="30px" height="30px">
-															<span class="nombre-equipo">VILLAGE F.C.</span>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</td>
-										<td>
-											<table class="table table-borderless">
-												<tr>
-													<td>2</td>
-												</tr>
-												<tr>
-													<td>2</td>
-												</tr>
-											</table>
-										</td>
-										<td>Sede Pendiente</td>
-										<td>Finalizado</td>
-									</tr>
-
-								</tbody>
-							</table>
+				<div class="card-container fixture">
+					<div class="widget card widget--sidebar widget-results">
+						<div class="widget__title card__header">
+							<select class="form-control input-sm" style="color: #000; max-width: 50%;" name="select_date">
+								<option value="1">Fecha 1</option>
+								<option value="2" selected>Fecha 2</option>
+								<option value="3">Fecha 3</option>
+							</select>
+						</div>
+						<div class="widget__content card__content">
+							<ul class="widget-results__list" id="fixtures-list">
+							</ul>
 						</div>
 					</div>
 				</div>
-
-				<div class="card card--has-table best-defense">
+		
+				<div class="card card--has-table card-container best-defense">
 					<div class="card__header">
 						<h4 class="tournament_name"></h4>
 					</div>
@@ -463,10 +424,27 @@
 	<script src="assets/js/core.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
 	
-	
 	<!-- Template JS -->
 	<script src="assets/js/init.js"></script>
 	<script src="assets/js/custom.js"></script>
+
+	<script>
+		// Completely disable pinch and double-tap zoom on iOS Safari
+		document.addEventListener('touchmove', function (event) {
+			if (event.scale !== 1) {
+				event.preventDefault();
+			}
+		}, { passive: false });
+
+		let lastTouchEnd = 0;
+		document.addEventListener('touchend', function (event) {
+			const now = (new Date()).getTime();
+			if (now - lastTouchEnd <= 300) {
+				event.preventDefault(); // prevent double-tap zoom
+			}
+			lastTouchEnd = now;
+		}, false);
+	</script>
 
 	<script id="standings-template" type="x-tmpl-mustache">
 	  {{#standings}}
@@ -554,28 +532,54 @@
 	  {{/best_defense}}
 	</script>
 
-
-
 	<script id="fixtures-template" type="x-tmpl-mustache">
-	  {{#fixtures}}
-	  	<tr>
-				<td class="team-standings__pos">{{pos}}</td>
-				<td class="team-standings__team">
-					<div class="team-meta">
-						<figure class="team-meta__logo">
-							<img src="{{team_logo_url}}" alt="">
-						</figure>
-						<div class="team-meta__info">
-							<h6 class="team-meta__name">{{team_name}}</h6>
+		{{#fixture_dates}}
+			<li class="widget-results__item">
+				<div class="widget-results__header justify-content-center">
+					<div class="fixture-number">{{date}}</div>
+				</div>
+			</li>
+
+			{{#matches}}
+				<li class="widget-results__item {{#is_first_match}}first-match{{/is_first_match}}">
+					<div class="widget-results__content">
+						<div class="widget-results__team widget-results__team--first">
+							<figure class="widget-results__team-logo">
+								<img src="{{team_1.team_logo_url}}" alt="">
+							</figure>
+							<div class="widget-results__team-details">
+								<h5 class="widget-results__team-name">{{team_1.team_name}}</h5>
+							</div>
+						</div>
+
+						<div class="widget-results__result">
+							<div class="widget-results__score">
+								{{#is_finished}}
+									<span class="{{team_1.score_class}}">{{team_1.goals}}</span> -
+									<span class="{{team_2.score_class}}">{{team_2.goals}}</span>
+								{{/is_finished}}
+								{{^is_finished}}
+									<span>-</span>
+								{{/is_finished}}
+
+								{{#stadium}}<div class="widget-results__status">{{stadium}}</div>{{/stadium}}
+								{{#time}}<div class="widget-results__status">{{time}}</div>{{/time}}
+							</div>
+						</div>
+
+						<div class="widget-results__team widget-results__team--second">
+							<figure class="widget-results__team-logo">
+								<img src="{{team_2.team_logo_url}}" alt="">
+							</figure>
+							<div class="widget-results__team-details">
+								<h5 class="widget-results__team-name">{{team_2.team_name}}</h5>
+							</div>
 						</div>
 					</div>
-				</td>
-				<td class="team-standings__player">{{player_name}}</td>
-				<td class="team-standings__goals-for">{{goals}}</td>
-			</tr>
-	  {{/fixtures}}
+				</li>
+			{{/matches}}
+		{{/fixture_dates}}
 	</script>
-
 
 
 	<script>
@@ -615,60 +619,169 @@
 		        {"pos":5,"team_name":"Team E","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":12},
 		        {"pos":6,"team_name":"Team F","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":22}
 		      ],
+					"current_fixture_date": 2,
 		      "fixtures": [
-		      	{
-		      		"fixture_number": 1,
-		      		"date": "25/12/2024",
-		      		"matches": [
-		      			{
-				      		"team_1_name": "JUAN PASTRÁN F8",
-				      		"team_1_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4336.png",
-				      		"team_1_goals": 4,
-				      		"team_2_name": "LOS MISMOS DE SIEMPRE F8",
-				      		"team_2_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4335.png",
-				      		"team_2_goals": 5,
-				      		"status": "finished",
-				      		"stadium": "TVN Cancha 2",
-				      	},
-				      	{
-				      		"team_1_name": "Tercer Tiempo F8",
-				      		"team_1_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4230.png",
-				      		"team_1_goals": 10,
-				      		"team_2_name": "LOS PIBES DEL TALLER",
-				      		"team_2_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4229.png",
-				      		"team_2_goals": 1,
-				      		"status": "finished",
-				      		"stadium": "TVN Cancha 1",
-				      	},
-		      		]
-		      	},
-		      	{
-		      		"fixture_number": 2,
-		      		"date": "25/12/2024",
-		      		"matches": [
-		      			{
-				      		"team_1_name": "LOS PIBES DEL TALLER",
-				      		"team_1_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4229.png",
-				      		"team_1_goals": 3,
-				      		"team_2_name": "LOS GUERREROS F.C.",
-				      		"team_2_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4234.png",
-				      		"team_2_goals": 4,
-				      		"status": "finished",
-				      		"stadium": "TVN Cancha 2",
-				      	},
-				      	{
-				      		"team_1_name": "Tercer Tiempo F8",
-				      		"team_1_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4230.png",
-				      		"team_1_goals": 2,
-				      		"team_2_name": "LOS MISMOS DE SIEMPRE F8",
-				      		"team_2_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/4335.png",
-				      		"team_2_goals": 2,
-				      		"status": "finished",
-				      		"stadium": "TVN Cancha 1",
-				      	}
-		      		]
-		      	},
-		      	
+						{
+							"1": [
+								{
+									"date": "Viernes 07/11",
+									"status": "finished",
+									"matches": [
+										{
+											"stadium": "Monumental",
+											"time": "10:30",
+											"team_1": {
+												"team_name": "Team A",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+												"goals": 2
+											},
+											"team_2": {
+												"team_name": "Team B",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+												"goals": 0
+											}
+										},
+										{
+											"stadium": "Bombonera",
+											"time": "11:00",
+											"team_1": {
+												"team_name": "Team D",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+												"goals": 1
+											},
+											"team_2": {
+												"team_name": "Team C",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+												"goals": 3
+											}
+										},
+										{
+											"stadium": "Sede TVN",
+											"time": "11:00",
+											"team_1": {
+												"team_name": "Team D",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+												"goals": 1
+											},
+											"team_2": {
+												"team_name": "Team C",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+												"goals": 1
+											}
+										}
+									]
+								},
+								{
+									"date": "Sabado 08/11",
+									"status": "pending",
+									"matches": [
+										{
+											"stadium": "Monumental",
+											"time": null,
+											"team_1": {
+												"team_name": "Team C",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											},
+											"team_2": {
+												"team_name": "Team D",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+											}
+										},
+										{
+											"stadium": null,
+											"time": null,
+											"team_1": {
+												"team_name": "Team F",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											},
+											"team_2": {
+												"team_name": "Team E",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+											}
+										}
+
+									]
+								},
+							],
+							"2": [
+								{
+									"date": "Viernes 14/11",
+									"status": "pending",
+									"matches": [
+										{
+											"stadium": null,
+											"time": null,
+											"team_1": {
+												"team_name": "Team D",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											},
+											"team_2": {
+												"team_name": "Team A",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											}
+										}
+
+									]
+								},
+								{
+									"date": "Sabado 15/11",
+									"status": "pending",
+									"matches": [
+										{
+											"stadium": null,
+											"time": null,
+											"team_1": {
+												"team_name": "Team C",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											},
+											"team_2": {
+												"team_name": "Team b",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+											}
+										}
+									]
+								},
+							],
+							"3": [
+								{
+									"date": "Sabado 22/11",
+									"status": "pending",
+									"matches": [
+										{
+											"stadium": null,
+											"time": null,
+											"team_1": {
+												"team_name": "Team D",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											},
+											"team_2": {
+												"team_name": "Team B",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											}
+										}
+
+									]
+								},
+								{
+									"date": "Domingo 23/11",
+									"status": "pending",
+									"matches": [
+										{
+											"stadium": null,
+											"time": null,
+											"team_1": {
+												"team_name": "Team A",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											},
+											"team_2": {
+												"team_name": "Team C",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+											}
+										}
+									]
+								},
+							],
+						}
 		      ]
 		    }
 		  ]
@@ -708,13 +821,81 @@
 	    document.querySelector(".x-table-best-defense tbody").innerHTML = bestDefenseHtml;
 
 	    // Fixture
-	    // const fixtureTemplate = document.getElementById("fixtures-template").innerHTML;
-	    // const fixtureHtml = Mustache.render(fixtureTemplate, currentTournament);
-	    // document.querySelector(".x-table-fixture tbody").innerHTML = fixtureHtml;
+			const fixtureSelect = document.querySelector('select[name="select_date"]');
+			const fixtureList = document.getElementById('fixtures-list');
+			const fixtureTemplate = document.getElementById("fixtures-template").innerHTML;
+
+			// Ensure default selected value matches current_fixture_date
+			fixtureSelect.value = currentTournament.current_fixture_date;
+
+			function prepareFixtures(fixturesData) {
+				return fixturesData.map(group => {
+					let first = true;
+					group.matches = group.matches.map(match => {
+						const homeGoals = match.team_1.goals;
+						const awayGoals = match.team_2.goals;
+
+						// Determine if finished or pending
+						match.is_finished = homeGoals != null && awayGoals != null;
+
+						// Fallbacks
+						match.stadium = match.stadium || "Sin estadio";
+
+						if (match.time){
+							match.time = match.time + 'hs';
+						} else {
+							match.time = "Horario a confirmar";
+						}
+
+						// Determine score classes
+						if (match.is_finished) {
+							if (homeGoals > awayGoals) {
+								match.team_1.score_class = "widget-results__score-winner";
+								match.team_2.score_class = "widget-results__score-loser";
+							} else if (homeGoals < awayGoals) {
+								match.team_1.score_class = "widget-results__score-loser";
+								match.team_2.score_class = "widget-results__score-winner";
+							} else {
+								match.team_1.score_class = "widget-results__score-loser";
+								match.team_2.score_class = "widget-results__score-loser";
+							}
+						}
+
+						// Mark first match after a date
+						match.is_first_match = first;
+						first = false;
+						return match;
+					});
+					return group;
+				});
+			}
+
+
+			// Render fixture for selected date
+			function renderFixtureFor(dateValue) {
+				const fixturesData = currentTournament.fixtures[0][dateValue];
+				if (!fixturesData) return;
+
+				const preparedData = prepareFixtures(fixturesData);
+				const fixtureHtml = Mustache.render(fixtureTemplate, {
+					fixture_dates: preparedData
+				});
+
+				fixtureList.innerHTML = fixtureHtml;
+			}
+
+
+			// Initial render
+			renderFixtureFor(currentTournament.current_fixture_date);
+
+			// Handle select change
+			fixtureSelect.addEventListener('change', (e) => {
+				renderFixtureFor(e.target.value);
+			});
 
 	    // TABS
 		  const tabs = document.querySelectorAll(".content-filter__link");
-		  const cards = document.querySelectorAll(".card");
+		  const cards = document.querySelectorAll(".card-container");
 
 		  tabs.forEach(tab => {
 		    tab.addEventListener("click", e => {
@@ -732,7 +913,7 @@
 
 		      // 4. Show the corresponding card
 		      const key = tab.classList[1]; // e.g. "standings", "top-scorers"...
-		      const cardToShow = document.querySelector(`.card.${key}`);
+		      const cardToShow = document.querySelector(`.card-container.${key}`);
 		      if (cardToShow) cardToShow.style.display = "block";
 		      document.querySelector(".content-filter__toggle").classList.remove("content-filter__toggle--active");
 		      document.querySelector(".content-filter__list").classList.remove("content-filter__list--expanded");
@@ -743,6 +924,7 @@
 		  cards.forEach((card, i) => card.style.display = i === 0 ? "block" : "none");
 		});
 	</script>
+
 
 </body>
 </html>
