@@ -36,14 +36,6 @@
 	<link href="assets/css/custom.css" rel="stylesheet">
 
 	<style type="text/css">
-		html, body {
-			overscroll-behavior: none; /* keeps iOS from bouncing, optional */
-		}
-
-		body {
-			touch-action: pan-y manipulation; /* allow vertical scroll, block zoom */
-		}
-
 		.league_logo_url {
 			max-width: 148px;
 		}
@@ -59,7 +51,22 @@
 			border-top: none !important;
 		}
 	
+		/* Make the content-filter nav fixed to top */
+		.content-filter {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			z-index: 9999; /* stays above everything */
+			background: #fff; /* give it a solid background so it doesn’t overlap text */
+			border-bottom: 1px solid #e0e0e0; /* optional subtle border */
+			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		}
 
+		/* Prevent page content from hiding under the fixed nav */
+		.site-content {
+			padding-top: 70px; /* adjust to nav height */
+		}
 	</style>
 
 </head>
@@ -602,22 +609,25 @@ luego de que se cumplan los 5 minutos de exclusión de la 2da tarjeta.<o:p></o:p
 	<script src="assets/js/custom.js"></script>
 
 	<script>
-		// Completely disable pinch and double-tap zoom on iOS Safari
+		// Disable pinch and double-tap zoom on iOS Safari without breaking scroll
+		let lastTouchEnd = 0;
+
 		document.addEventListener('touchmove', function (event) {
-			if (event.scale !== 1) {
+			if (event.scale && event.scale !== 1) {
+				// Only prevent when actual pinch-zoom is happening
 				event.preventDefault();
 			}
 		}, { passive: false });
 
-		let lastTouchEnd = 0;
 		document.addEventListener('touchend', function (event) {
-			const now = (new Date()).getTime();
+			const now = Date.now();
 			if (now - lastTouchEnd <= 300) {
 				event.preventDefault(); // prevent double-tap zoom
 			}
 			lastTouchEnd = now;
 		}, false);
 	</script>
+
 
 	<script id="standings-template" type="x-tmpl-mustache">
 	  {{#standings}}
