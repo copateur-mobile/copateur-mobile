@@ -55,8 +55,6 @@
 			left: 0;
 			width: 100%;
 			z-index: 9999; /* stays above everything */
-			background: #fff; /* give it a solid background so it doesn’t overlap text */
-			border-bottom: 1px solid #e0e0e0; /* optional subtle border */
 			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 		}
 
@@ -144,6 +142,55 @@
 			opacity: 1;
 		}
 
+		.btn-open-tournament-modal {
+			display: block;
+			position: absolute;
+			left: 10px;
+			top: 7px;
+			z-index: 2;
+			width: 40px;
+			height: 40px;
+			line-height: 40px;
+			text-align: center;
+			font-weight: 400;
+			font-size: 14px;
+			border: none;
+			background: none;
+		}
+
+
+		#tournamentModal .modal-dialog, #matchModal .modal-dialog {
+			width: 90%;
+		}
+
+		/* Keep consistent rounded edges and shadow */
+		#tournamentModal .modal-content {
+			border-radius: 12px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+		}
+
+		/* Optional: match background tone of the match modal */
+		#tournamentModal .modal-body {
+			background: #fff;
+			padding: 20px 25px;
+		}
+
+		/* Ensure list fits nicely and text doesn't overflow */
+		#tournamentModal .list-group-item {
+			font-size: 15px;
+			padding: 10px 15px;
+			border-radius: 8px;
+			margin-bottom: 8px;
+		}
+
+		/* Responsive fix: slightly narrower on small screens */
+		@media (max-width: 576px) {
+			#tournamentModal .modal-dialog {
+				max-width: 90%;
+			}
+		}
+
+
 	</style>
 
 </head>
@@ -170,6 +217,9 @@
 		<!-- Team Pages Filter -->
 		<nav class="content-filter">
 			<div class="container">
+				<button id="openTournamentModal" class="btn-open-tournament-modal">
+					<i class="fas fa-search" style="font-size:20px; color:#333;"></i>
+				</button>
 				<a href="#" class="content-filter__toggle"></a>
 				<ul class="content-filter__list">
 					<li class="content-filter__item content-filter__item--active"><a href="#" class="content-filter__link standings">Posiciones</a></li>
@@ -337,6 +387,24 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Tournament Selector Modal -->
+	<div id="tournamentModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title w-100 text-center" style="font-weight:700; color:#333;">
+						Seleccionar Torneo
+					</h5>
+					<button type="button" class="close-modal-btn" aria-label="Close">×</button>
+				</div>
+				<div class="modal-body" id="tournamentModalContent">
+					<!-- Tournament list will be injected here -->
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 
 	<!-- Javascript Files
@@ -844,7 +912,7 @@
 			`,
 		  "tournaments": [
 		    {
-		    	"tournament_name": "F7 +35 Sabados",
+		    	"tournament_name": "F7 +35",
 		      "standings": [
 		        {"pos":1,"team_name":"Team A","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":15,"pj":5,"pg":5,"pe":0,"pp":0,"gf":18,"gc":5,"dg":13},
 		        {"pos":2,"team_name":"Team B","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":12,"pj":5,"pg":4,"pe":0,"pp":1,"gf":15,"gc":7,"dg":8},
@@ -948,6 +1016,248 @@
 													},
 													{
 														"player_name": 'Jose Montes',
+														"type": 'penalty_goal'
+													}
+												] 
+											}
+										},
+										{
+											"status": "finished",
+											"stadium": "Sede TVN",
+											"time": "11:00",
+											"team_1": {
+												"team_name": "Team D",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+												"goals": 1
+											},
+											"team_2": {
+												"team_name": "Team C",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+												"goals": 1
+											}
+										}
+									]
+								},
+								{
+									"date": "Sabado 08/11",
+									"matches": [
+										{
+											"status": "pending",
+											"stadium": "Monumental",
+											"time": null,
+											"team_1": {
+												"team_name": "Team C",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											},
+											"team_2": {
+												"team_name": "Team D",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+											}
+										},
+										{
+											"status": "pending",
+											"stadium": null,
+											"time": null,
+											"team_1": {
+												"team_name": "Team F",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											},
+											"team_2": {
+												"team_name": "Team E",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+											}
+										}
+
+									]
+								},
+							],
+							"2": [
+								{
+									"date": "Viernes 14/11",
+									"matches": [
+										{
+											"status": "pending",
+											"stadium": null,
+											"time": null,
+											"team_1": {
+												"team_name": "Team D",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											},
+											"team_2": {
+												"team_name": "Team A",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											}
+										}
+
+									]
+								},
+								{
+									"date": "Sabado 15/11",
+									"matches": [
+										{
+											"status": "pending",
+											"stadium": null,
+											"time": null,
+											"team_1": {
+												"team_name": "Team C",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											},
+											"team_2": {
+												"team_name": "Team b",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+											}
+										}
+									]
+								},
+							],
+							"3": [
+								{
+									"date": "Sabado 22/11",
+									"matches": [
+										{
+											"status": "pending",
+											"stadium": null,
+											"time": null,
+											"team_1": {
+												"team_name": "Team D",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											},
+											"team_2": {
+												"team_name": "Team B",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											}
+										}
+
+									]
+								},
+								{
+									"date": "Domingo 23/11",
+									"matches": [
+										{
+											"status": "pending",
+											"stadium": null,
+											"time": null,
+											"team_1": {
+												"team_name": "Team A",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+											},
+											"team_2": {
+												"team_name": "Team C",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+											}
+										}
+									]
+								},
+							],
+						}
+		      ]
+		    },
+
+				{
+		    	"tournament_name": "F11 Femenino",
+		      "standings": [
+		        {"pos":1,"team_name":"Team A1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":15,"pj":5,"pg":5,"pe":0,"pp":0,"gf":18,"gc":5,"dg":13},
+		        {"pos":2,"team_name":"Team B1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":12,"pj":5,"pg":4,"pe":0,"pp":1,"gf":15,"gc":7,"dg":8},
+		        {"pos":3,"team_name":"Team C1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":10,"pj":5,"pg":3,"pe":1,"pp":1,"gf":12,"gc":8,"dg":4},
+		        {"pos":4,"team_name":"Team D1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":8,"pj":5,"pg":2,"pe":2,"pp":1,"gf":10,"gc":9,"dg":1},
+		        {"pos":5,"team_name":"Team E1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":5,"pj":5,"pg":1,"pe":2,"pp":2,"gf":7,"gc":12,"dg":-5},
+		        {"pos":6,"team_name":"Team F1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":0,"pj":5,"pg":0,"pe":0,"pp":5,"gf":3,"gc":22,"dg":-19}
+		      ],
+		      "top_scorers": [
+		        {"pos":1,"team_name":"Team A1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 1","goals":6},
+		        {"pos":2,"team_name":"Team B1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 2","goals":5},
+		        {"pos":3,"team_name":"Team C1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 3","goals":4},
+		        {"pos":4,"team_name":"Team D1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 4","goals":3},
+		        {"pos":5,"team_name":"Team E1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 5","goals":2}
+		      ],
+		      "sanctions": [
+		        {"team_name":"Team A1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 1","ta":1,"tr":0,"status":"Activo"},
+		        {"team_name":"Team B1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 2","ta":2,"tr":1,"status":"Suspendido"},
+		        {"team_name":"Team C1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 3","ta":0,"tr":0,"status":"Activo"},
+		        {"team_name":"Team D1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 4","ta":3,"tr":0,"status":"Advertido"}
+		      ],
+		      "best_defense": [
+		        {"pos":1,"team_name":"Team A1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":5},
+		        {"pos":2,"team_name":"Team B1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":7},
+		        {"pos":3,"team_name":"Team C1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":8},
+		        {"pos":4,"team_name":"Team D1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":9},
+		        {"pos":5,"team_name":"Team E1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":12},
+		        {"pos":6,"team_name":"Team F1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":22}
+		      ],
+					"current_fixture_date": 2,
+		      "fixtures": [
+						{
+							"1": [
+								{
+									"date": "Viernes 07/11",
+									"matches": [
+										{
+											"status": "finished",
+											"stadium": "Monumental",
+											"time": "10:30",
+											"team_1": {
+												"team_name": "Team A",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+												"goals": 2,
+												"events": [
+													{
+														"player_name": "'Sara Oconnor'",
+														"type": 'red_card'
+													},
+													{
+														"player_name": 'Pepe Argento',
+														"type": 'yellow_card'
+													},
+													{
+														"player_name": "'Sara Oconnor'",
+														"type": 'goal'
+													},
+													{
+														"player_name": "'Sara Oconnor'",
+														"type": 'penalty_goal'
+													}
+												]
+											},
+											"team_2": {
+												"team_name": "Team B",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+												"goals": 0
+											}
+										},
+										{
+											"status": "finished",
+											"stadium": "Bombonera",
+											"time": "11:00",
+											"team_1": {
+												"team_name": "Team D",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+												"goals": 1,
+												"events": [
+													{
+														"player_name": "'Sara Oconnor'",
+														"type": 'goal'
+													}
+												]
+											},
+											"team_2": {
+												"team_name": "Team C",
+												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+												"goals": 3,
+												"events": [
+													{
+														"player_name": 'Pepe Argento',
+														"type": 'yellow_card'
+													},
+													{
+														"player_name": "'Sara Oconnor'",
+														"type": 'goal'
+													},
+													{
+														"player_name": 'Luciano Fichera',
+														"type": 'goal'
+													},
+													{
+														"player_name": "'Sara Oconnor'",
 														"type": 'penalty_goal'
 													}
 												] 
@@ -1361,8 +1671,66 @@
 		  // Optionally: hide all but the first card on load
 		  cards.forEach((card, i) => card.style.display = i === 0 ? "block" : "none");
 		});
-	</script>
 
+		// === TOURNAMENT MODAL ===
+		$(document).ready(function() {
+			const tournamentModal = $('#tournamentModal');
+			const tournamentModalContent = $('#tournamentModalContent');
+
+			// Create list of tournaments dynamically
+			function renderTournamentList() {
+				const tournaments = data.tournaments;
+				if (!tournaments || !tournaments.length) return '<p>No hay torneos disponibles.</p>';
+
+				return `
+					<div class="list-group">
+						${tournaments.map(t => `
+							<a href="#" class="list-group-item list-group-item-action tournament-item" data-name="${t.tournament_name}">
+								<i class="fas fa-trophy me-2" style="color:#e6b800;"></i> ${t.tournament_name}
+							</a>
+						`).join('')}
+					</div>`;
+			}
+
+			// Open modal on magnifying glass click
+			$('#openTournamentModal').on('click', function() {
+				tournamentModalContent.html(renderTournamentList());
+				tournamentModal.modal('show');
+			});
+
+			// Close modal button (same style as match modal)
+			$(document).on('click', '#tournamentModal .close-modal-btn', function() {
+				tournamentModal.modal('hide');
+			});
+
+			// When a tournament is clicked (for later)
+			$(document).on('click', '.tournament-item', function(e) {
+				e.preventDefault();
+				const tournamentName = $(this).data('name');
+				console.log("Tournament clicked:", tournamentName);
+				tournamentModal.modal('hide');
+			});
+		});
+
+		$(document).on('show.bs.modal', function (e) {
+			$('.modal').not($(e.target)).modal('hide');
+		});
+
+		document.addEventListener('click', function (e) {
+			// Find all open modals
+			const openModals = document.querySelectorAll('.modal.show');
+
+			openModals.forEach(modal => {
+				const dialog = modal.querySelector('.modal-dialog');
+				const clickedInside = dialog.contains(e.target);
+
+				// If the click is outside the modal dialog — close it
+				if (!clickedInside) {
+					$(modal).modal('hide');
+				}
+			});
+		});
+	</script>
 
 </body>
 </html>
