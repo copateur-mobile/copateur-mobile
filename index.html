@@ -528,54 +528,56 @@
 	</script>
 
 	<script id="fixtures-template" type="x-tmpl-mustache">
-		{{#fixture_dates}}
+		{{#matches}}
 			<li class="widget-results__item">
-				<div class="widget-results__header justify-content-center">
-					<div class="fixture-number">{{date}}</div>
-				</div>
-			</li>
+				<div class="widget-results__content">
 
-			{{#matches}}
-				<li class="widget-results__item {{#is_first_match}}first-match{{/is_first_match}}">
-					<div class="widget-results__content">
-						<div class="widget-results__team widget-results__team--first">
-							<figure class="widget-results__team-logo">
-								<img src="{{team_1.team_logo_url}}" alt="">
-							</figure>
-							<div class="widget-results__team-details">
-								<h5 class="widget-results__team-name">{{team_1.team_name}}</h5>
-							</div>
-						</div>
-
-						<div class="widget-results__result">
-							<div class="widget-results__score">
-								{{#is_finished}}
-									<span class="{{team_1.score_class}}">{{team_1.goals}}</span> -
-									<span class="{{team_2.score_class}}">{{team_2.goals}}</span>
-								{{/is_finished}}
-								{{^is_finished}}
-									<span>-</span>
-								{{/is_finished}}
-
-								{{#stadium}}<div class="widget-results__status">{{stadium}}</div>{{/stadium}}
-								{{#time}}<div class="widget-results__status">{{time}}</div>{{/time}}
-							</div>
-						</div>
-
-						<div class="widget-results__team widget-results__team--second">
-							<figure class="widget-results__team-logo">
-								<img src="{{team_2.team_logo_url}}" alt="">
-							</figure>
-							<div class="widget-results__team-details">
-								<h5 class="widget-results__team-name">{{team_2.team_name}}</h5>
-							</div>
+					<!-- Team 1 -->
+					<div class="widget-results__team widget-results__team--first">
+						<figure class="widget-results__team-logo">
+							<img src="{{team_1.team_logo_url}}" alt="">
+						</figure>
+						<div class="widget-results__team-details">
+							<h5 class="widget-results__team-name">{{team_1.team_name}}</h5>
 						</div>
 					</div>
-				</li>
-			{{/matches}}
-		{{/fixture_dates}}
-	</script>
 
+					<!-- Result -->
+					<div class="widget-results__result">
+						<div class="widget-results__score">
+							{{#is_finished}}
+								<span class="{{team_1.score_class}}">{{team_1.goals}}</span> -
+								<span class="{{team_2.score_class}}">{{team_2.goals}}</span>
+							{{/is_finished}}
+
+							{{^is_finished}}
+								<span>-</span>
+							{{/is_finished}}
+						</div>
+
+						<div class="widget-results__status">
+							{{stadium}}
+						</div>
+
+						<div class="widget-results__status">
+							{{date_time}}
+						</div>
+					</div>
+
+					<!-- Team 2 -->
+					<div class="widget-results__team widget-results__team--second">
+						<figure class="widget-results__team-logo">
+							<img src="{{team_2.team_logo_url}}" alt="">
+						</figure>
+						<div class="widget-results__team-details">
+							<h5 class="widget-results__team-name">{{team_2.team_name}}</h5>
+						</div>
+					</div>
+
+				</div>
+			</li>
+		{{/matches}}
+	</script>
 
 	<script>
 		const data = {
@@ -947,453 +949,124 @@
 						{
 							"1": [
 								{
-									"date": "Viernes 07/11",
-									"matches": [
-										{
-											"status": "finished",
-											"stadium": "Monumental",
-											"time": "10:30",
-											"team_1": {
-												"team_name": "Team A",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-												"goals": 2,
-												"events": [
-													{
-														"player_name": 'Jose Montes',
-														"type": 'red_card'
-													},
-													{
-														"player_name": 'Pepe Argento',
-														"type": 'yellow_card'
-													},
-													{
-														"player_name": 'Jose Montes',
-														"type": 'goal'
-													},
-													{
-														"player_name": 'Jose Montes',
-														"type": 'penalty_goal'
-													}
-												]
+									"status": "finished",
+									"stadium": "Monumental",
+									"date_time": "15/11 10:30",
+									"team_1": {
+										"team_name": "Team A",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+										"goals": 2,
+										"events": [
+											{
+												"player_name": 'Jose Montes',
+												"type": 'red_card'
 											},
-											"team_2": {
-												"team_name": "Team B",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-												"goals": 0
-											}
-										},
-										{
-											"status": "finished",
-											"stadium": "Bombonera",
-											"time": "11:00",
-											"team_1": {
-												"team_name": "Team D",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-												"goals": 1,
-												"events": [
-													{
-														"player_name": 'Jose Montes',
-														"type": 'goal'
-													}
-												]
+											{
+												"player_name": 'Pepe Argento',
+												"type": 'yellow_card'
 											},
-											"team_2": {
-												"team_name": "Team C",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-												"goals": 3,
-												"events": [
-													{
-														"player_name": 'Pepe Argento',
-														"type": 'yellow_card'
-													},
-													{
-														"player_name": 'Jose Montes',
-														"type": 'goal'
-													},
-													{
-														"player_name": 'Luciano Fichera',
-														"type": 'goal'
-													},
-													{
-														"player_name": 'Jose Montes',
-														"type": 'penalty_goal'
-													}
-												] 
-											}
-										},
-										{
-											"status": "finished",
-											"stadium": "Sede TVN",
-											"time": "11:00",
-											"team_1": {
-												"team_name": "Team D",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-												"goals": 1
+											{
+												"player_name": 'Jose Montes',
+												"type": 'goal'
 											},
-											"team_2": {
-												"team_name": "Team C",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-												"goals": 1
+											{
+												"player_name": 'Jose Montes',
+												"type": 'penalty_goal'
 											}
-										}
-									]
+										]
+									},
+									"team_2": {
+										"team_name": "Team B",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+										"goals": 0
+									}
 								},
 								{
-									"date": "Sabado 08/11",
-									"matches": [
-										{
-											"status": "pending",
-											"stadium": "Monumental",
-											"time": null,
-											"team_1": {
-												"team_name": "Team C",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											},
-											"team_2": {
-												"team_name": "Team D",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+									"status": "finished",
+									"stadium": "Bombonera",
+									"date_time": "16/11 11:00",
+									"team_1": {
+										"team_name": "Team D",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+										"goals": 1,
+										"events": [
+											{
+												"player_name": 'Jose Montes',
+												"type": 'goal'
 											}
-										},
-										{
-											"status": "pending",
-											"stadium": null,
-											"time": null,
-											"team_1": {
-												"team_name": "Team F",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+										]
+									},
+									"team_2": {
+										"team_name": "Team C",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+										"goals": 3,
+										"events": [
+											{
+												"player_name": 'Pepe Argento',
+												"type": 'yellow_card'
 											},
-											"team_2": {
-												"team_name": "Team E",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+											{
+												"player_name": 'Jose Montes',
+												"type": 'goal'
+											},
+											{
+												"player_name": 'Luciano Fichera',
+												"type": 'goal'
+											},
+											{
+												"player_name": 'Jose Montes',
+												"type": 'penalty_goal'
 											}
-										}
-
-									]
+										] 
+									}
 								},
+								{
+									"status": "finished",
+									"stadium": "Sede TVN",
+									"date_time": "16/11 13:00",
+									"team_1": {
+										"team_name": "Team D",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+										"goals": 1
+									},
+									"team_2": {
+										"team_name": "Team C",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+										"goals": 1
+									}
+								}
 							],
 							"2": [
 								{
-									"date": "Viernes 14/11",
-									"matches": [
-										{
-											"status": "pending",
-											"stadium": null,
-											"time": null,
-											"team_1": {
-												"team_name": "Team D",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											},
-											"team_2": {
-												"team_name": "Team A",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											}
-										}
-
-									]
+									"status": "pending",
+									"stadium": "Monumental",
+									"date_time": null,
+									"team_1": {
+										"team_name": "Team C",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+									},
+									"team_2": {
+										"team_name": "Team D",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+									}
 								},
 								{
-									"date": "Sabado 15/11",
-									"matches": [
-										{
-											"status": "pending",
-											"stadium": null,
-											"time": null,
-											"team_1": {
-												"team_name": "Team C",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											},
-											"team_2": {
-												"team_name": "Team b",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-											}
-										}
-									]
-								},
-							],
-							"3": [
-								{
-									"date": "Sabado 22/11",
-									"matches": [
-										{
-											"status": "pending",
-											"stadium": null,
-											"time": null,
-											"team_1": {
-												"team_name": "Team D",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											},
-											"team_2": {
-												"team_name": "Team B",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											}
-										}
-
-									]
-								},
-								{
-									"date": "Domingo 23/11",
-									"matches": [
-										{
-											"status": "pending",
-											"stadium": null,
-											"time": null,
-											"team_1": {
-												"team_name": "Team A",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											},
-											"team_2": {
-												"team_name": "Team C",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-											}
-										}
-									]
-								},
-							],
+									"status": "pending",
+									"stadium": null,
+									"date_time": null,
+									"team_1": {
+										"team_name": "Team F",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+									},
+									"team_2": {
+										"team_name": "Team E",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+									}
+								}
+							]
 						}
-		      ]
+					]
 		    },
-
-				{
-		    	"tournament_name": "F11 Femenino",
-		      "standings": [
-		        {"pos":1,"team_name":"Team A1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":15,"pj":5,"pg":5,"pe":0,"pp":0,"gf":18,"gc":5,"dg":13},
-		        {"pos":2,"team_name":"Team B1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":12,"pj":5,"pg":4,"pe":0,"pp":1,"gf":15,"gc":7,"dg":8},
-		        {"pos":3,"team_name":"Team C1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":10,"pj":5,"pg":3,"pe":1,"pp":1,"gf":12,"gc":8,"dg":4},
-		        {"pos":4,"team_name":"Team D1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":8,"pj":5,"pg":2,"pe":2,"pp":1,"gf":10,"gc":9,"dg":1},
-		        {"pos":5,"team_name":"Team E1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":5,"pj":5,"pg":1,"pe":2,"pp":2,"gf":7,"gc":12,"dg":-5},
-		        {"pos":6,"team_name":"Team F1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":0,"pj":5,"pg":0,"pe":0,"pp":5,"gf":3,"gc":22,"dg":-19}
-		      ],
-		      "top_scorers": [
-		        {"pos":1,"team_name":"Team A1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 1","goals":6},
-		        {"pos":2,"team_name":"Team B1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 2","goals":5},
-		        {"pos":3,"team_name":"Team C1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 3","goals":4},
-		        {"pos":4,"team_name":"Team D1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 4","goals":3},
-		        {"pos":5,"team_name":"Team E1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 5","goals":2}
-		      ],
-		      "sanctions": [
-		        {"team_name":"Team A1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 1","ta":1,"tr":0,"status":"Activo"},
-		        {"team_name":"Team B1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 2","ta":2,"tr":1,"status":"Suspendido"},
-		        {"team_name":"Team C1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 3","ta":0,"tr":0,"status":"Activo"},
-		        {"team_name":"Team D1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 4","ta":3,"tr":0,"status":"Advertido"}
-		      ],
-		      "best_defense": [
-		        {"pos":1,"team_name":"Team A1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":5},
-		        {"pos":2,"team_name":"Team B1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":7},
-		        {"pos":3,"team_name":"Team C1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":8},
-		        {"pos":4,"team_name":"Team D1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":9},
-		        {"pos":5,"team_name":"Team E1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":12},
-		        {"pos":6,"team_name":"Team F1","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":22}
-		      ],
-					"current_fixture_date": 2,
-		      "fixtures": [
-						{
-							"1": [
-								{
-									"date": "Viernes 07/11",
-									"matches": [
-										{
-											"status": "finished",
-											"stadium": "Monumental",
-											"time": "10:30",
-											"team_1": {
-												"team_name": "Team A",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-												"goals": 2,
-												"events": [
-													{
-														"player_name": "'Sara Oconnor'",
-														"type": 'red_card'
-													},
-													{
-														"player_name": 'Pepe Argento',
-														"type": 'yellow_card'
-													},
-													{
-														"player_name": "'Sara Oconnor'",
-														"type": 'goal'
-													},
-													{
-														"player_name": "'Sara Oconnor'",
-														"type": 'penalty_goal'
-													}
-												]
-											},
-											"team_2": {
-												"team_name": "Team B",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-												"goals": 0
-											}
-										},
-										{
-											"status": "finished",
-											"stadium": "Bombonera",
-											"time": "11:00",
-											"team_1": {
-												"team_name": "Team D",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-												"goals": 1,
-												"events": [
-													{
-														"player_name": "'Sara Oconnor'",
-														"type": 'goal'
-													}
-												]
-											},
-											"team_2": {
-												"team_name": "Team C",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-												"goals": 3,
-												"events": [
-													{
-														"player_name": 'Pepe Argento',
-														"type": 'yellow_card'
-													},
-													{
-														"player_name": "'Sara Oconnor'",
-														"type": 'goal'
-													},
-													{
-														"player_name": 'Luciano Fichera',
-														"type": 'goal'
-													},
-													{
-														"player_name": "'Sara Oconnor'",
-														"type": 'penalty_goal'
-													}
-												] 
-											}
-										},
-										{
-											"status": "finished",
-											"stadium": "Sede TVN",
-											"time": "11:00",
-											"team_1": {
-												"team_name": "Team D",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-												"goals": 1
-											},
-											"team_2": {
-												"team_name": "Team C",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-												"goals": 1
-											}
-										}
-									]
-								},
-								{
-									"date": "Sabado 08/11",
-									"matches": [
-										{
-											"status": "pending",
-											"stadium": "Monumental",
-											"time": null,
-											"team_1": {
-												"team_name": "Team C",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											},
-											"team_2": {
-												"team_name": "Team D",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-											}
-										},
-										{
-											"status": "pending",
-											"stadium": null,
-											"time": null,
-											"team_1": {
-												"team_name": "Team F",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											},
-											"team_2": {
-												"team_name": "Team E",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-											}
-										}
-
-									]
-								},
-							],
-							"2": [
-								{
-									"date": "Viernes 14/11",
-									"matches": [
-										{
-											"status": "pending",
-											"stadium": null,
-											"time": null,
-											"team_1": {
-												"team_name": "Team D",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											},
-											"team_2": {
-												"team_name": "Team A",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											}
-										}
-
-									]
-								},
-								{
-									"date": "Sabado 15/11",
-									"matches": [
-										{
-											"status": "pending",
-											"stadium": null,
-											"time": null,
-											"team_1": {
-												"team_name": "Team C",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											},
-											"team_2": {
-												"team_name": "Team b",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-											}
-										}
-									]
-								},
-							],
-							"3": [
-								{
-									"date": "Sabado 22/11",
-									"matches": [
-										{
-											"status": "pending",
-											"stadium": null,
-											"time": null,
-											"team_1": {
-												"team_name": "Team D",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											},
-											"team_2": {
-												"team_name": "Team B",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											}
-										}
-
-									]
-								},
-								{
-									"date": "Domingo 23/11",
-									"matches": [
-										{
-											"status": "pending",
-											"stadium": null,
-											"time": null,
-											"team_1": {
-												"team_name": "Team A",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
-											},
-											"team_2": {
-												"team_name": "Team C",
-												"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
-											}
-										}
-									]
-								},
-							],
-						}
-		      ]
-		    }
 		  ]
 		};
 
@@ -1436,56 +1109,51 @@
 			// Ensure default selected value matches current_fixture_date
 			fixtureSelect.value = currentTournament.current_fixture_date;
 
-			function prepareFixtures(fixturesData) {
-				return fixturesData.map(group => {
-					let first = true;
-					group.matches = group.matches.map(match => {
-						const homeGoals = match.team_1.goals;
-						const awayGoals = match.team_2.goals;
-						match.is_finished = match.status === "finished";
-						match.stadium = match.stadium || "Sin estadio";
-						match.time = match.time ? match.time + 'hs' : "Horario a confirmar";
+			function prepareFixtures(matches) {
+				return matches.map(match => {
+					const homeGoals = match.team_1.goals;
+					const awayGoals = match.team_2.goals;
 
-						if (match.is_finished && homeGoals != null && awayGoals != null) {
-							if (homeGoals > awayGoals) {
-								match.team_1.score_class = "widget-results__score-winner";
-								match.team_2.score_class = "widget-results__score-loser";
-							} else if (homeGoals < awayGoals) {
-								match.team_1.score_class = "widget-results__score-loser";
-								match.team_2.score_class = "widget-results__score-winner";
-							} else {
-								match.team_1.score_class = match.team_2.score_class = "widget-results__score-loser";
-							}
+					match.is_finished = match.status === "finished";
+					match.stadium = match.stadium || "Sin estadio";
+					match.date_time = match.date_time ? match.date_time + "hs" : "Horario a confirmar";
+
+					if (match.is_finished && homeGoals != null && awayGoals != null) {
+						if (homeGoals > awayGoals) {
+							match.team_1.score_class = "widget-results__score-winner";
+							match.team_2.score_class = "widget-results__score-loser";
+						} else if (homeGoals < awayGoals) {
+							match.team_1.score_class = "widget-results__score-loser";
+							match.team_2.score_class = "widget-results__score-winner";
+						} else {
+							match.team_1.score_class = match.team_2.score_class =
+								"widget-results__score-loser";
 						}
+					}
 
-						match.is_first_match = first;
-						first = false;
-						return match;
-					});
-					return group;
+					return match;
 				});
 			}
 
 			// Render fixture for selected date
 			function renderFixtureFor(dateValue) {
-				const fixturesData = currentTournament.fixtures[0][dateValue];
-				if (!fixturesData) return;
+				const matches = currentTournament.fixtures[0][dateValue];
+				if (!matches) return;
 
-				const preparedData = prepareFixtures(fixturesData);
-				const fixtureHtml = Mustache.render(fixtureTemplate, { fixture_dates: preparedData });
+				const preparedMatches = prepareFixtures(matches);
+
+				const fixtureHtml = Mustache.render(fixtureTemplate, {
+					matches: preparedMatches
+				});
+
 				fixtureList.innerHTML = fixtureHtml;
 
-				// Flatten only matches (skip headers)
-				const allMatches = preparedData.flatMap(fd => fd.matches);
-				const matchItems = fixtureList.querySelectorAll('.widget-results__item:not(:has(.widget-results__header))');
+				const matchItems = fixtureList.querySelectorAll(".widget-results__item");
 
 				matchItems.forEach((li, i) => {
-					const match = allMatches[i];
+					const match = preparedMatches[i];
 					if (match) {
 						li.dataset.status = match.status;
-						// find which fixture group this match belongs to
-						const fixtureGroup = preparedData.find(fd => fd.matches.includes(match));
-						match.date = fixtureGroup ? fixtureGroup.date : '';
 						li.dataset.match = JSON.stringify(match);
 					}
 				});
@@ -1557,7 +1225,7 @@
 							<div class="container text-center">
 								<h6 class="title">${matchData.stadium || ''}</h6>
 								<span class="subtitle">
-									${matchData.date ? `${matchData.date}, ` : ''}${matchData.time || ''}
+									${matchData.date_time || ''}
 								</span>
 							</div>
 						</div>
