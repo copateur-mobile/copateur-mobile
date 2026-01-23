@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+
+	<!-- Basic Page Needs
+	================================================== -->
+	<title id='league_name'></title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+	<!-- Mobile Specific Metas
+	================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+
+	<!-- Google Web Fonts
+	================================================== -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&amp;family&#x3D;Source+Sans+Pro:wght@400;700&amp;display&#x3D;swap" rel="stylesheet">
+
+	<!-- CSS
+	================================================== -->
+	<!-- Vendor CSS -->
+	<link href="assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+	<link href="assets/fonts/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+	<link href="assets/vendor/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
+	<link href="assets/vendor/slick/slick.css" rel="stylesheet">
+
+	<!-- Template CSS-->
+	<link href="assets/css/style-soccer.css" rel="stylesheet">
+
+	<!-- Custom CSS-->
+	<link href="assets/css/custom.css" rel="stylesheet">
+
+	<style type="text/css">
+		.table-borderless td {
+			border:  0 !important;
+			padding-left: 0 !important;
+		}
+		.fixture-number {
+			color: #000;
+			font-size: 12px;
+		}
+		.widget-results__item.first-match {
+			border-top: none !important;
+		}
+	
+		/* Make the content-filter nav fixed to top */
+		.content-filter {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			z-index: 9999; /* stays above everything */
+			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		}
+
+		/* Prevent page content from hiding under the fixed nav */
+		.site-content {
+			padding-top: 70px; /* adjust to nav height */
+		}
+
+		.modal-content {
+			border-radius: 12px;
+			overflow: hidden;
+		}
+
+		.modal-header {
+			border-bottom: none;
+			justify-content: flex-end;
+			padding: 8px 16px;
+		}
+
+		.modal-body {
+			padding: 0;
+			overflow-y: auto;
+			max-height: 90vh;
+		}
+
+		.modal-dialog {
+			margin-top: 70px; /* same as .site-content padding-top */
+		}
+
+		/* Slide-up mobile modal animation */
+		.modal.fade .modal-dialog {
+			transform: translateY(100%);
+			transition: transform 0.3s ease-out;
+		}
+
+		.modal.fade.show .modal-dialog {
+			transform: translateY(0);
+		}
+
+		.modal-header .close {
+			font-size: 28px;
+			padding: 10px;
+			margin-right: 8px;
+			line-height: 1;
+		}
+
+		/* Better mobile modal styling */
+		.modal-dialog {
+			margin-top: 70px; /* space below fixed header */
+			max-width: 95%;
+		}
+
+		.modal-content {
+			border-radius: 16px;
+			overflow: hidden;
+			padding: 12px 16px; /* breathing room */
+		}
+
+		.modal-body {
+			padding: 16px 8px 24px;
+		}
+
+		.modal-header {
+			border-bottom: none;
+			justify-content: flex-end;
+			padding: 8px 8px 0;
+		}
+
+		.modal.fade .modal-dialog {
+			transform: translateY(100%);
+			transition: transform 0.35s ease-out;
+		}
+		.modal.fade.show .modal-dialog {
+			transform: translateY(0);
+		}
+		.close-modal-btn {
+			background: none;
+			border: none;
+			font-size: 26px;
+			opacity: 0.75;
+			cursor: pointer;
+			transition: opacity 0.2s;
+		}
+		.close-modal-btn:hover {
+			opacity: 1;
+		}
+
+		.btn-open-tournament-modal {
+			display: block;
+			position: absolute;
+			left: 10px;
+			top: 7px;
+			z-index: 2;
+			width: 40px;
+			height: 40px;
+			line-height: 40px;
+			text-align: center;
+			font-weight: 400;
+			font-size: 14px;
+			border: none;
+			background: none;
+		}
+
+
+		#tournamentModal .modal-dialog, #matchModal .modal-dialog {
+			width: 90%;
+		}
+
+		/* Keep consistent rounded edges and shadow */
+		#tournamentModal .modal-content {
+			border-radius: 12px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+		}
+
+		/* Optional: match background tone of the match modal */
+		#tournamentModal .modal-body {
+			background: #fff;
+			padding: 20px 25px;
+		}
+
+		/* Ensure list fits nicely and text doesn't overflow */
+		#tournamentModal .list-group-item {
+			font-size: 15px;
+			padding: 10px 15px;
+			border-radius: 8px;
+			margin-bottom: 8px;
+		}
+
+		/* Responsive fix: slightly narrower on small screens */
+		@media (max-width: 576px) {
+			#tournamentModal .modal-dialog {
+				max-width: 90%;
+			}
+		}
+
+
+	</style>
+
+</head>
+<body data-template="template-soccer" class="page-loader-disable">
+
+
+	<div class="site-wrapper clearfix">
+		<div class="site-overlay"></div>
+
+		
+		<!-- Pushy Panel - Dark -->
+		<aside class="pushy-panel pushy-panel--dark">
+			<div class="pushy-panel__inner">
+				<header class="pushy-panel__header">
+					<div class="pushy-panel__logo">
+						<a href="_soccer_index.html"><img src="assets/images/soccer/logo.png" srcset="assets/images/soccer/logo@2x.png 2x"></a>
+					</div>
+				</header>
+			</div>
+		</aside>
+		<!-- Pushy Panel - Dark / End -->
+		
+		
+		<!-- Team Pages Filter -->
+		<nav class="content-filter">
+			<div class="container">
+				<button id="openTournamentModal" class="btn-open-tournament-modal">
+					<i class="fas fa-search" style="font-size:20px; color:#333;"></i>
+				</button>
+				<a href="#" class="content-filter__toggle"></a>
+				<ul class="content-filter__list">
+					<li class="content-filter__item content-filter__item--active"><a href="#" class="content-filter__link standings">Posiciones</a></li>
+					<li class="content-filter__item "><a href="#" class="content-filter__link top-scorers">Goleadores</a></li>
+					<li class="content-filter__item "><a href="#" class="content-filter__link sanctions">Sanciones</a></li>
+					<li class="content-filter__item "><a href="#" class="content-filter__link fixture">Fixture</a></li>
+					<li class="content-filter__item "><a href="#" class="content-filter__link best-defense">Valla Menos Vencida</a></li>
+					<li class="content-filter__item "><a href="#" class="content-filter__link regulation">Reglamento</a></li>
+				</ul>
+			</div>
+		</nav>
+		<!-- Team Pages Filter / End -->
+		
+		<!-- Content
+		================================================== -->
+		<div class="site-content">
+			<div class="container">
+		
+				<div class="card card--has-table card-container standings">
+					<div class="card__header">
+						<h4 class="tournament_name"></h4>
+					</div>
+					<div class="card__content">
+						<div class="table-responsive">
+							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer x-table-standings">
+								<thead>
+									<tr>
+										<th class="team-standings__pos">#</th>
+										<th class="team-standings__team">Equipo</th>
+										<th class="team-standings__total-points">PTS</th>
+										<th class="team-standings__played">PJ</th>
+										<th class="team-standings__win">PG</th>
+										<th class="team-standings__drawn">PE</th>
+										<th class="team-standings__lose">PP</th>
+										<th class="team-standings__goals-for">GF</th>
+										<th class="team-standings__goals-against">GC</th>
+										<th class="team-standings__goals-diff">DG</th>
+									</tr>
+								</thead>
+								<tbody>
+		
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div class="card card--has-table card-container top-scorers">
+					<div class="card__header">
+						<h4 class="tournament_name"></h4>
+					</div>
+					<div class="card__content">
+						<div class="table-responsive">
+							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer x-table-top-scorers">
+								<thead>
+									<tr>
+										<th class="team-standings__pos">#</th>
+										<th class="team-standings__team">Equipo</th>
+										<th class="">Jugador</th>
+										<th class="team-standings__goals-for">Goles</th>
+									</tr>
+								</thead>
+								<tbody>
+		
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div class="card card--has-table card-container sanctions">
+					<div class="card__header">
+						<h4 class="tournament_name"></h4>
+					</div>
+					<div class="card__content">
+						<div class="table-responsive">
+							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer x-table-sanctions">
+								<thead>
+									<tr>
+										<th class="team-standings__team">Equipo</th>
+										<th class="">JUGADOR</th>
+										<th class=""><i class="icon-svg icon-yellow-card"></i></th>
+										<th class=""><i class="icon-svg icon-red-card"></i></th>
+										<th class="">ESTADO</th>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div class="card-container fixture">
+					<div class="widget card widget--sidebar widget-results">
+						<div class="widget__title card__header">
+							<h4 class="tournament_name"></h4>
+							<select class="form-control input-sm" style="color: #000; max-width: 50%;" name="select_date">
+								<option value="1">Fecha 1</option>
+								<option value="2" selected>Fecha 2</option>
+								<option value="3">Fecha 3</option>
+							</select>
+						</div>
+						<div class="widget__content card__content">
+							<ul class="widget-results__list" id="fixtures-list">
+							</ul>
+						</div>
+					</div>
+				</div>
+		
+				<div class="card card--has-table card-container best-defense">
+					<div class="card__header">
+						<h4 class="tournament_name"></h4>
+					</div>
+					<div class="card__content">
+						<div class="table-responsive">
+							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer x-table-best-defense">
+								<thead>
+									<tr>
+										<th class="team-standings__pos">#</th>
+										<th class="team-standings__team">Equipo</th>
+										<th class="">GOLES RECIBIDOS</th>
+									</tr>
+								</thead>
+								<tbody>
+									
+		
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div class="card card--has-table card-container regulation">
+					<div class="card__header">
+						<h4>Reglamento</h4>
+					</div>
+					<div class="card__content">
+						<div style="padding: 20px;" id="regulation-content">
+						</div>
+					</div>
+				</div>
+		
+			</div>
+		</div>
+		
+		<!-- Content / End -->
+		
+
+	</div>
+
+
+	<!-- Match Modal -->
+	<div id="matchModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close-modal-btn" aria-label="Close">×</button>
+				</div>
+				<div class="modal-body" id="matchModalContent">
+					<!-- dynamic content goes here -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Tournament Selector Modal -->
+	<div id="tournamentModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title w-100 text-center" style="font-weight:700; color:#333;">
+						Seleccionar Torneo
+					</h5>
+					<button type="button" class="close-modal-btn" aria-label="Close">×</button>
+				</div>
+				<div class="modal-body" id="tournamentModalContent">
+					<!-- Tournament list will be injected here -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- Javascript Files
+	================================================== -->
+	<!-- Core JS -->
+	<script src="assets/vendor/jquery/jquery.min.js"></script>
+	<script src="assets/vendor/jquery/jquery-migrate.min.js"></script>
+	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/js/core.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
+	
+	<!-- Template JS -->
+	<script src="assets/js/init.js"></script>
+	<script src="assets/js/custom.js"></script>
+
+	<script>
+		// Disable pinch and double-tap zoom on iOS Safari without breaking scroll
+		let lastTouchEnd = 0;
+
+		document.addEventListener('touchmove', function (event) {
+			if (event.scale && event.scale !== 1) {
+				// Only prevent when actual pinch-zoom is happening
+				event.preventDefault();
+			}
+		}, { passive: false });
+
+		document.addEventListener('touchend', function (event) {
+			const now = Date.now();
+			if (now - lastTouchEnd <= 300) {
+				event.preventDefault(); // prevent double-tap zoom
+			}
+			lastTouchEnd = now;
+		}, false);
+	</script>
+
+
+	<script id="standings-template" type="x-tmpl-mustache">
+	  {{#standings}}
+	  	<tr>
+			  <td class="team-standings__pos">{{pos}}</td>
+			  <td class="team-standings__team">
+			    <div class="team-meta">
+			      <figure class="team-meta__logo">
+			        <img src="{{team_logo_url}}" alt="">
+			      </figure>
+			      <div class="team-meta__info">
+			        <h6 class="team-meta__name">{{team_name}}</h6>
+			      </div>
+			    </div>
+			  </td>
+			  <td class="team-standings__total-points">{{pts}}</td>
+			  <td class="team-standings__played">{{pj}}</td>
+			  <td class="team-standings__win">{{pg}}</td>
+			  <td class="team-standings__drawn">{{pe}}</td>
+			  <td class="team-standings__lose">{{pp}}</td>
+			  <td class="team-standings__goals-for">{{gf}}</td>
+			  <td class="team-standings__goals-against">{{gc}}</td>
+			  <td class="team-standings__goals-diff">{{dg}}</td>
+			</tr>
+	  {{/standings}}
+	</script>
+
+	<script id="top-scorers-template" type="x-tmpl-mustache">
+	  {{#top_scorers}}
+	  	<tr>
+				<td class="team-standings__pos">{{pos}}</td>
+				<td class="team-standings__team">
+					<div class="team-meta">
+						<figure class="team-meta__logo">
+							<img src="{{team_logo_url}}" alt="">
+						</figure>
+						<div class="team-meta__info">
+							<h6 class="team-meta__name">{{team_name}}</h6>
+						</div>
+					</div>
+				</td>
+				<td class="team-standings__player">{{player_name}}</td>
+				<td class="team-standings__goals-for">{{goals}}</td>
+			</tr>
+	  {{/top_scorers}}
+	</script>
+
+	<script id="sanctions-template" type="x-tmpl-mustache">
+	  {{#sanctions}}
+	  	<tr>
+				<td class="team-standings__team">
+					<div class="team-meta">
+						<figure class="team-meta__logo">
+							<img src="{{team_logo_url}}" alt="">
+						</figure>
+						<div class="team-meta__info">
+							<h6 class="team-meta__name">{{team_name}}</h6>
+						</div>
+					</div>
+				</td>
+				<td class="team-standings__player">{{player_name}}</td>
+				<td class="">{{ta}}</td>
+				<td class="">{{tr}}</td>
+				<td class="">{{status}}</td>
+			</tr>
+	  {{/sanctions}}
+	</script>
+
+	<script id="best-defense-template" type="x-tmpl-mustache">
+	  {{#best_defense}}
+	  	<tr>
+				<td class="team-standings__pos">{{pos}}</td>
+				<td class="team-standings__team">
+					<div class="team-meta">
+						<figure class="team-meta__logo">
+							<img src="{{team_logo_url}}" alt="">
+						</figure>
+						<div class="team-meta__info">
+							<h6 class="team-meta__name">{{team_name}}</h6>
+						</div>
+					</div>
+				</td>
+				<td class="">{{gc}}</td>
+			</tr>
+	  {{/best_defense}}
+	</script>
+
+	<script id="fixtures-template" type="x-tmpl-mustache">
+		{{#matches}}
+			<li class="widget-results__item">
+				<div class="widget-results__content">
+
+					<!-- Team 1 -->
+					<div class="widget-results__team widget-results__team--first">
+						<figure class="widget-results__team-logo">
+							<img src="{{team_1.team_logo_url}}" alt="">
+						</figure>
+						<div class="widget-results__team-details">
+							<h5 class="widget-results__team-name">{{team_1.team_name}}</h5>
+						</div>
+					</div>
+
+					<!-- Result -->
+					<div class="widget-results__result">
+						<div class="widget-results__score">
+							{{#is_finished}}
+								<span class="{{team_1.score_class}}">{{team_1.goals}}</span> -
+								<span class="{{team_2.score_class}}">{{team_2.goals}}</span>
+							{{/is_finished}}
+
+							{{^is_finished}}
+								<span>-</span>
+							{{/is_finished}}
+						</div>
+
+						<div class="widget-results__status">
+							{{stadium}}
+						</div>
+
+						<div class="widget-results__status">
+							{{date_time}}
+						</div>
+					</div>
+
+					<!-- Team 2 -->
+					<div class="widget-results__team widget-results__team--second">
+						<figure class="widget-results__team-logo">
+							<img src="{{team_2.team_logo_url}}" alt="">
+						</figure>
+						<div class="widget-results__team-details">
+							<h5 class="widget-results__team-name">{{team_2.team_name}}</h5>
+						</div>
+					</div>
+
+				</div>
+			</li>
+		{{/matches}}
+	</script>
+
+	<script>
+		const data = {
+			"league_name": "La Reserva",
+			"regulation": `
+				<p class="MsoNormal" align="center" style="text-align:center"><u><span lang="ES" style="font-size:20.0pt;line-height:107%;mso-ansi-language:ES">Reglamento
+				Torneo Virgen Niña 2024</span></u></p>
+
+				<p class="MsoNormal"><u><span lang="ES" style="font-size:18.0pt;line-height:107%;
+				mso-ansi-language:ES">Equipos</span></u><span lang="ES" style="font-size:18.0pt;
+				line-height:107%;mso-ansi-language:ES">:<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Cada equipo debe presentar una
+				lista de buena fe, integrada por un mínimo de 15 (quince) jugadores y un máximo
+				de 30.<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Todos los jugadores deberán estar
+				registrados en la base de datos de copateur.com, el capitán de cada equipo de
+				encargará de hacerle llegar a sus compañeros un link, por el cual podrán
+				acceder a esta base de datos, donde se registrarán para así poder participar
+				del torneo.<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Si un Jugador está anotado en un
+				equipo NO puede ser transferido a otro equipo hasta que finalice el torneo en curso (salvo el arquero o si el jugador pertenecía a un equipo que dejó de competir en dicho torneo).<o:p></o:p></span></p><p><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Excepción a la regla anterior:&nbsp;</span></p><p><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Un mismo jugador puede jugar en dos equipos diferentes si son de distintas categoría o si son de la misma categoría pero juegan&nbsp; en días o torneos&nbsp; diferentes ( por ejemplo un jugador que juega en un equipo de la categoría libres los días sábados puede jugar en otro equipo de la misma categoría los días domingos)<br></span><br></p><p class="MsoNormal" style="margin-bottom: 7.5pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><u><span lang="ES" style="font-size: 18pt; font-family: Helvetica, sans-serif;">Edades</span></u><span lang="ES" style="font-size: 18pt; font-family: Helvetica, sans-serif;">:<o:p></o:p></span></p><p class="MsoNormal" style="margin-bottom: 7.5pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><strong><span lang="ES" style="font-size: 18pt; font-family: Helvetica, sans-serif;">Categoría
+				Libre:<o:p></o:p></span></strong></p><p class="MsoListParagraphCxSpFirst" style="margin-bottom: 7.5pt; text-align: justify; text-indent: -18pt; line-height: 16.8pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><!--[if !supportLists]--><span lang="ES" style="font-size: 14pt; font-family: Symbol;">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size: 14pt; font-family: Helvetica, sans-serif;">Mayores de 18
+				años<o:p></o:p></span></p><p class="MsoListParagraphCxSpLast" style="margin-bottom: 7.5pt; text-align: justify; text-indent: -18pt; line-height: 16.8pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><!--[if !supportLists]--><span style="font-family:Symbol;
+				mso-fareast-font-family:Symbol;mso-bidi-font-family:Symbol">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size: 14pt; font-family: Helvetica, sans-serif;">Excepción: los
+				menores de 18 años pero mayores a 16 años (con autorización de sus padres por
+				escrito)</span><o:p></o:p></p><p class="MsoNormal" style="margin-bottom: 7.5pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><strong><span lang="ES" style="font-size: 18pt; font-family: Helvetica, sans-serif;">Categoría
+				+32</span></strong><span lang="ES" style="font-size: 18pt; font-family: Helvetica, sans-serif;">:<o:p></o:p></span></p><p class="MsoListParagraphCxSpFirst" style="margin-bottom: 7.5pt; text-align: justify; text-indent: -18pt; line-height: 16.8pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><!--[if !supportLists]--><span lang="ES" style="font-size: 14pt; font-family: Symbol;">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size: 14pt; font-family: Helvetica, sans-serif;">Mayores de 32
+				años<o:p></o:p></span></p><p class="MsoListParagraphCxSpMiddle" style="margin-bottom: 7.5pt; text-align: justify; text-indent: -18pt; line-height: 16.8pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><!--[if !supportLists]--><span lang="ES" style="font-size: 14pt; font-family: Symbol;">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size: 14pt; font-family: Helvetica, sans-serif;">Quienes cumplan
+				32 años durante el presente año ( 2022)<o:p></o:p></span></p><p class="MsoListParagraphCxSpMiddle" style="margin-bottom: 7.5pt; text-align: justify; text-indent: -18pt; line-height: 16.8pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><!--[if !supportLists]--><span lang="ES" style="font-size: 14pt; font-family: Symbol;">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size: 14pt; font-family: Helvetica, sans-serif;">El arquero debe
+				ser mayor a 25 años<o:p></o:p></span></p><p class="MsoListParagraphCxSpLast" style="margin-bottom: 7.5pt; text-align: justify; text-indent: -18pt; line-height: 16.8pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><!--[if !supportLists]--><span style="font-family:Symbol;
+				mso-fareast-font-family:Symbol;mso-bidi-font-family:Symbol">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size: 14pt; font-family: Helvetica, sans-serif;">Excepciones: dos
+				jugadores que tengan 30 o 31 años o que los cumpla durante el presente año
+				(2024)</span><o:p></o:p></p><p class="MsoNormal" style="margin-bottom: 7.5pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><strong><span lang="ES" style="font-size: 18pt; font-family: Helvetica, sans-serif;">Categoría
+				+40</span></strong><span lang="ES" style="font-size: 18pt; font-family: Helvetica, sans-serif;">:<o:p></o:p></span></p><p class="MsoListParagraphCxSpFirst" style="margin-bottom: 7.5pt; text-align: justify; text-indent: -18pt; line-height: 16.8pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><!--[if !supportLists]--><span lang="ES" style="font-size: 14pt; font-family: Symbol;">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size: 14pt; font-family: Helvetica, sans-serif;">Mayores de 40
+				años<o:p></o:p></span></p><p class="MsoListParagraphCxSpMiddle" style="margin-bottom: 7.5pt; text-align: justify; text-indent: -18pt; line-height: 16.8pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><!--[if !supportLists]--><span lang="ES" style="font-size: 14pt; font-family: Symbol;">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size: 14pt; font-family: Helvetica, sans-serif;">Quienes cumplan
+				40 años durante el presente año ( 2024)<o:p></o:p></span></p><p class="MsoListParagraphCxSpLast" style="margin-bottom: 7.5pt; text-align: justify; text-indent: -18pt; line-height: 16.8pt; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"><!--[if !supportLists]--><span lang="ES" style="font-size: 14pt; font-family: Symbol;">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size: 14pt; font-family: Helvetica, sans-serif;">El arquero debe
+				ser mayor a 35 años<o:p></o:p></span></p><span lang="ES" style="font-size: 14pt; font-family: Helvetica, sans-serif;"><br></span><p><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">
+
+				</span></span><br></span><br></span><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">&nbsp;</span><u><span lang="ES" style="font-size:18.0pt;line-height:107%;
+				mso-ansi-language:ES">Partidos</span></u><span lang="ES" style="font-size: 18pt; line-height: 107%;">:</span><br>
+
+				</p><span lang="ES" style="font-size: 18pt; line-height: 107%;"></span><p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Cada equipo de la categoría libre deberá completar la
+				planilla del partido indicando los números de los jugadores y <strong>en caso de tener
+				jugadores suspendidos, deberán firmar cada uno con DNI o algún documento que
+				acredite identidad</strong>.</span></p><p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES"><strong>Para la categoría Senior y más 32, cada jugador firmar con DNI o algún documento que acredite identidad todos los
+				partidos.</strong><o:p></o:p></span></p><span lang="ES" style="font-size:18.0pt;
+				line-height:107%;mso-ansi-language:ES"><o:p></o:p></span>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Se jugará con el reglamento de
+				AFA, aplicándose la ley de Off-Side.<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Todos partidos son arbitrados por
+				un réferi y dos jueces de línea (Lineman), en el caso que alguno de la terna arbitral no pudiese estar presente o sufra una lesión que le impida continuar con su labor, los jueces restantes implementarán el sistema americano para dicho encuentro<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">El tiempo de juego neto es de 80
+				minutos, dividido en dos períodos de 40 cada uno, con un descanso de 5/10
+				minutos.<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Cada equipo debe entrar a la
+				cancha con un máximo de once jugadores (10 jugadores más el arquero).<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">El equipo que no se presente a
+				jugar el encuentro, se le otorgará por perdido el partido por el resultado de
+				3-0 y debe pagar los pesos correspondientes del partido suspendido y los pesos
+				correspondientes a los rivales (quedando estos excluidos de dicho pago).<o:p></o:p></span></p>
+
+				<span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">&nbsp;</span>
+
+				<p class="MsoNormal" style="text-align:justify"><u><span lang="ES" style="font-size:18.0pt;line-height:107%;mso-ansi-language:ES">&nbsp;</span></u></p>
+
+				<p class="MsoNormal" style="text-align:justify"><u><span lang="ES" style="font-size:18.0pt;line-height:107%;mso-ansi-language:ES">El tiempo de
+				tolerancia</span></u><span lang="ES" style="font-size:18.0pt;line-height:107%;
+				mso-ansi-language:ES">:<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Cada equipo tiene una tolerancia
+				máxima de 15 minutos, a partir del momento que la terna arbitral llama a los equipos, transcurrido ese tiempo, el árbitro iniciará el encuentro
+				con la cantidad de jugadores que haya en ese momento, siempre y cuando no sea
+				menor a 7 jugadores, pudiendo ingresar los protagonistas faltantes con
+				posterioridad teniendo que cumplir con el punto anterior. En caso que los 2
+				equipos no se presenten, ambos equipos pierden 3 (tres) puntos y deben pagar
+				los pesos del partido como si lo hubiesen jugado.<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">El partido no comenzará ni
+				proseguirá si uno de los equipos dispone de menos de siete jugadores.<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">En el caso que uno de los equipos
+				no cumpla con el ítem anteriores, el equipo adversario tiene la potestad de
+				reclamar los puntos en juego<o:p></o:p></span></p>
+
+				<span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">&nbsp;</span>
+
+				<p class="MsoNormal" style="text-align:justify"><u><span lang="ES" style="font-size:18.0pt;line-height:107%;mso-ansi-language:ES">Planilla</span></u><span lang="ES" style="font-size:18.0pt;line-height:107%;mso-ansi-language:ES">:<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Cada capitán, antes de empezar,
+				se tiene que acercar a la mesa de control, al costado de la cancha donde juega,
+				a completar la planilla, y pagar el partido al veedor de la cancha.<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Los árbitros confeccionarán una
+				planilla con todas las incidencias de los partidos.<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Dicha planilla debe ser firmada
+				por el capitán de cada equipo, como también el referí</span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Una vez firmada la planilla, no
+				se aceptará cambios en la misma. Para lo cual se solicita a cada capitán que
+				controle con rigurosidad lo que completa.<o:p></o:p></span></p><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES"><br></span><br></span>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">CAMBIOS</span></p><p class="MsoNormal" style="text-align:justify"><span lang="ES" style="line-height: 107%;"><font color="#403d39"><span style="font-size: 18.6667px;"><strong>Categoría</strong></span></font><strong style="font-size: 14pt;">&nbsp;Senio</strong><span style="font-size: 14pt;">r: ilimitados</span></span></p><p class="MsoNormal" style="text-align:justify"><span lang="ES" style="line-height: 107%;"><font color="#403d39"><span style="font-size: 18.6667px;"><strong>Categorías</strong></span></font><strong style="font-size: 14pt;">&nbsp;Libres y + 32:</strong><span style="font-size: 14pt;">&nbsp; 6 (seis) durante el partido e ilimitados en el entretiempo.</span></span></p><p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Jugador que sale puede volver a ingresar.<o:p></o:p></span></p>
+
+				<span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">&nbsp;</span>
+
+				<p class="MsoNormal" style="text-align:justify"><u><span lang="ES" style="font-size:18.0pt;line-height:107%;mso-ansi-language:ES">&nbsp;</span></u></p>
+
+				<p class="MsoNormal" style="text-align:justify"><u><span lang="ES" style="font-size:18.0pt;line-height:107%;mso-ansi-language:ES">Suspensión de
+				partidos</span></u><span lang="ES" style="font-size:18.0pt;line-height:107%;
+				mso-ansi-language:ES">: <o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Todos los partidos suspendidos
+				por cualquier motivo, pasan a jugarse el día que lo dispongan los
+				organizadores.<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">En caso de suspenderse una fecha
+				en su totalidad, la misma pasa a jugarse EL FIN DE SEMANA SIGUIENTE. <o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Si la suspensión del partido es
+				debido a que uno de los equipos dispone de menos de 7 jugadores por
+				expulsiones, dicho partido, se da por ganado al equipo contrario por 3 a 0 ó si el&nbsp; resultado es más abultado, se tomará este ultimo como marcador definitivo.</span></p><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">En el caso de que el juez decida suspender el partido por agresión a alguno de los integrantes de la terna arbitral, o personal de la organización, el mismo se le dará por perdido al equipo al cual pertenecen el o los agresores correspondientes al hecho<br></span>
+
+				<span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">&nbsp;</span>
+
+				<p class="MsoNormal" style="text-align:justify"><u><span lang="ES" style="font-size:18.0pt;line-height:107%;mso-ansi-language:ES">Desempate</span></u><span lang="ES" style="font-size:18.0pt;line-height:107%;mso-ansi-language:ES">:<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">En caso de igualdad en puntos, se
+				desempatará de la siguiente manera: <o:p></o:p></span></p>
+
+				<p class="MsoListParagraphCxSpFirst" style="text-align:justify;text-indent:-18.0pt;
+				mso-list:l0 level1 lfo1"><!--[if !supportLists]--><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin;
+				mso-ansi-language:ES">1.<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size:14.0pt;
+				line-height:107%;mso-ansi-language:ES">Mejor diferencia de gol.<o:p></o:p></span></p>
+
+				<p class="MsoListParagraphCxSpMiddle" style="text-align:justify;text-indent:-18.0pt;
+				mso-list:l0 level1 lfo1"><!--[if !supportLists]--><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin;
+				mso-ansi-language:ES">2.<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size:14.0pt;
+				line-height:107%;mso-ansi-language:ES">Más goles a favor.<o:p></o:p></span></p>
+
+				<p class="MsoListParagraphCxSpMiddle" style="text-align:justify;text-indent:-18.0pt;
+				mso-list:l0 level1 lfo1"><!--[if !supportLists]--><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin;
+				mso-ansi-language:ES">3.<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size:14.0pt;
+				line-height:107%;mso-ansi-language:ES">Menos goles en contra.<o:p></o:p></span></p>
+
+				<p class="MsoListParagraphCxSpLast" style="text-align:justify;text-indent:-18.0pt;
+				mso-list:l0 level1 lfo1"><!--[if !supportLists]--><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin;
+				mso-ansi-language:ES">4.<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size:14.0pt;
+				line-height:107%;mso-ansi-language:ES">Resultado entre los equipos igualados.<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><u><span lang="ES" style="font-size:18.0pt;line-height:107%;mso-ansi-language:ES">Tribunal de
+				disciplina</span></u><span lang="ES" style="font-size:18.0pt;line-height:107%;
+				mso-ansi-language:ES">:<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">Funciones: Evaluar las
+				incidencias de los partidos del campeonato, tanto de los jugadores como de los
+				equipos, réferi y público. <o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">El tribunal sancionará solamente
+				en base al informe del réferi, el informe del veedor y de lo que cada miembro
+				pudo apreciar de las incidencias ocurridas en el partido.<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">VELARÁ POR EL CUMPLIMIENTO DEL
+				ESPÍRITU DEL CAMPEONATO QUE SERÁ DE DIVERSIÓN; BUEN COMPORTAMIENTO; EJEMPLO
+				PARA LOS CHICOS; RESPETO A LOS COMPAÑEROS, CONTRARIOS Y REFERÍS; Y DEL BUEN
+				GUSTO CON LAS ACTITUDES Y EL LENGUAJE.<o:p></o:p></span></p>
+
+				<span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">&nbsp;</span>
+
+				<p class="MsoNormal" style="text-align:justify"><u><span lang="ES" style="font-size:18.0pt;line-height:107%;mso-ansi-language:ES">Sanciones
+				disciplinarias</span></u><span lang="ES" style="font-size:18.0pt;line-height:
+				107%;mso-ansi-language:ES">:<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">*Amonestaciones: TRAS LA
+				ACUMULACIÓN DE 5 (CINCO) TARJETAS AMARILLA, EL JUGADOR DEBERÁ</span><span lang="ES" style="font-size:18.0pt;line-height:107%;mso-ansi-language:ES"> </span><span lang="ES" style="font-size:14.0pt;line-height:107%;mso-ansi-language:ES">CUMPLIR
+				UNA FECHA DE SUSPENSIÓN. CADA 7 AMARILLAS ACUMULADAS DEBERÁ CUMPLIR 2 (DOS)
+				FECHAS.<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">*Expulsiones: TRAS UNA TARJETA
+				ROJA, POR DOBLE AMARILLA,&nbsp; EL JUGADOR SANCIONADO CUMPLIRÁ COMO MÍNIMO 1 FECHA DE SUSPENSIÓN (Salvo
+				que el tribunal decida lo contrario por falta de méritos). <o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">En todos los casos de expulsión,
+				la sanción puede ser ampliada a más fechas según su gravedad, siendo esto,
+				decisión del Tribunal de Disciplina.<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">*Roja directa: Todas las rojas
+				directas son sancionadas como MÍNIMO con 2 (dos) fechas salvo las sanciones
+				leves de último recurso, en este caso, el Tribunal decidirá la sanción que deba
+				imponerse.<o:p></o:p></span></p>
+
+				<p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">*Sin-Bin ( tarjeta azul)<o:p></o:p></span></p><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES"></span><p class="MsoNormal" style="text-align:justify"><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">La tarjeta azul se implementa
+				como sanción disciplinaria por los siguientes motivos: <o:p></o:p></span></p>
+
+				<p class="MsoListParagraphCxSpFirst" style="text-align:justify;text-indent:-18.0pt;
+				mso-list:l0 level1 lfo1"><!--[if !supportLists]--><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;font-family:Symbol;mso-fareast-font-family:Symbol;
+				mso-bidi-font-family:Symbol;mso-ansi-language:ES">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size:14.0pt;
+				line-height:107%;mso-ansi-language:ES">Protesta desmedida hacia cualquier
+				miembro del cuerpo arbitral. <o:p></o:p></span></p>
+
+				<p class="MsoListParagraphCxSpMiddle" style="text-align:justify;text-indent:-18.0pt;
+				mso-list:l0 level1 lfo1"><!--[if !supportLists]--><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;font-family:Symbol;mso-fareast-font-family:Symbol;
+				mso-bidi-font-family:Symbol;mso-ansi-language:ES">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size:14.0pt;
+				line-height:107%;mso-ansi-language:ES">Falta de respeto leve hacia cualquier
+				miembro del cuerpo arbitral.<o:p></o:p></span></p>
+
+				<p class="MsoListParagraphCxSpMiddle" style="text-align:justify;text-indent:-18.0pt;
+				mso-list:l0 level1 lfo1"><!--[if !supportLists]--><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;font-family:Symbol;mso-fareast-font-family:Symbol;
+				mso-bidi-font-family:Symbol;mso-ansi-language:ES">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size:14.0pt;
+				line-height:107%;mso-ansi-language:ES">Discusión entre rivales que no lleguen a
+				tener agresión física. <o:p></o:p></span></p>
+
+				<p class="MsoListParagraphCxSpMiddle" style="text-align:justify;text-indent:-18.0pt;
+				mso-list:l0 level1 lfo1"><!--[if !supportLists]--><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;font-family:Symbol;mso-fareast-font-family:Symbol;
+				mso-bidi-font-family:Symbol;mso-ansi-language:ES">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size:14.0pt;
+				line-height:107%;mso-ansi-language:ES">Insulto, palabras ofensivas o
+				provocación entre rivales. <o:p></o:p></span></p>
+
+				<p class="MsoListParagraphCxSpMiddle" style="text-align:justify;text-indent:-18.0pt;
+				mso-list:l0 level1 lfo1"><!--[if !supportLists]--><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;font-family:Symbol;mso-fareast-font-family:Symbol;
+				mso-bidi-font-family:Symbol;mso-ansi-language:ES">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size:14.0pt;
+				line-height:107%;mso-ansi-language:ES">Insulto entre compañeros de equipo. <o:p></o:p></span></p>
+
+				<p class="MsoListParagraphCxSpMiddle" style="text-align:justify;text-indent:-18.0pt;
+				mso-list:l0 level1 lfo1"><!--[if !supportLists]--><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;font-family:Symbol;mso-fareast-font-family:Symbol;
+				mso-bidi-font-family:Symbol;mso-ansi-language:ES">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size:14.0pt;
+				line-height:107%;mso-ansi-language:ES">Se le sacará tarjeta azul al capitán del
+				equipo identificado cuyo cuerpo técnico, allegados o hinchas al mismo cometan
+				algunas de las faltas mencionadas en los puntos anteriores. <o:p></o:p></span></p>
+
+				<p class="MsoListParagraphCxSpLast" style="text-align:justify;text-indent:-18.0pt;
+				mso-list:l0 level1 lfo1"><!--[if !supportLists]--><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;font-family:Symbol;mso-fareast-font-family:Symbol;
+				mso-bidi-font-family:Symbol;mso-ansi-language:ES">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size:14.0pt;
+				line-height:107%;mso-ansi-language:ES">Aquel jugador que reciba una tarjeta
+				azul, será excluido del campo de juego durante 5 minutos. <o:p></o:p></span></p><p class="MsoListParagraph" style="text-align:justify;text-indent:-18.0pt;
+				mso-list:l0 level1 lfo1"><!--[if !supportLists]--><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;font-family:Symbol;mso-fareast-font-family:Symbol;
+				mso-bidi-font-family:Symbol;mso-ansi-language:ES">·<span style="font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &quot;Times New Roman&quot;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				</span></span><!--[endif]--><span lang="ES" style="font-size:14.0pt;
+				line-height:107%;mso-ansi-language:ES">Un mismo jugador puede recibir hasta 2
+				tarjetas azules en el mismo partido, teniendo que hacer un cambio obligatorio,
+				luego de que se cumplan los 5 minutos de exclusión de la 2da tarjeta.<o:p></o:p></span></p><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES"><br></span><span lang="ES" style="font-size:
+				14.0pt;line-height:107%;mso-ansi-language:ES">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br></span><span lang="ES" style="font-size:14.0pt;line-height:107%;mso-ansi-language:ES"><br></span><span lang="ES" style="font-size:14.0pt;line-height:107%;mso-ansi-language:ES"><br></span>
+											
+			
+			`,
+		  "tournaments": [
+		    {
+		    	"tournament_name": "F7 +35",
+		      "standings": [
+		        {"pos":1,"team_name":"Team A","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":15,"pj":5,"pg":5,"pe":0,"pp":0,"gf":18,"gc":5,"dg":13},
+		        {"pos":2,"team_name":"Team B","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":12,"pj":5,"pg":4,"pe":0,"pp":1,"gf":15,"gc":7,"dg":8},
+		        {"pos":3,"team_name":"Team C","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":10,"pj":5,"pg":3,"pe":1,"pp":1,"gf":12,"gc":8,"dg":4},
+		        {"pos":4,"team_name":"Team D","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":8,"pj":5,"pg":2,"pe":2,"pp":1,"gf":10,"gc":9,"dg":1},
+		        {"pos":5,"team_name":"Team E","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":5,"pj":5,"pg":1,"pe":2,"pp":2,"gf":7,"gc":12,"dg":-5},
+		        {"pos":6,"team_name":"Team F","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","pts":0,"pj":5,"pg":0,"pe":0,"pp":5,"gf":3,"gc":22,"dg":-19}
+		      ],
+		      "top_scorers": [
+		        {"pos":1,"team_name":"Team A","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 1","goals":6},
+		        {"pos":2,"team_name":"Team B","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 2","goals":5},
+		        {"pos":3,"team_name":"Team C","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 3","goals":4},
+		        {"pos":4,"team_name":"Team D","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 4","goals":3},
+		        {"pos":5,"team_name":"Team E","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 5","goals":2}
+		      ],
+		      "sanctions": [
+		        {"team_name":"Team A","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 1","ta":1,"tr":0,"status":"Activo"},
+		        {"team_name":"Team B","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 2","ta":2,"tr":1,"status":"Suspendido"},
+		        {"team_name":"Team C","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 3","ta":0,"tr":0,"status":"Activo"},
+		        {"team_name":"Team D","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","player_name":"Jugador 4","ta":3,"tr":0,"status":"Advertido"}
+		      ],
+		      "best_defense": [
+		        {"pos":1,"team_name":"Team A","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":5},
+		        {"pos":2,"team_name":"Team B","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":7},
+		        {"pos":3,"team_name":"Team C","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":8},
+		        {"pos":4,"team_name":"Team D","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":9},
+		        {"pos":5,"team_name":"Team E","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":12},
+		        {"pos":6,"team_name":"Team F","team_logo_url":"https://tvn.copateur.com/storage/img/equipos/24/3699.png","gc":22}
+		      ],
+					"current_fixture_date": 2,
+		      "fixtures": [
+						{
+							"1": [
+								{
+									"status": "finished",
+									"stadium": "Monumental",
+									"date_time": "15/11 10:30",
+									"team_1": {
+										"team_name": "Team A",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+										"goals": 2,
+										"events": [
+											{
+												"player_name": 'Jose Montes',
+												"type": 'red_card'
+											},
+											{
+												"player_name": 'Pepe Argento',
+												"type": 'yellow_card'
+											},
+											{
+												"player_name": 'Jose Montes',
+												"type": 'goal'
+											},
+											{
+												"player_name": 'Jose Montes',
+												"type": 'penalty_goal'
+											}
+										]
+									},
+									"team_2": {
+										"team_name": "Team B",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+										"goals": 0
+									}
+								},
+								{
+									"status": "finished",
+									"stadium": "Bombonera",
+									"date_time": "16/11 11:00",
+									"team_1": {
+										"team_name": "Team D",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+										"goals": 1,
+										"events": [
+											{
+												"player_name": 'Jose Montes',
+												"type": 'goal'
+											}
+										]
+									},
+									"team_2": {
+										"team_name": "Team C",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+										"goals": 3,
+										"events": [
+											{
+												"player_name": 'Pepe Argento',
+												"type": 'yellow_card'
+											},
+											{
+												"player_name": 'Jose Montes',
+												"type": 'goal'
+											},
+											{
+												"player_name": 'Luciano Fichera',
+												"type": 'goal'
+											},
+											{
+												"player_name": 'Jose Montes',
+												"type": 'penalty_goal'
+											}
+										] 
+									}
+								},
+								{
+									"status": "finished",
+									"stadium": "Sede TVN",
+									"date_time": "16/11 13:00",
+									"team_1": {
+										"team_name": "Team D",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+										"goals": 1
+									},
+									"team_2": {
+										"team_name": "Team C",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+										"goals": 1
+									}
+								}
+							],
+							"2": [
+								{
+									"status": "pending",
+									"stadium": "Monumental",
+									"date_time": null,
+									"team_1": {
+										"team_name": "Team C",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+									},
+									"team_2": {
+										"team_name": "Team D",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+									}
+								},
+								{
+									"status": "pending",
+									"stadium": null,
+									"date_time": null,
+									"team_1": {
+										"team_name": "Team F",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png"
+									},
+									"team_2": {
+										"team_name": "Team E",
+										"team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png",
+									}
+								}
+							]
+						}
+					]
+		    },
+		  ]
+		};
+
+		// TABS
+		document.addEventListener("DOMContentLoaded", () => {
+			const currentTournament = data.tournaments[0];
+
+			document.querySelector("#league_name").innerHTML = data['league_name'];
+			document.querySelector("#regulation-content").innerHTML = data['regulation'];
+
+			document.querySelectorAll(".tournament_name").forEach(el => {
+				el.innerHTML = currentTournament['tournament_name'];
+			});
+
+	    // Standings
+	    const standingsTemplate = document.getElementById("standings-template").innerHTML;
+	    const standingsHtml = Mustache.render(standingsTemplate, currentTournament);
+	    document.querySelector(".x-table-standings tbody").innerHTML = standingsHtml;
+
+	    // Top Scorers
+	    const topScorersTemplate = document.getElementById("top-scorers-template").innerHTML;
+	    const topScorersHtml = Mustache.render(topScorersTemplate, currentTournament);
+	    document.querySelector(".x-table-top-scorers tbody").innerHTML = topScorersHtml;
+
+	    // Sanctions
+	    const sanctionsTemplate = document.getElementById("sanctions-template").innerHTML;
+	    const sanctionsHtml = Mustache.render(sanctionsTemplate, currentTournament);
+	    document.querySelector(".x-table-sanctions tbody").innerHTML = sanctionsHtml;
+
+	    // Best Defense
+	    const bestDefenseTemplate = document.getElementById("best-defense-template").innerHTML;
+	    const bestDefenseHtml = Mustache.render(bestDefenseTemplate, currentTournament);
+	    document.querySelector(".x-table-best-defense tbody").innerHTML = bestDefenseHtml;
+
+			// Fixture
+			const fixtureSelect = document.querySelector('select[name="select_date"]');
+			const fixtureList = document.getElementById('fixtures-list');
+			const fixtureTemplate = document.getElementById("fixtures-template").innerHTML;
+
+			// Ensure default selected value matches current_fixture_date
+			fixtureSelect.value = currentTournament.current_fixture_date;
+
+			function prepareFixtures(matches) {
+				return matches.map(match => {
+					const homeGoals = match.team_1.goals;
+					const awayGoals = match.team_2.goals;
+
+					match.is_finished = match.status === "finished";
+					match.stadium = match.stadium || "Sin estadio";
+					match.date_time = match.date_time ? match.date_time + "hs" : "Horario a confirmar";
+
+					if (match.is_finished && homeGoals != null && awayGoals != null) {
+						if (homeGoals > awayGoals) {
+							match.team_1.score_class = "widget-results__score-winner";
+							match.team_2.score_class = "widget-results__score-loser";
+						} else if (homeGoals < awayGoals) {
+							match.team_1.score_class = "widget-results__score-loser";
+							match.team_2.score_class = "widget-results__score-winner";
+						} else {
+							match.team_1.score_class = match.team_2.score_class =
+								"widget-results__score-loser";
+						}
+					}
+
+					return match;
+				});
+			}
+
+			// Render fixture for selected date
+			function renderFixtureFor(dateValue) {
+				const matches = currentTournament.fixtures[0][dateValue];
+				if (!matches) return;
+
+				const preparedMatches = prepareFixtures(matches);
+
+				const fixtureHtml = Mustache.render(fixtureTemplate, {
+					matches: preparedMatches
+				});
+
+				fixtureList.innerHTML = fixtureHtml;
+
+				const matchItems = fixtureList.querySelectorAll(".widget-results__item");
+
+				matchItems.forEach((li, i) => {
+					const match = preparedMatches[i];
+					if (match) {
+						li.dataset.status = match.status;
+						li.dataset.match = JSON.stringify(match);
+					}
+				});
+			}
+
+			// Initial render
+			renderFixtureFor(currentTournament.current_fixture_date);
+
+			// Handle select change
+			fixtureSelect.addEventListener('change', (e) => {
+				renderFixtureFor(e.target.value);
+			});
+
+			// Bootstrap 4 modal handling
+			const modalEl = $('#matchModal');
+			const modalContent = $('#matchModalContent');
+
+			$(document).on('click', '.close-modal-btn', function() {
+				modalEl.modal('hide');
+			});
+
+			// Convert event type → HTML icon
+			function renderEventIcon(type) {
+				switch (type) {
+					case 'goal': return '<i class="icon-svg icon-soccer-ball"></i>';
+					case 'penalty_goal': return '<i class="icon-svg icon-soccer-ball"></i> (P)';
+					case 'red_card': return '<i class="icon-svg icon-red-card"></i>';
+					case 'yellow_card': return '<i class="icon-svg icon-yellow-card"></i>';
+					default: return '';
+				}
+			}
+
+			// Open modal dynamically
+			function openMatchModal(matchData) {
+				const t1 = matchData.team_1;
+				const t2 = matchData.team_2;
+
+				// Generate icons based on event type
+				function getEventIcon(ev) {
+					switch (ev.type) {
+						case 'goal': return '<i class="icon-svg icon-soccer-ball"></i>';
+						case 'penalty_goal': return '<i class="icon-svg icon-soccer-ball"></i>';
+						case 'red_card': return '<i class="icon-svg icon-red-card"></i>';
+						case 'yellow_card': return '<i class="icon-svg icon-yellow-card"></i>';
+						default: return '';
+					}
+				}
+
+				function renderTeamEvents(events, alignRight = false) {
+					if (!events || !events.length) return '<em>Sin eventos</em>';
+
+					return `
+						<div class="alc-event-header-performances-list" style="display:flex; flex-direction:column; gap:4px;">
+							${events.map(ev => {
+								let text = ev.player_name;
+								if (ev.type === 'penalty_goal') text += ' (P)';
+								return `
+									<div class="alc-event-header__performance"
+											style="display:block; text-align:${alignRight ? 'right' : 'left'};">
+										${`${text} ${getEventIcon(ev)}`}
+									</div>`;
+							}).join('')}
+						</div>`;
+				}
+
+				const modalHTML = `
+					<div class="alc-event-header alc-event-header--layout-2">
+						<div class="alc-event-header__top">
+							<div class="container text-center">
+								<h6 class="title">${matchData.stadium || ''}</h6>
+								<span class="subtitle">
+									${matchData.date_time || ''}
+								</span>
+							</div>
+						</div>
+
+						<div class="alc-event-header__content">
+							<div class="container">
+								<div class="alc-event-header__content-inner">
+									<div class="alc-event-competitors">
+
+										<!-- Team #1 -->
+										<div class="alc-event-competitors__item alc-event-team ${t1.goals > t2.goals ? 'alc-event-team--winner' : ''}">
+											<div class="alc-event-team__logo-alt">
+												<div class="alc-event-team__logo-alt-inner">
+													<img src="${t1.team_logo_url}" alt="${t1.team_name}" class="alc-event-team__logo-alt-img">
+												</div>
+											</div>
+											<div class="alc-event-team__details">
+												<h4 class="alc-event-team__name">${t1.team_name}</h4>
+											</div>
+											<figure class="alc-event-team__logo">
+												<img src="${t1.team_logo_url}" alt="">
+											</figure>
+											<div class="alc-event-team__score-wrap">
+												<div class="alc-event-team__score">${t1.goals ?? '-'}</div>
+											</div>
+										</div>
+										<!-- /Team #1 -->
+
+										<!-- Team #2 -->
+										<div class="alc-event-competitors__item alc-event-team ${t2.goals > t1.goals ? 'alc-event-team--winner' : ''}">
+											<div class="alc-event-team__logo-alt alc-event-team__logo-alt--color-alt">
+												<div class="alc-event-team__logo-alt-inner">
+													<img src="${t2.team_logo_url}" alt="${t2.team_name}" class="alc-event-team__logo-alt-img">
+												</div>
+											</div>
+											<div class="alc-event-team__details">
+												<h4 class="alc-event-team__name">${t2.team_name}</h4>
+											</div>
+											<figure class="alc-event-team__logo">
+												<img src="${t2.team_logo_url}" alt="">
+											</figure>
+											<div class="alc-event-team__score-wrap">
+												<div class="alc-event-team__score">${t2.goals ?? '-'}</div>
+											</div>
+										</div>
+										<!-- /Team #2 -->
+
+										<div class="alc-event-competitors__divider"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="alc-event-header__bottom">
+							<div class="container">
+								<div class="row">
+									<div class="col-6">
+										<div class="alc-event-header-performances">
+											${renderTeamEvents(t1.events)}
+										</div>
+									</div>
+									<div class="col-6">
+										<div class="alc-event-header-performances">
+											${renderTeamEvents(t2.events, true)}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>`;
+				modalContent.html(modalHTML);
+				modalEl.modal('show');
+			}
+
+			// Click listener for all matches (finished or pending)
+			document.getElementById('fixtures-list').addEventListener('click', e => {
+				const item = e.target.closest('.widget-results__item');
+				if (!item) return;
+
+				const matchData = JSON.parse(item.dataset.match);
+				openMatchModal(matchData);
+			});
+
+	    // TABS
+		  const tabs = document.querySelectorAll(".content-filter__link");
+		  const cards = document.querySelectorAll(".card-container");
+
+		  tabs.forEach(tab => {
+		    tab.addEventListener("click", e => {
+		      e.preventDefault();
+
+		      // 1. Remove active class from all tabs
+		      document.querySelectorAll(".content-filter__item")
+		        .forEach(item => item.classList.remove("content-filter__item--active"));
+
+		      // 2. Hide all cards
+		      cards.forEach(card => card.style.display = "none");
+
+		      // 3. Add active class to clicked tab's parent <li>
+		      tab.parentElement.classList.add("content-filter__item--active");
+
+		      // 4. Show the corresponding card
+		      const key = tab.classList[1]; // e.g. "standings", "top-scorers"...
+		      const cardToShow = document.querySelector(`.card-container.${key}`);
+		      if (cardToShow) cardToShow.style.display = "block";
+		      document.querySelector(".content-filter__toggle").classList.remove("content-filter__toggle--active");
+		      document.querySelector(".content-filter__list").classList.remove("content-filter__list--expanded");
+		    });
+		  });
+
+		  // Optionally: hide all but the first card on load
+		  cards.forEach((card, i) => card.style.display = i === 0 ? "block" : "none");
+		});
+
+		// === TOURNAMENT MODAL ===
+		$(document).ready(function() {
+			const tournamentModal = $('#tournamentModal');
+			const tournamentModalContent = $('#tournamentModalContent');
+
+			// Create list of tournaments dynamically
+			function renderTournamentList() {
+				const tournaments = data.tournaments;
+				if (!tournaments || !tournaments.length) return '<p>No hay torneos disponibles.</p>';
+
+				return `
+					<div class="list-group">
+						${tournaments.map(t => `
+							<a href="#" class="list-group-item list-group-item-action tournament-item" data-name="${t.tournament_name}">
+								<i class="fas fa-trophy me-2" style="color:#e6b800;"></i> ${t.tournament_name}
+							</a>
+						`).join('')}
+					</div>`;
+			}
+
+			// Open modal on magnifying glass click
+			$('#openTournamentModal').on('click', function() {
+				tournamentModalContent.html(renderTournamentList());
+				tournamentModal.modal('show');
+			});
+
+			// Close modal button (same style as match modal)
+			$(document).on('click', '#tournamentModal .close-modal-btn', function() {
+				tournamentModal.modal('hide');
+			});
+
+			// When a tournament is clicked (for later)
+			$(document).on('click', '.tournament-item', function(e) {
+				e.preventDefault();
+				const tournamentName = $(this).data('name');
+				console.log("Tournament clicked:", tournamentName);
+				tournamentModal.modal('hide');
+			});
+		});
+
+		$(document).on('show.bs.modal', function (e) {
+			$('.modal').not($(e.target)).modal('hide');
+		});
+
+		document.addEventListener('click', function (e) {
+			// Find all open modals
+			const openModals = document.querySelectorAll('.modal.show');
+
+			openModals.forEach(modal => {
+				const dialog = modal.querySelector('.modal-dialog');
+				const clickedInside = dialog.contains(e.target);
+
+				// If the click is outside the modal dialog — close it
+				if (!clickedInside) {
+					$(modal).modal('hide');
+				}
+			});
+		});
+	</script>
+
+</body>
+</html>
