@@ -1,0 +1,6 @@
+Servir con express en puerto 8000
+/json-server$ node server.js
+
+Luego exponer con
+$ ngrok http 8000
+
