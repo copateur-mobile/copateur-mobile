@@ -1,0 +1,188 @@
+{
+  "league_name": "TVN",
+  "regulation": "<p>Reglamento de ejemplo para la liga TVN.</p>",
+  "tournaments": [
+    {
+      "tournament_name": "TVN Apertura",
+      "standings": [
+        { "pos": 1, "team_name": "TVN Lions", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "pts": 9, "pj": 3, "pg": 3, "pe": 0, "pp": 0, "gf": 10, "gc": 3, "dg": 7 },
+        { "pos": 2, "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "pts": 6, "pj": 3, "pg": 2, "pe": 0, "pp": 1, "gf": 7, "gc": 5, "dg": 2 },
+        { "pos": 3, "team_name": "TVN United", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "pts": 3, "pj": 3, "pg": 1, "pe": 0, "pp": 2, "gf": 4, "gc": 6, "dg": -2 },
+        { "pos": 4, "team_name": "TVN Stars", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "pts": 0, "pj": 3, "pg": 0, "pe": 0, "pp": 3, "gf": 2, "gc": 9, "dg": -7 }
+      ],
+      "top_scorers": [
+        { "pos": 1, "team_name": "TVN Lions", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "player_name": "Leo TVN", "goals": 5 },
+        { "pos": 2, "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "player_name": "Marcos TVN", "goals": 3 },
+        { "pos": 3, "team_name": "TVN United", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "player_name": "Nico TVN", "goals": 2 }
+      ],
+      "sanctions": [
+        { "team_name": "TVN Stars", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "player_name": "Juan TVN", "ta": 2, "tr": 0, "status": "Activo" },
+        { "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "player_name": "Pablo TVN", "ta": 1, "tr": 1, "status": "Suspendido" }
+      ],
+      "best_defense": [
+        { "pos": 1, "team_name": "TVN Lions", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "gc": 3 },
+        { "pos": 2, "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "gc": 5 }
+      ],
+      "current_fixture_date": 1,
+      "fixtures": [
+        {
+          "1": [
+            {
+              "status": "finished",
+              "stadium": "Cancha TVN 1",
+              "date_time": "01/03 18:30",
+              "team_1": { "team_name": "TVN Lions", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "goals": 3 },
+              "team_2": { "team_name": "TVN Stars", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "goals": 1 }
+            },
+            {
+              "status": "pending",
+              "stadium": "Cancha TVN 2",
+              "date_time": "08/03 20:30",
+              "team_1": { "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" },
+              "team_2": { "team_name": "TVN United", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" }
+            }
+          ],
+          "2": [
+            {
+              "status": "finished",
+              "stadium": "Cancha TVN 1",
+              "date_time": "15/03 18:30",
+              "team_1": { "team_name": "TVN United", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "goals": 2 },
+              "team_2": { "team_name": "TVN Stars", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "goals": 0 }
+            },
+            {
+              "status": "finished",
+              "stadium": "Cancha TVN 2",
+              "date_time": "15/03 20:30",
+              "team_1": { "team_name": "TVN Lions", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "goals": 1 },
+              "team_2": { "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "goals": 1 }
+            }
+          ],
+          "3": [
+            {
+              "status": "pending",
+              "stadium": "Cancha TVN 3",
+              "date_time": "22/03 19:00",
+              "team_1": { "team_name": "TVN Stars", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" },
+              "team_2": { "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" }
+            },
+            {
+              "status": "pending",
+              "stadium": "Cancha TVN 1",
+              "date_time": "22/03 21:00",
+              "team_1": { "team_name": "TVN United", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" },
+              "team_2": { "team_name": "TVN Lions", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" }
+            }
+          ],
+          "4": [
+            {
+              "status": "pending",
+              "stadium": "Cancha TVN 2",
+              "date_time": "29/03 18:30",
+              "team_1": { "team_name": "TVN Lions", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" },
+              "team_2": { "team_name": "TVN Stars", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" }
+            },
+            {
+              "status": "pending",
+              "stadium": "Cancha TVN 3",
+              "date_time": "29/03 20:30",
+              "team_1": { "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" },
+              "team_2": { "team_name": "TVN United", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tournament_name": "TVN Clausura",
+      "standings": [
+        { "pos": 1, "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "pts": 10, "pj": 4, "pg": 3, "pe": 1, "pp": 0, "gf": 9, "gc": 4, "dg": 5 },
+        { "pos": 2, "team_name": "TVN United", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "pts": 7, "pj": 4, "pg": 2, "pe": 1, "pp": 1, "gf": 7, "gc": 5, "dg": 2 },
+        { "pos": 3, "team_name": "TVN Stars", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "pts": 4, "pj": 4, "pg": 1, "pe": 1, "pp": 2, "gf": 5, "gc": 7, "dg": -2 },
+        { "pos": 4, "team_name": "TVN Lions", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "pts": 1, "pj": 4, "pg": 0, "pe": 1, "pp": 3, "gf": 3, "gc": 8, "dg": -5 }
+      ],
+      "top_scorers": [
+        { "pos": 1, "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "player_name": "Santi W.", "goals": 4 },
+        { "pos": 2, "team_name": "TVN United", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "player_name": "Lucho U.", "goals": 3 },
+        { "pos": 3, "team_name": "TVN Stars", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "player_name": "Mati S.", "goals": 2 }
+      ],
+      "sanctions": [
+        { "team_name": "TVN Stars", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "player_name": "Alan S.", "ta": 2, "tr": 0, "status": "Activo" },
+        { "team_name": "TVN Lions", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "player_name": "Leo L.", "ta": 1, "tr": 1, "status": "Suspendido" }
+      ],
+      "best_defense": [
+        { "pos": 1, "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "gc": 4 },
+        { "pos": 2, "team_name": "TVN United", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "gc": 5 }
+      ],
+      "current_fixture_date": 1,
+      "fixtures": [
+        {
+          "1": [
+            {
+              "status": "finished",
+              "stadium": "Cancha TVN 4",
+              "date_time": "05/04 17:30",
+              "team_1": { "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "goals": 2 },
+              "team_2": { "team_name": "TVN Lions", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "goals": 1 }
+            },
+            {
+              "status": "finished",
+              "stadium": "Cancha TVN 5",
+              "date_time": "05/04 19:30",
+              "team_1": { "team_name": "TVN United", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "goals": 1 },
+              "team_2": { "team_name": "TVN Stars", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png", "goals": 1 }
+            }
+          ],
+          "2": [
+            {
+              "status": "pending",
+              "stadium": "Cancha TVN 4",
+              "date_time": "12/04 17:30",
+              "team_1": { "team_name": "TVN Stars", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" },
+              "team_2": { "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" }
+            },
+            {
+              "status": "pending",
+              "stadium": "Cancha TVN 5",
+              "date_time": "12/04 19:30",
+              "team_1": { "team_name": "TVN Lions", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" },
+              "team_2": { "team_name": "TVN United", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" }
+            }
+          ],
+          "3": [
+            {
+              "status": "pending",
+              "stadium": "Cancha TVN 6",
+              "date_time": "19/04 17:30",
+              "team_1": { "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" },
+              "team_2": { "team_name": "TVN United", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" }
+            },
+            {
+              "status": "pending",
+              "stadium": "Cancha TVN 7",
+              "date_time": "19/04 19:30",
+              "team_1": { "team_name": "TVN Stars", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" },
+              "team_2": { "team_name": "TVN Lions", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" }
+            }
+          ],
+          "4": [
+            {
+              "status": "pending",
+              "stadium": "Cancha TVN 4",
+              "date_time": "26/04 17:30",
+              "team_1": { "team_name": "TVN United", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" },
+              "team_2": { "team_name": "TVN Warriors", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" }
+            },
+            {
+              "status": "pending",
+              "stadium": "Cancha TVN 5",
+              "date_time": "26/04 19:30",
+              "team_1": { "team_name": "TVN Lions", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" },
+              "team_2": { "team_name": "TVN Stars", "team_logo_url": "https://tvn.copateur.com/storage/img/equipos/24/3699.png" }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
