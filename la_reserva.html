@@ -141,6 +141,28 @@
 		.close-modal-btn:hover {
 			opacity: 1;
 		}
+		#tournamentModal .modal-header {
+			position: relative;
+			justify-content: center;
+		}
+		.modal-nav-back-btn {
+			position: absolute;
+			left: 8px;
+			top: 2px;
+			background: none;
+			border: none;
+			font-size: 24px;
+			opacity: 0.75;
+			cursor: pointer;
+		}
+		.modal-nav-back-btn:hover {
+			opacity: 1;
+		}
+		#tournamentModal .close-modal-btn {
+			position: absolute;
+			right: 8px;
+			top: 2px;
+		}
 
 		.btn-open-tournament-modal {
 			display: block;
@@ -181,6 +203,7 @@
 			padding: 10px 15px;
 			border-radius: 8px;
 			margin-bottom: 8px;
+			text-align: center;
 		}
 
 		/* Responsive fix: slightly narrower on small screens */
@@ -390,7 +413,8 @@
 		<div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title w-100 text-center" style="font-weight:700; color:#333;">
+					<button type="button" id="tournamentBackBtn" class="modal-nav-back-btn" aria-label="Volver" style="display:none;">←</button>
+					<h5 id="tournamentModalTitle" class="modal-title w-100 text-center" style="font-weight:700; color:#333;">
 						Seleccionar Torneo
 					</h5>
 					<button type="button" class="close-modal-btn" aria-label="Close">×</button>
@@ -580,6 +604,8 @@
 		const LEAGUE_ID = "la_reserva";
 		const LEAGUE_API_URL = `https://copateur-mobile.github.io/copateur-mobile/leagues/${LEAGUE_ID}.json`;
 		const TOURNAMENT_STORAGE_KEY = `selected_tournament_${LEAGUE_ID}`;
+		const S3_APP_BASE_URL = "https://copateur-dev.s3.us-east-1.amazonaws.com/app";
+
 		window.leagueData = null;
 
 		async function fetchLeagueData() {
@@ -587,7 +613,172 @@
 			if (!response.ok) {
 				throw new Error(`HTTP ${response.status}`);
 			}
-			return await response.json();
+			const rawData = await response.json();
+			return normalizeLeagueData(rawData);
+		}
+
+		function resolveLogoUrl(logoPath) {
+			if (!logoPath) return "";
+			if (String(logoPath).startsWith("http")) return logoPath;
+			return `${S3_APP_BASE_URL}/${String(logoPath).replace(/^\/+/, "")}`;
+		}
+
+		function parseEvents(rawEvents) {
+			if (!rawEvents) return [];
+
+			let events = rawEvents;
+			if (typeof rawEvents === "string") {
+				try {
+					events = JSON.parse(rawEvents);
+				} catch (e) {
+					return [];
+				}
+			}
+
+			if (!Array.isArray(events)) return [];
+
+			const eventTypeMap = {
+				gol: "goal",
+				gol_penal: "penalty_goal",
+				penal: "penalty_goal",
+				t_amarilla: "yellow_card",
+				amarilla: "yellow_card",
+				t_roja: "red_card",
+				roja: "red_card"
+			};
+
+			return events
+				.map(ev => {
+					const type = eventTypeMap[ev && ev.evento];
+					if (!type) return null;
+					return {
+						player_name: (ev && ev.jugador) || "Jugador",
+						type
+					};
+				})
+				.filter(Boolean);
+		}
+
+		function normalizeCampeonato(campeonato) {
+			const posiciones = Array.isArray(campeonato.posiciones) ? campeonato.posiciones : [];
+			const goleadores = Array.isArray(campeonato.goleadores) ? campeonato.goleadores : [];
+			const sancionados = Array.isArray(campeonato.sancionados) ? campeonato.sancionados : [];
+			const fixtureFases = Array.isArray(campeonato.fixture) ? campeonato.fixture : [];
+
+			const standings = posiciones
+				.slice()
+				.sort((a, b) => (b?.pivot?.puntos || 0) - (a?.pivot?.puntos || 0))
+				.map((pos, index) => ({
+					pos: index + 1,
+					team_name: pos.equipo_nombre || "Equipo",
+					team_logo_url: resolveLogoUrl(pos.escudo_img),
+					pts: pos?.pivot?.puntos || 0,
+					pj: pos?.pivot?.partidos_jugados || 0,
+					pg: pos?.pivot?.partidos_ganados || 0,
+					pe: pos?.pivot?.partidos_empatados || 0,
+					pp: pos?.pivot?.partidos_perdidos || 0,
+					gf: pos?.pivot?.goles_af || 0,
+					gc: pos?.pivot?.goles_ac || 0,
+					dg: pos?.diferencia_gol ?? 0
+				}));
+
+			const teamById = {};
+			posiciones.forEach(team => {
+				teamById[team.id] = team;
+			});
+
+			const top_scorers = goleadores
+				.slice()
+				.sort((a, b) => (b?.pivot?.jugador_goles || 0) - (a?.pivot?.jugador_goles || 0))
+				.map((player, index) => {
+					const team = teamById[player.equipo_id] || {};
+					return {
+						pos: index + 1,
+						team_name: team.equipo_nombre || "Equipo",
+						team_logo_url: resolveLogoUrl(team.escudo_img),
+						player_name: `${player.nombre || ""} ${player.apellido || ""}`.trim() || "Jugador",
+						goals: player?.pivot?.jugador_goles || 0
+					};
+				});
+
+			const sanctions = sancionados.map(player => {
+				const team = teamById[player.equipo_id] || {};
+				const enabled = player?.pivot?.jugador_habilitado;
+				return {
+					team_name: team.equipo_nombre || "Equipo",
+					team_logo_url: resolveLogoUrl(team.escudo_img),
+					player_name: `${player.nombre || ""} ${player.apellido || ""}`.trim() || "Jugador",
+					ta: player?.pivot?.jugador_amarillas || 0,
+					tr: player?.pivot?.jugador_rojas || 0,
+					status: enabled === 1 ? "Activo" : "Suspendido"
+				};
+			});
+
+			const best_defense = standings
+				.slice()
+				.sort((a, b) => (a.gc || 0) - (b.gc || 0))
+				.map((team, index) => ({
+					pos: index + 1,
+					team_name: team.team_name,
+					team_logo_url: team.team_logo_url,
+					gc: team.gc
+				}));
+
+			const fixtureMap = {};
+			fixtureFases.forEach(fase => {
+				const key = String(fase.fase_numero);
+				fixtureMap[key] = (fase.partidos || []).map(partido => {
+					const home = partido.equipo_1 || {};
+					const away = partido.equipo_2 || {};
+					const rawDateTime = String(partido.fecha_hora || partido.horario || "").trim();
+					const stadiumRaw = String(partido.sede_nombre || partido.cancha || "").trim();
+
+					return {
+						status: partido.estado === "finalizado" ? "finished" : "pending",
+						stadium: stadiumRaw && stadiumRaw !== "pendiente" ? stadiumRaw : null,
+						date_time: rawDateTime || null,
+						team_1: {
+							team_name: home.nombre || "Equipo Local",
+							team_logo_url: resolveLogoUrl(home.escudo_img),
+							goals: home.goles,
+							events: parseEvents(home.eventos)
+						},
+						team_2: {
+							team_name: away.nombre || "Equipo Visitante",
+							team_logo_url: resolveLogoUrl(away.escudo_img),
+							goals: away.goles,
+							events: parseEvents(away.eventos)
+						}
+					};
+				});
+			});
+
+			const fixtureKeys = Object.keys(fixtureMap).sort((a, b) => Number(a) - Number(b));
+			const currentFixtureDate = fixtureKeys.length ? Number(fixtureKeys[0]) : 1;
+
+			return {
+				tournament_id: campeonato.id,
+				tournament_name: campeonato.nombre || "Torneo",
+				standings,
+				top_scorers,
+				sanctions,
+				best_defense,
+				current_fixture_date: currentFixtureDate,
+				fixtures: [fixtureMap]
+			};
+		}
+
+		function normalizeLeagueData(rawData) {
+			const campeonatos = Array.isArray(rawData.campeonatos) ? rawData.campeonatos : [];
+			const tournaments = campeonatos.map(normalizeCampeonato);
+			const firstRegulation = campeonatos[0] && campeonatos[0].reglamento;
+
+			return {
+				league_name: rawData.nombre_fantasia || "Liga",
+				regulation: firstRegulation || "<p>Reglamento no disponible.</p>",
+				tournaments,
+				primary_nav: Array.isArray(rawData.primary_nav) ? rawData.primary_nav : []
+			};
 		}
 
 		function showApiError(error) {
@@ -635,9 +826,12 @@
 			}
 
 			let currentTournament = tournaments[0];
-			const savedTournamentName = localStorage.getItem(TOURNAMENT_STORAGE_KEY);
-			if (savedTournamentName) {
-				const savedTournament = tournaments.find(t => t.tournament_name === savedTournamentName);
+			const savedTournamentIdOrName = localStorage.getItem(TOURNAMENT_STORAGE_KEY);
+			if (savedTournamentIdOrName) {
+				const savedTournament = tournaments.find(t =>
+					String(t.tournament_id) === String(savedTournamentIdOrName) ||
+					t.tournament_name === savedTournamentIdOrName
+				);
 				if (savedTournament) {
 					currentTournament = savedTournament;
 				}
@@ -656,6 +850,12 @@
 			const bestDefenseTemplate = document.getElementById("best-defense-template").innerHTML;
 			const tournamentModal = $('#tournamentModal');
 			const tournamentModalContent = $('#tournamentModalContent');
+			const tournamentModalTitle = document.getElementById("tournamentModalTitle");
+			const tournamentBackBtn = document.getElementById("tournamentBackBtn");
+			const navRoot = (loadedData.primary_nav && loadedData.primary_nav.length)
+				? loadedData.primary_nav
+				: tournaments.map(t => ({ text: t.tournament_name, id: t.tournament_id, isTournament: true }));
+			let navStack = [{ title: "Seleccionar Torneo", nodes: navRoot }];
 
 			function prepareFixtures(matches) {
 				return matches.map(match => {
@@ -715,30 +915,52 @@
 				});
 			}
 
-			function renderTournamentList() {
-				if (!tournaments.length) return '<p>No hay torneos disponibles.</p>';
+			function nodeHasTournamentId(node) {
+				return node && node.id !== "" && node.id !== null && node.id !== undefined;
+			}
 
-				return `
-					<div class="mb-3">
-						<input
-							id="tournamentSearch"
-							type="text"
-							class="form-control"
-							placeholder="Buscar torneo por nombre..."
-						>
-					</div>
+			function nodeChildren(node) {
+				return Array.isArray(node && node.children) ? node.children : [];
+			}
+
+			function renderNavLevel() {
+				const currentLevel = navStack[navStack.length - 1] || { title: "Seleccionar Torneo", nodes: [] };
+				const nodes = currentLevel.nodes || [];
+
+				if (!nodes.length) {
+					tournamentModalContent.html('<p>No hay torneos o categorías en este nivel.</p>');
+					tournamentModalTitle.textContent = currentLevel.title || "Seleccionar Torneo";
+					tournamentBackBtn.style.display = navStack.length > 1 ? "block" : "none";
+					return;
+				}
+
+				tournamentModalContent.html(`
 					<div class="list-group" id="tournamentList">
-						${tournaments.map(t => `
-							<a href="#" class="list-group-item list-group-item-action tournament-item ${t.tournament_name === currentTournament.tournament_name ? 'active' : ''}" data-name="${t.tournament_name}">
-								<i class="fas fa-trophy me-2" style="color:#e6b800;"></i> ${t.tournament_name}
-							</a>
-						`).join('')}
-					</div>`;
+						${nodes.map((node, idx) => {
+							const isTournament = nodeHasTournamentId(node);
+							const isSelected = isTournament && String(currentTournament.tournament_id) === String(node.id);
+							return `
+								<a href="#" class="list-group-item list-group-item-action nav-item ${isTournament ? "tournament-item" : "nav-category-item"} ${isSelected ? "active" : ""}" data-id="${node.id || ""}" data-idx="${idx}">
+									${isTournament
+										? `<i class="fas fa-trophy me-2" style="color:#e6b800;"></i> ${node.text || "Sin nombre"}`
+										: `${node.text || "Sin nombre"} <i class="fas fa-chevron-right ms-2" style="color:#999;"></i>`}
+								</a>
+							`;
+						}).join('')}
+					</div>`);
+
+				tournamentModalTitle.textContent = currentLevel.title || "Seleccionar Torneo";
+				tournamentBackBtn.style.display = navStack.length > 1 ? "block" : "none";
 			}
 
 			function renderTournament(tournament) {
 				currentTournament = tournament;
-				localStorage.setItem(TOURNAMENT_STORAGE_KEY, currentTournament.tournament_name);
+				localStorage.setItem(
+					TOURNAMENT_STORAGE_KEY,
+					currentTournament.tournament_id != null
+						? String(currentTournament.tournament_id)
+						: currentTournament.tournament_name
+				);
 
 				document.querySelectorAll(".tournament_name").forEach(el => {
 					el.innerHTML = currentTournament.tournament_name;
@@ -760,7 +982,7 @@
 				const fixtureKeys = Object.keys(fixtureMap).sort((a, b) => Number(a) - Number(b));
 
 				fixtureSelect.innerHTML = fixtureKeys.map(key =>
-					`<option value="${key}">Fixture ${key}</option>`
+					`<option value="${key}">Fecha ${key}</option>`
 				).join("");
 
 				const defaultFixture = String(
@@ -785,8 +1007,10 @@
 			const modalEl = $('#matchModal');
 			const modalContent = $('#matchModalContent');
 
-			$(document).on('click', '.close-modal-btn', function() {
-				modalEl.modal('hide');
+			$(document).on('click', '.close-modal-btn', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				$(this).closest('.modal').modal('hide');
 			});
 
 			// Convert event type → HTML icon
@@ -925,7 +1149,8 @@
 
 			// Open tournament modal
 			$('#openTournamentModal').on('click', function() {
-				tournamentModalContent.html(renderTournamentList());
+				navStack = [{ title: "Seleccionar Torneo", nodes: navRoot }];
+				renderNavLevel();
 				tournamentModal.modal('show');
 			});
 
@@ -937,23 +1162,40 @@
 			// Tournament selection
 			$(document).on('click', '.tournament-item', function(e) {
 				e.preventDefault();
-				const tournamentName = $(this).data('name');
-				const selectedTournament = tournaments.find(t => t.tournament_name === tournamentName);
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				const tournamentId = $(this).data('id');
+				const selectedTournament = tournaments.find(t => String(t.tournament_id) === String(tournamentId));
 				if (!selectedTournament) return;
 
 				renderTournament(selectedTournament);
 				tournamentModal.modal('hide');
 			});
 
-			// Search tournaments by name in modal
-			$(document).on('input', '#tournamentSearch', function() {
-				const query = String($(this).val() || "").trim().toLowerCase();
+			// Navigate deeper into nested categories
+			$(document).on('click', '.nav-category-item', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				const nodeIndex = Number($(this).data('idx'));
+				const currentLevel = navStack[navStack.length - 1] || { nodes: [] };
+				const nextNode = (currentLevel.nodes || [])[nodeIndex];
+				const categoryText = String((nextNode && nextNode.text) || "Categoría");
+				const children = nodeChildren(nextNode);
+				if (!children.length) return;
 
-				$('#tournamentModalContent .tournament-item').each(function() {
-					const tournamentName = String($(this).data('name') || "").toLowerCase();
-					const isMatch = !query || tournamentName.includes(query);
-					$(this).toggle(isMatch);
-				});
+				navStack.push({ title: categoryText, nodes: children });
+				renderNavLevel();
+			});
+
+			// Back to previous nav level
+			$(document).on('click', '#tournamentBackBtn', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				if (navStack.length <= 1) return;
+				navStack.pop();
+				renderNavLevel();
 			});
 
 	    // TABS
@@ -992,17 +1234,18 @@
 		});
 
 		document.addEventListener('click', function (e) {
-			// Find all open modals
-			const openModals = document.querySelectorAll('.modal.show');
+			const path = typeof e.composedPath === "function" ? e.composedPath() : [];
+			const clickedInsideDialog = path.some(node =>
+				node && node.classList && node.classList.contains('modal-dialog')
+			);
 
-			openModals.forEach(modal => {
-				const dialog = modal.querySelector('.modal-dialog');
-				const clickedInside = dialog.contains(e.target);
+			// Keep modal open when clicking inside any modal dialog.
+			if (clickedInsideDialog) {
+				return;
+			}
 
-				// If the click is outside the modal dialog — close it
-				if (!clickedInside) {
-					$(modal).modal('hide');
-				}
+			document.querySelectorAll('.modal.show').forEach(modal => {
+				$(modal).modal('hide');
 			});
 		});
 	</script>
