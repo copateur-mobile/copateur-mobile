@@ -602,9 +602,9 @@
 
 	<script>
 		const LEAGUE_ID = "la_reserva";
-		const LEAGUE_API_URL = `https://copateur-mobile.github.io/copateur-mobile/leagues/${LEAGUE_ID}.json`;
-		const TOURNAMENT_STORAGE_KEY = `selected_tournament_${LEAGUE_ID}`;
 		const S3_APP_BASE_URL = "https://copateur-dev.s3.us-east-1.amazonaws.com/app";
+		const LEAGUE_API_URL = `${S3_APP_BASE_URL}/${LEAGUE_ID}.json`;
+		const TOURNAMENT_STORAGE_KEY = `selected_tournament_${LEAGUE_ID}`;
 
 		window.leagueData = null;
 
@@ -768,14 +768,48 @@
 			};
 		}
 
+		function normalizeNormalizedTournament(tournament) {
+			const fixtures = Array.isArray(tournament.fixtures)
+				? tournament.fixtures
+				: [tournament.fixtures || {}];
+			const fixtureMap = fixtures[0] || {};
+			const fixtureKeys = Object.keys(fixtureMap).sort((a, b) => Number(a) - Number(b));
+			const standings = Array.isArray(tournament.standings) ? tournament.standings : [];
+			const bestDefense = Array.isArray(tournament.best_defense) && tournament.best_defense.length
+				? tournament.best_defense
+				: standings
+					.slice()
+					.sort((a, b) => (a.gc || 0) - (b.gc || 0))
+					.map((team, index) => ({
+						pos: index + 1,
+						team_name: team.team_name,
+						team_logo_url: team.team_logo_url,
+						gc: team.gc || 0
+					}));
+
+			return {
+				tournament_id: tournament.tournament_id ?? tournament.id,
+				tournament_name: tournament.tournament_name || tournament.nombre || "Torneo",
+				standings,
+				top_scorers: Array.isArray(tournament.top_scorers) ? tournament.top_scorers : [],
+				sanctions: Array.isArray(tournament.sanctions) ? tournament.sanctions : [],
+				best_defense: bestDefense,
+				current_fixture_date: tournament.current_fixture_date || (fixtureKeys.length ? Number(fixtureKeys[0]) : 1),
+				fixtures
+			};
+		}
+
 		function normalizeLeagueData(rawData) {
+			const hasNormalizedTournaments = Array.isArray(rawData.tournaments);
+			const tournaments = hasNormalizedTournaments
+				? rawData.tournaments.map(normalizeNormalizedTournament)
+				: (Array.isArray(rawData.campeonatos) ? rawData.campeonatos : []).map(normalizeCampeonato);
 			const campeonatos = Array.isArray(rawData.campeonatos) ? rawData.campeonatos : [];
-			const tournaments = campeonatos.map(normalizeCampeonato);
 			const firstRegulation = campeonatos[0] && campeonatos[0].reglamento;
 
 			return {
-				league_name: rawData.nombre_fantasia || "Liga",
-				regulation: firstRegulation || "<p>Reglamento no disponible.</p>",
+				league_name: rawData.league_name || rawData.nombre_fantasia || "Liga",
+				regulation: rawData.regulation || rawData.reglamento || firstRegulation || "<p>Reglamento no disponible.</p>",
 				tournaments,
 				primary_nav: Array.isArray(rawData.primary_nav) ? rawData.primary_nav : []
 			};
