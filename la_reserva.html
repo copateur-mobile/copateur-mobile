@@ -689,7 +689,12 @@
 		window.leagueData = null;
 
 		async function fetchLeagueData() {
-			const response = await fetch(LEAGUE_API_URL);
+			const response = await fetch(`${LEAGUE_API_URL}?t=${Date.now()}`, {
+				cache: "no-store",
+				headers: {
+					"Cache-Control": "no-cache"
+				}
+			});
 			if (!response.ok) {
 				throw new Error(`HTTP ${response.status}`);
 			}
@@ -1261,8 +1266,32 @@
 				openMatchModal(matchData);
 			});
 
+			const contentFilter = document.querySelector(".content-filter");
+			const contentFilterToggle = document.querySelector(".content-filter__toggle");
+			const contentFilterList = document.querySelector(".content-filter__list");
+
+			function collapseContentFilter() {
+				if (contentFilterToggle) {
+					contentFilterToggle.classList.remove("content-filter__toggle--active");
+				}
+				if (contentFilterList) {
+					contentFilterList.classList.remove("content-filter__list--expanded");
+				}
+			}
+
+			document.addEventListener("click", e => {
+				if (!contentFilter || !contentFilterList || !contentFilterList.classList.contains("content-filter__list--expanded")) {
+					return;
+				}
+
+				if (!contentFilter.contains(e.target)) {
+					collapseContentFilter();
+				}
+			});
+
 			// Open tournament modal
 			$('#openTournamentModal').on('click', function() {
+				collapseContentFilter();
 				navStack = [{ title: "Seleccionar Torneo", nodes: navRoot }];
 				renderNavLevel();
 				tournamentModal.modal('show');
@@ -1334,8 +1363,7 @@
 		      const key = tab.classList[1]; // e.g. "standings", "top-scorers"...
 		      const cardToShow = document.querySelector(`.card-container.${key}`);
 		      if (cardToShow) cardToShow.style.display = "block";
-		      document.querySelector(".content-filter__toggle").classList.remove("content-filter__toggle--active");
-		      document.querySelector(".content-filter__list").classList.remove("content-filter__list--expanded");
+		      collapseContentFilter();
 		    });
 		  });
 
