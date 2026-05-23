@@ -21399,6 +21399,9 @@ ul.posts:not(.post-grid) {
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
+  -ms-flex-preferred-size: 35%;
+      flex-basis: 35%;
+  min-width: 0;
 }
 @media (min-width: 992px) and (max-width: 1199px) {
   .widget-results__team {
@@ -21413,6 +21416,7 @@ ul.posts:not(.post-grid) {
   margin-right: 5px;
   width: 20px;
   text-align: center;
+  flex-shrink: 0;
 }
 @media (min-width: 992px) {
   .widget-results__team-logo {
@@ -21433,8 +21437,12 @@ ul.posts:not(.post-grid) {
 }
 
 .widget-results__team-details {
-  display: inline-block;
+  display: block;
   vertical-align: middle;
+  flex-grow: 1;
+  min-width: 0;
+  word-break: break-word;
+  text-align: center;
 }
 
 .widget-results__team-name {
@@ -21444,9 +21452,9 @@ ul.posts:not(.post-grid) {
   line-height: 1.2em;
   font-style: normal;
   margin: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
 }
 @media (min-width: 1200px) {
   .widget-results__team-name {
@@ -21467,13 +21475,14 @@ ul.posts:not(.post-grid) {
 }
 
 .widget-results__team--second {
-  text-align: right;
+  text-align: center;
 }
 
 .widget-results__result {
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
+  -ms-flex-preferred-size: 30%;
+      flex-basis: 30%;
+  flex-grow: 0;
+  flex-shrink: 0;
   text-align: center;
 }
 
@@ -26959,6 +26968,7 @@ table.alc-event-result-labels > tbody > tr > td.alc-results .label--basic {
   -webkit-box-ordinal-group: 2;
       -ms-flex-order: 1;
           order: 1;
+  min-width: 0;
 }
 .alc-event-competitors__item + .alc-event-competitors__item {
   -webkit-box-ordinal-group: 4;
@@ -26993,7 +27003,7 @@ table.alc-event-result-labels > tbody > tr > td.alc-results .label--basic {
 .alc-event-team + .alc-event-team .alc-event-team__details {
   padding-right: 0;
   padding-left: 20px;
-  text-align: left;
+  text-align: center;
 }
 @media (max-width: 767px) {
   .alc-event-team + .alc-event-team .alc-event-team__details {
@@ -27003,7 +27013,7 @@ table.alc-event-result-labels > tbody > tr > td.alc-results .label--basic {
 }
 @media (max-width: 575px) {
   .alc-event-team + .alc-event-team .alc-event-team__details {
-    text-align: right;
+    text-align: center;
   }
 }
 .alc-event-team + .alc-event-team .alc-event-team__score-wrap {
@@ -27049,7 +27059,7 @@ table.alc-event-result-labels > tbody > tr > td.alc-results .label--basic {
 
 .alc-event-team__details {
   padding-right: 20px;
-  text-align: right;
+  text-align: center;
 }
 @media (max-width: 767px) {
   .alc-event-team__details {
@@ -27062,7 +27072,7 @@ table.alc-event-result-labels > tbody > tr > td.alc-results .label--basic {
     -webkit-box-ordinal-group: 4;
         -ms-flex-order: 3;
             order: 3;
-    text-align: left;
+    text-align: center;
     padding-top: 10px;
   }
 }
@@ -27137,6 +27147,9 @@ table.alc-event-result-labels > tbody > tr > td.alc-results .label--basic {
 
 .alc-event-team__score-wrap {
   padding: 0 38px 0 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 @media (max-width: 1199px) {
   .alc-event-team__score-wrap {
@@ -27226,6 +27239,9 @@ table.alc-event-result-labels > tbody > tr > td.alc-results .label--basic {
   font-family: "Montserrat", sans-serif;
   text-transform: uppercase;
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 @media (max-width: 767px) {
   .alc-event-competitors__divider {
