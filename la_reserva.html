@@ -640,6 +640,12 @@
 			width: 20px;
 		}
 
+		.x-table-sanctions .player-meta .team-meta__logo img {
+			background: #eef2f7;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+
 		.x-table-standings .team-meta__info {
 			min-width: 0;
 		}
@@ -672,6 +678,23 @@
 			.x-table-standings .team-standings__total-points {
 				width: 28px !important;
 			}
+		}
+
+		.card-marker-header {
+			display: inline-block;
+			height: 16px;
+			vertical-align: middle;
+			width: 10px;
+		}
+
+		.card-marker-header--yellow {
+			background: #f4d11c;
+			border-radius: 2px;
+		}
+
+		.card-marker-header--red {
+			background: #ee4f4f;
+			border-radius: 2px;
 		}
 
 
@@ -724,7 +747,6 @@
 				<div class="app-subtabs" data-section="stats" hidden>
 					<button type="button" class="app-subtab is-active" data-section="stats" data-target="top-scorers">Goleadores</button>
 					<button type="button" class="app-subtab" data-section="stats" data-target="best-defense">V.M Vencida</button>
-					<button type="button" class="app-subtab" data-section="stats" data-target="figures-placeholder">Figuras</button>
 				</div>
 
 				<div class="app-subtabs" data-section="fairplay" hidden>
@@ -786,8 +808,8 @@
 									<tr>
 										<th class="team-standings__team">Equipo</th>
 										<th class="">JUGADOR</th>
-										<th class=""><i class="icon-svg icon-yellow-card"></i></th>
-										<th class=""><i class="icon-svg icon-red-card"></i></th>
+										<th class="" aria-label="Tarjetas amarillas" title="Tarjetas amarillas"><span class="card-marker-header card-marker-header--yellow"></span></th>
+										<th class="" aria-label="Tarjetas rojas" title="Tarjetas rojas"><span class="card-marker-header card-marker-header--red"></span></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -831,12 +853,6 @@
 					</div>
 				</div>
 
-				<div class="card card-container figures-placeholder app-placeholder">
-					<div class="card__content">
-						COMPLETAR
-					</div>
-				</div>
-
 				<div class="card card--has-table card-container fair-play-placeholder">
 					<div class="card__content">
 						<div class="table-responsive">
@@ -846,8 +862,8 @@
 										<th class="team-standings__pos">#</th>
 										<th class="team-standings__team">Equipo</th>
 										<th>J</th>
-										<th>TA</th>
-										<th>TR</th>
+										<th aria-label="Tarjetas amarillas" title="Tarjetas amarillas"><span class="card-marker-header card-marker-header--yellow"></span></th>
+										<th aria-label="Tarjetas rojas" title="Tarjetas rojas"><span class="card-marker-header card-marker-header--red"></span></th>
 										<th>PTS</th>
 									</tr>
 								</thead>
@@ -1039,7 +1055,16 @@
 						</div>
 					</div>
 				</td>
-				<td class="team-standings__player">{{player_name}}</td>
+				<td class="team-standings__player">
+					<div class="team-meta player-meta">
+						<figure class="team-meta__logo">
+							<img src="{{player_photo_url}}" alt="" onerror="this.src='assets/images/player-placeholder-26x26.png'">
+						</figure>
+						<div class="team-meta__info">
+							<h6 class="team-meta__name">{{player_name}}</h6>
+						</div>
+					</div>
+				</td>
 				<td class="">{{ta}}</td>
 				<td class="">{{tr}}</td>
 			</tr>
@@ -1163,6 +1188,7 @@
 		const S3_APP_BASE_URL = "https://copateur-dev.s3.us-east-1.amazonaws.com/app";
 		const LEAGUE_API_URL = `${S3_APP_BASE_URL}/${LEAGUE_ID}.json`;
 		const TOURNAMENT_STORAGE_KEY = `selected_tournament_${LEAGUE_ID}`;
+		const PLAYER_FALLBACK_PHOTO = "assets/images/player-placeholder-26x26.png";
 
 		window.leagueData = null;
 
@@ -1261,6 +1287,7 @@
 						team_name: team.equipo_nombre || "Equipo",
 						team_logo_url: resolveLogoUrl(team.escudo_img),
 						player_name: `${player.nombre || ""} ${player.apellido || ""}`.trim() || "Jugador",
+						player_photo_url: resolveLogoUrl(player.foto_perfil || player.foto || player.foto_url) || PLAYER_FALLBACK_PHOTO,
 						goals: player?.pivot?.jugador_goles || 0
 					};
 				});
@@ -1273,6 +1300,7 @@
 					team_name: team.equipo_nombre || "Equipo",
 					team_logo_url: resolveLogoUrl(team.escudo_img),
 					player_name: `${player.nombre || ""} ${player.apellido || ""}`.trim() || "Jugador",
+					player_photo_url: resolveLogoUrl(player.foto_perfil || player.foto || player.foto_url) || PLAYER_FALLBACK_PHOTO,
 					ta: player?.pivot?.jugador_amarillas || 0,
 					tr: player?.pivot?.jugador_rojas || 0,
 					status: enabled === 1 ? "Activo" : "Suspendido",
@@ -1366,6 +1394,7 @@
 			return {
 				...sanction,
 				status,
+				player_photo_url: sanction.player_photo_url || PLAYER_FALLBACK_PHOTO,
 				suspension_remaining: suspensionRemaining,
 				suspension_total: suspensionTotal
 			};
@@ -1556,6 +1585,13 @@
 			const appClientLogo = document.getElementById("appClientLogo");
 			const appClientLogoFallback = document.getElementById("appClientLogoFallback");
 			if (loadedData.logo_url && appClientLogo) {
+				appClientLogo.alt = loadedData.league_name || "";
+				appClientLogo.onerror = () => {
+					appClientLogo.hidden = true;
+					if (appClientLogoFallback) {
+						appClientLogoFallback.hidden = false;
+					}
+				};
 				appClientLogo.src = loadedData.logo_url;
 				appClientLogo.hidden = false;
 				if (appClientLogoFallback) {
