@@ -475,6 +475,14 @@
 			padding: 0;
 		}
 
+		#matchModal .alc-event-header--layout-2 .alc-event-competitors__divider::before {
+			content: "-";
+			color: #8f98a5;
+			font-size: 30px;
+			font-weight: 700;
+			line-height: 1;
+		}
+
 		#matchModal .alc-event-header--layout-2 .alc-event-competitors__divider,
 		#matchModal .alc-event-header--layout-2 .alc-event-team__score-wrap {
 			height: 44px;
@@ -509,6 +517,71 @@
 			max-width: 180px;
 			margin: 0 auto;
 			line-height: 1.15;
+		}
+
+		#matchModal .alc-event-header-performances-list {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+		}
+
+		#matchModal .alc-event-header__bottom .container {
+			padding-left: 8px;
+			padding-right: 8px;
+		}
+
+		#matchModal .alc-event-header__bottom .row {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+			column-gap: 22px;
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		#matchModal .alc-event-header__bottom .col-6 {
+			max-width: none;
+			padding-left: 0;
+			padding-right: 0;
+			width: auto;
+		}
+
+		#matchModal .alc-event-header__performance {
+			align-items: center;
+			display: flex;
+			font-size: 10px;
+			gap: 5px;
+			line-height: 1.2;
+			min-width: 0;
+			white-space: nowrap;
+		}
+
+		#matchModal .alc-event-header__performance--left {
+			justify-content: flex-start;
+			text-align: left;
+		}
+
+		#matchModal .alc-event-header__performance--right {
+			justify-content: flex-start;
+			text-align: left;
+		}
+
+		#matchModal .alc-event-header__performance-name {
+			min-width: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		#matchModal .alc-event-header__performance-photo {
+			background: #eef2f7;
+			border-radius: 50%;
+			flex: 0 0 16px;
+			height: 16px;
+			object-fit: cover;
+			width: 16px;
+		}
+
+		#matchModal .alc-event-header__performance .icon-svg {
+			flex: 0 0 auto;
 		}
 
 		#fixtures-list .widget-results__team {
@@ -640,7 +713,7 @@
 			width: 20px;
 		}
 
-		.x-table-sanctions .player-meta .team-meta__logo img {
+		.player-meta .team-meta__logo img {
 			background: #eef2f7;
 			border-radius: 50%;
 			object-fit: cover;
@@ -750,8 +823,7 @@
 				</div>
 
 				<div class="app-subtabs" data-section="fairplay" hidden>
-					<button type="button" class="app-subtab is-active" data-section="fairplay" data-target="fair-play-placeholder">Fair Play</button>
-					<button type="button" class="app-subtab" data-section="fairplay" data-target="suspended">Suspendidos</button>
+					<button type="button" class="app-subtab is-active" data-section="fairplay" data-target="suspended">Suspendidos</button>
 					<button type="button" class="app-subtab" data-section="fairplay" data-target="sanctions">Tarjetas</button>
 				</div>
 		
@@ -847,27 +919,6 @@
 								<tbody>
 									
 		
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-
-				<div class="card card--has-table card-container fair-play-placeholder">
-					<div class="card__content">
-						<div class="table-responsive">
-							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer x-table-fair-play">
-								<thead>
-									<tr>
-										<th class="team-standings__pos">#</th>
-										<th class="team-standings__team">Equipo</th>
-										<th>J</th>
-										<th aria-label="Tarjetas amarillas" title="Tarjetas amarillas"><span class="card-marker-header card-marker-header--yellow"></span></th>
-										<th aria-label="Tarjetas rojas" title="Tarjetas rojas"><span class="card-marker-header card-marker-header--red"></span></th>
-										<th>PTS</th>
-									</tr>
-								</thead>
-								<tbody>
 								</tbody>
 							</table>
 						</div>
@@ -1036,7 +1087,16 @@
 						</div>
 					</div>
 				</td>
-				<td class="team-standings__player">{{player_name}}</td>
+				<td class="team-standings__player">
+					<div class="team-meta player-meta">
+						<figure class="team-meta__logo">
+							<img src="{{player_photo_url}}" alt="" onerror="this.src='assets/images/player-placeholder-26x26.png'">
+						</figure>
+						<div class="team-meta__info">
+							<h6 class="team-meta__name">{{player_name}}</h6>
+						</div>
+					</div>
+				</td>
 				<td class="team-standings__goals-for">{{goals}}</td>
 			</tr>
 	  {{/top_scorers}}
@@ -1074,7 +1134,16 @@
 	<script id="suspended-template" type="x-tmpl-mustache">
 	  {{#suspended}}
 			<tr>
-				<td class="team-standings__player">{{player_name}}</td>
+				<td class="team-standings__player">
+					<div class="team-meta player-meta">
+						<figure class="team-meta__logo">
+							<img src="{{player_photo_url}}" alt="" onerror="this.src='assets/images/player-placeholder-26x26.png'">
+						</figure>
+						<div class="team-meta__info">
+							<h6 class="team-meta__name">{{player_name}}</h6>
+						</div>
+					</div>
+				</td>
 				<td class="team-standings__team">
 					<div class="team-meta">
 						<figure class="team-meta__logo">
@@ -1088,28 +1157,6 @@
 				<td>{{suspension_remaining}} / {{suspension_total}}</td>
 			</tr>
 	  {{/suspended}}
-	</script>
-
-	<script id="fair-play-template" type="x-tmpl-mustache">
-	  {{#fair_play}}
-			<tr>
-				<td class="team-standings__pos">{{pos}}</td>
-				<td class="team-standings__team">
-					<div class="team-meta">
-						<figure class="team-meta__logo">
-							<img src="{{team_logo_url}}" alt="">
-						</figure>
-						<div class="team-meta__info">
-							<h6 class="team-meta__name">{{team_name}}</h6>
-						</div>
-					</div>
-				</td>
-				<td>{{pj}}</td>
-				<td>{{ta}}</td>
-				<td>{{tr}}</td>
-				<td>{{pts}}</td>
-			</tr>
-	  {{/fair_play}}
 	</script>
 
 	<script id="best-defense-template" type="x-tmpl-mustache">
@@ -1212,6 +1259,15 @@
 			return `${S3_APP_BASE_URL}/${String(logoPath).replace(/^\/+/, "")}`;
 		}
 
+		function resolvePlayerPhotoUrl(photoPath) {
+			if (!photoPath) return PLAYER_FALLBACK_PHOTO;
+			if (String(photoPath).startsWith("http")) return photoPath;
+			if (String(photoPath).startsWith("assets/") || String(photoPath).startsWith("/assets/")) {
+				return String(photoPath).replace(/^\/+/, "");
+			}
+			return resolveLogoUrl(photoPath) || PLAYER_FALLBACK_PHOTO;
+		}
+
 		function parseEvents(rawEvents) {
 			if (!rawEvents) return [];
 
@@ -1238,10 +1294,14 @@
 
 			return events
 				.map(ev => {
-					const type = eventTypeMap[ev && ev.evento];
+					const rawType = ev && (ev.type || ev.evento);
+					const type = eventTypeMap[rawType] || rawType;
 					if (!type) return null;
 					return {
-						player_name: (ev && ev.jugador) || "Jugador",
+						player_name: (ev && (ev.player_name || ev.jugador)) || "Jugador",
+						player_photo_url: resolvePlayerPhotoUrl(
+							ev && (ev.player_photo_url || ev.jugador_foto_perfil || ev.foto_perfil || ev.foto || ev.foto_url)
+						),
 						type
 					};
 				})
@@ -1287,7 +1347,7 @@
 						team_name: team.equipo_nombre || "Equipo",
 						team_logo_url: resolveLogoUrl(team.escudo_img),
 						player_name: `${player.nombre || ""} ${player.apellido || ""}`.trim() || "Jugador",
-						player_photo_url: resolveLogoUrl(player.foto_perfil || player.foto || player.foto_url) || PLAYER_FALLBACK_PHOTO,
+						player_photo_url: resolvePlayerPhotoUrl(player.foto_perfil || player.foto || player.foto_url),
 						goals: player?.pivot?.jugador_goles || 0
 					};
 				});
@@ -1300,7 +1360,7 @@
 					team_name: team.equipo_nombre || "Equipo",
 					team_logo_url: resolveLogoUrl(team.escudo_img),
 					player_name: `${player.nombre || ""} ${player.apellido || ""}`.trim() || "Jugador",
-					player_photo_url: resolveLogoUrl(player.foto_perfil || player.foto || player.foto_url) || PLAYER_FALLBACK_PHOTO,
+					player_photo_url: resolvePlayerPhotoUrl(player.foto_perfil || player.foto || player.foto_url),
 					ta: player?.pivot?.jugador_amarillas || 0,
 					tr: player?.pivot?.jugador_rojas || 0,
 					status: enabled === 1 ? "Activo" : "Suspendido",
@@ -1394,7 +1454,9 @@
 			return {
 				...sanction,
 				status,
-				player_photo_url: sanction.player_photo_url || PLAYER_FALLBACK_PHOTO,
+				player_photo_url: resolvePlayerPhotoUrl(
+					sanction.player_photo_url || sanction.foto_perfil || sanction.foto || sanction.foto_url
+				),
 				suspension_remaining: suspensionRemaining,
 				suspension_total: suspensionTotal
 			};
@@ -1472,12 +1534,21 @@
 						team_logo_url: team.team_logo_url,
 						gc: team.gc || 0
 					}));
+			const topScorers = (Array.isArray(stats.top_scorers)
+				? stats.top_scorers
+				: (Array.isArray(tournament.top_scorers) ? tournament.top_scorers : []))
+				.map(player => ({
+					...player,
+					player_photo_url: resolvePlayerPhotoUrl(
+						player.player_photo_url || player.foto_perfil || player.foto || player.foto_url
+					)
+				}));
 
 			return {
 				tournament_id: tournament.tournament_id ?? tournament.id,
 				tournament_name: tournament.tournament_name || tournament.nombre || "Torneo",
 				standings,
-				top_scorers: Array.isArray(stats.top_scorers) ? stats.top_scorers : (Array.isArray(tournament.top_scorers) ? tournament.top_scorers : []),
+				top_scorers: topScorers,
 				figures: Array.isArray(stats.figures) ? stats.figures : (Array.isArray(tournament.figures) ? tournament.figures : []),
 				sanctions,
 				suspended,
@@ -1538,8 +1609,6 @@
 				'<tr><td colspan="4" class="text-center">Sin datos</td></tr>';
 			document.querySelector(".x-table-suspended tbody").innerHTML =
 				'<tr><td colspan="3" class="text-center">Sin datos</td></tr>';
-			document.querySelector(".x-table-fair-play tbody").innerHTML =
-				'<tr><td colspan="6" class="text-center">Sin datos</td></tr>';
 			document.querySelector(".x-table-best-defense tbody").innerHTML =
 				'<tr><td colspan="4" class="text-center">Sin datos</td></tr>';
 
@@ -1607,7 +1676,6 @@
 			const topScorersTemplate = document.getElementById("top-scorers-template").innerHTML;
 			const sanctionsTemplate = document.getElementById("sanctions-template").innerHTML;
 			const suspendedTemplate = document.getElementById("suspended-template").innerHTML;
-			const fairPlayTemplate = document.getElementById("fair-play-template").innerHTML;
 			const bestDefenseTemplate = document.getElementById("best-defense-template").innerHTML;
 			const tournamentModal = $('#tournamentModal');
 			const tournamentModalContent = $('#tournamentModalContent');
@@ -1740,11 +1808,6 @@
 				const sanctionsHtml = Mustache.render(sanctionsTemplate, currentTournament);
 				document.querySelector(".x-table-sanctions tbody").innerHTML = sanctionsHtml;
 
-				const fairPlayRows = Array.isArray(currentTournament.fair_play) ? currentTournament.fair_play : [];
-				document.querySelector(".x-table-fair-play tbody").innerHTML = fairPlayRows.length
-					? Mustache.render(fairPlayTemplate, { fair_play: fairPlayRows })
-					: '<tr><td colspan="6" class="text-center">COMPLETAR</td></tr>';
-
 				const suspendedPlayers = (Array.isArray(currentTournament.suspended) && currentTournament.suspended.length
 					? currentTournament.suspended
 					: (currentTournament.sanctions || []).filter(player => String(player.status || "").toLowerCase().includes("suspend")))
@@ -1828,18 +1891,69 @@
 					}
 				}
 
+				function escapeHtml(value) {
+					return String(value || '')
+						.replace(/&/g, '&amp;')
+						.replace(/</g, '&lt;')
+						.replace(/>/g, '&gt;')
+						.replace(/"/g, '&quot;')
+						.replace(/'/g, '&#039;');
+				}
+
+				function abbreviateLongPlayerName(name) {
+					const cleanName = String(name || 'Jugador').trim().replace(/\s+/g, ' ');
+					const parts = cleanName.split(' ');
+
+					if (cleanName.length <= 15 || parts.length < 2) {
+						return cleanName;
+					}
+
+					const lastPart = parts.pop();
+					return `${parts.join(' ')} ${lastPart.charAt(0)}.`;
+				}
+
+				function normalizePlayerNameKey(name) {
+					return String(name || '').trim().replace(/\s+/g, ' ').toLowerCase();
+				}
+
+				function findPlayerPhotoUrlByName(name) {
+					const key = normalizePlayerNameKey(name);
+					if (!key) return "";
+
+					const playerSources = []
+						.concat(currentTournament.top_scorers || [])
+						.concat(currentTournament.sanctions || [])
+						.concat(currentTournament.suspended || []);
+					const match = playerSources.find(player =>
+						normalizePlayerNameKey(player.player_name) === key
+					);
+
+					return match && match.player_photo_url ? match.player_photo_url : "";
+				}
+
 				function renderTeamEvents(events, alignRight = false) {
 					if (!events || !events.length) return '<em>Sin eventos</em>';
 
 					return `
-						<div class="alc-event-header-performances-list" style="display:flex; flex-direction:column; gap:4px;">
+						<div class="alc-event-header-performances-list">
 							${events.map(ev => {
-								let text = ev.player_name;
+								let text = abbreviateLongPlayerName(ev.player_name);
 								if (ev.type === 'penalty_goal') text += ' (P)';
+								const icon = getEventIcon(ev);
+								const photoUrl = resolvePlayerPhotoUrl(
+									ev.player_photo_url ||
+									ev.jugador_foto_perfil ||
+									ev.foto_perfil ||
+									ev.foto ||
+									ev.foto_url ||
+									findPlayerPhotoUrlByName(ev.player_name)
+								);
+								const photo = `<img class="alc-event-header__performance-photo" src="${escapeHtml(photoUrl)}" alt="" onerror="this.src='${PLAYER_FALLBACK_PHOTO}'">`;
+								const name = `<span class="alc-event-header__performance-name">${escapeHtml(text)}</span>`;
+
 								return `
-									<div class="alc-event-header__performance"
-											style="display:block; text-align:${alignRight ? 'right' : 'left'};">
-										${`${text} ${getEventIcon(ev)}`}
+									<div class="alc-event-header__performance alc-event-header__performance--${alignRight ? 'right' : 'left'}">
+										${icon}${photo}${name}
 									</div>`;
 							}).join('')}
 						</div>`;
@@ -1995,7 +2109,7 @@
 			const sectionDefaults = {
 				standings: "standings",
 				stats: "top-scorers",
-				fairplay: "fair-play-placeholder",
+				fairplay: "suspended",
 				fixture: "fixture"
 			};
 
