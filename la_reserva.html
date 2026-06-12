@@ -69,7 +69,7 @@
 		.app-header__top {
 			align-items: center;
 			display: grid;
-			grid-template-columns: 72px minmax(0, 1fr) 72px;
+			grid-template-columns: minmax(0, 1fr);
 			height: 64px;
 		}
 
@@ -105,10 +105,13 @@
 
 		.app-header__tournament {
 			align-items: center;
+			appearance: none;
 			background: #1d282f;
+			border: 0;
 			border-radius: 18px;
 			box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
 			color: #fff;
+			cursor: pointer;
 			display: flex;
 			font-family: "Montserrat", sans-serif;
 			font-size: 12px;
@@ -122,34 +125,6 @@
 			text-transform: uppercase;
 			white-space: nowrap;
 			width: 68%;
-		}
-
-		.app-header__btn {
-			align-items: center;
-			background: none;
-			border: 0;
-			color: #fff;
-			display: inline-flex;
-			height: 40px;
-			justify-content: center;
-			padding: 0;
-			width: 40px;
-		}
-
-		.app-header__user {
-			justify-self: end;
-		}
-
-		.app-header__avatar {
-			align-items: center;
-			background: #eef0f5;
-			border: 3px solid #837eae;
-			border-radius: 50%;
-			color: #59606b;
-			display: inline-flex;
-			height: 34px;
-			justify-content: center;
-			width: 34px;
 		}
 
 		/* Prevent page content from hiding under the fixed nav */
@@ -239,15 +214,34 @@
 		#tournamentModal .modal-header {
 			position: relative;
 			justify-content: center;
+			min-height: 32px;
+			padding: 0;
 		}
+
+		#tournamentModal .modal-title {
+			color: #2d343c;
+			font-family: "Montserrat", sans-serif;
+			font-size: 17px;
+			font-weight: 700;
+			letter-spacing: 0;
+			line-height: 1.2;
+			margin: 0;
+			text-align: center;
+			text-transform: uppercase;
+		}
+
 		.modal-nav-back-btn {
 			position: absolute;
-			left: 8px;
-			top: 2px;
+			left: 0;
+			top: 50%;
 			background: none;
 			border: none;
+			color: #2d343c;
 			font-size: 24px;
+			line-height: 1;
 			opacity: 0.75;
+			padding: 0;
+			transform: translateY(-50%);
 			cursor: pointer;
 		}
 		.modal-nav-back-btn:hover {
@@ -255,47 +249,123 @@
 		}
 		#tournamentModal .close-modal-btn {
 			position: absolute;
-			right: 8px;
-			top: 2px;
-		}
-
-		.btn-open-tournament-modal {
-			display: inline-flex;
-			position: static;
-			z-index: 2;
-			width: 40px;
-			height: 40px;
-			align-items: center;
-			justify-content: center;
+			right: 0;
+			top: 50%;
+			color: #2d343c;
+			font-size: 30px;
 			font-weight: 400;
-			font-size: 14px;
-			border: none;
-			background: none;
+			line-height: 1;
+			padding: 0;
+			transform: translateY(-50%);
 		}
-
 
 		#tournamentModal .modal-dialog, #matchModal .modal-dialog {
 			width: 90%;
 		}
 
+		#matchModal .modal-dialog {
+			max-width: 430px;
+			width: calc(100% - 24px);
+		}
+
+		#matchModal .modal-content {
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+
+		#matchModal .modal-body {
+			padding-left: 0;
+			padding-right: 0;
+		}
+
 		/* Keep consistent rounded edges and shadow */
 		#tournamentModal .modal-content {
-			border-radius: 12px;
-			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+			background: #fff;
+			border-radius: 10px;
+			box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+			padding: 26px 22px 28px;
 		}
 
 		/* Optional: match background tone of the match modal */
 		#tournamentModal .modal-body {
 			background: #fff;
-			padding: 20px 25px;
+			padding: 24px 16px 8px;
 		}
 
-		/* Ensure list fits nicely and text doesn't overflow */
+		#tournamentList {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+		}
+
 		#tournamentModal .list-group-item {
-			font-size: 15px;
-			padding: 10px 15px;
+			align-items: center;
+			background: #fff;
+			border: 1px solid #eef0f3;
 			border-radius: 8px;
-			margin-bottom: 8px;
+			box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+			color: #56616c;
+			display: grid;
+			font-family: "Montserrat", sans-serif;
+			font-size: 13px;
+			font-weight: 700;
+			gap: 14px;
+			grid-template-columns: 34px minmax(0, 1fr) 18px;
+			line-height: 1.2;
+			margin: 0;
+			min-height: 64px;
+			padding: 14px 16px;
+			text-align: left;
+			text-transform: uppercase;
+			transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+		}
+
+		#tournamentModal .list-group-item:hover,
+		#tournamentModal .list-group-item:focus {
+			background: #fbfcfd;
+			box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+			color: #2d343c;
+			text-decoration: none;
+			transform: translateY(-1px);
+		}
+
+		#tournamentModal .list-group-item.active {
+			background: #fbfcfd;
+			border-color: #e3e7ec;
+			color: #2d343c;
+		}
+
+		.tournament-nav-item__icon {
+			align-items: center;
+			background: #f3f4f6;
+			border-radius: 50%;
+			color: #a5acb4;
+			display: inline-flex;
+			font-size: 16px;
+			height: 34px;
+			justify-content: center;
+			width: 34px;
+		}
+
+		.tournament-nav-item__label {
+			min-width: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.tournament-nav-item__chevron {
+			color: #7f8a94;
+			font-size: 20px;
+			justify-self: end;
+			line-height: 1;
+		}
+
+		#tournamentModal .empty-state {
+			color: #56616c;
+			font-family: "Montserrat", sans-serif;
+			font-size: 13px;
+			margin: 0;
 			text-align: center;
 		}
 
@@ -431,6 +501,46 @@
 			border-left-color: var(--app-main-color, #17479e) !important;
 		}
 
+		#matchModal .alc-event-header__top {
+			padding: 12px 0 14px;
+			text-transform: none;
+		}
+
+		#matchModal .alc-event-header__top .container {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+			padding-left: 8px;
+			padding-right: 8px;
+		}
+
+		#matchModal .alc-event-header__top .title {
+			color: #31404b;
+			display: block;
+			font-size: 12px;
+			font-weight: 700;
+			line-height: 1.2;
+			margin: 0;
+			max-width: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			text-transform: uppercase;
+			white-space: nowrap;
+		}
+
+		#matchModal .alc-event-header__top .subtitle {
+			color: #5f6d7a;
+			display: block;
+			font-size: 12px;
+			font-weight: 700;
+			line-height: 1.2;
+		}
+
+		#matchModal .alc-event-header__top .subtitle::before {
+			content: none;
+		}
+
 		#matchModal .alc-event-header--layout-2 .alc-event-competitors {
 			display: grid;
 			grid-template-columns: minmax(0, 1fr) 46px 18px 46px minmax(0, 1fr);
@@ -523,17 +633,19 @@
 			display: flex;
 			flex-direction: column;
 			gap: 4px;
+			min-width: 0;
+			width: 100%;
 		}
 
 		#matchModal .alc-event-header__bottom .container {
-			padding-left: 8px;
-			padding-right: 8px;
+			padding-left: 0;
+			padding-right: 0;
 		}
 
 		#matchModal .alc-event-header__bottom .row {
 			display: grid;
 			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-			column-gap: 22px;
+			column-gap: 8px;
 			margin-left: 0;
 			margin-right: 0;
 		}
@@ -545,12 +657,19 @@
 			width: auto;
 		}
 
+		#matchModal .alc-event-header-performances {
+			min-width: 0;
+			width: 100%;
+		}
+
 		#matchModal .alc-event-header__performance {
 			align-items: center;
 			display: flex;
 			font-size: 10px;
-			gap: 5px;
+			gap: 4px;
 			line-height: 1.2;
+			margin-left: 0;
+			margin-right: 0;
 			min-width: 0;
 			white-space: nowrap;
 		}
@@ -566,6 +685,7 @@
 		}
 
 		#matchModal .alc-event-header__performance-name {
+			flex: 1 1 auto;
 			min-width: 0;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -642,12 +762,22 @@
 			text-align: inherit;
 		}
 
-		.standings .table-responsive {
+		.standings .table-responsive,
+		.top-scorers .table-responsive,
+		.sanctions .table-responsive,
+		.best-defense .table-responsive,
+		.suspended .table-responsive {
 			max-width: 100%;
 			overflow-x: hidden;
 		}
 
-		.x-table-standings {
+		.x-table-standings,
+		.x-table-top-scorers,
+		.x-table-sanctions,
+		.x-table-best-defense,
+		.x-table-suspended {
+			color: #31404b;
+			font-family: "Montserrat", sans-serif;
 			width: 100% !important;
 			max-width: 100%;
 			min-width: 0 !important;
@@ -655,12 +785,34 @@
 		}
 
 		.x-table-standings > thead > tr > th,
-		.x-table-standings > tbody > tr > td {
-			font-size: 10px !important;
-			line-height: 1.1;
+		.x-table-standings > tbody > tr > td,
+		.x-table-top-scorers > thead > tr > th,
+		.x-table-top-scorers > tbody > tr > td,
+		.x-table-sanctions > thead > tr > th,
+		.x-table-sanctions > tbody > tr > td,
+		.x-table-best-defense > thead > tr > th,
+		.x-table-best-defense > tbody > tr > td,
+		.x-table-suspended > thead > tr > th,
+		.x-table-suspended > tbody > tr > td {
+			color: #31404b;
+			font-family: "Montserrat", sans-serif;
+			font-size: 11px !important;
+			font-weight: 400;
+			line-height: 1.2em;
 			padding-left: 2px !important;
 			padding-right: 2px !important;
+			vertical-align: middle;
 			white-space: nowrap;
+		}
+
+		.x-table-standings > thead > tr > th,
+		.x-table-top-scorers > thead > tr > th,
+		.x-table-sanctions > thead > tr > th,
+		.x-table-best-defense > thead > tr > th,
+		.x-table-suspended > thead > tr > th {
+			color: #9a9da2;
+			font-size: 9px !important;
+			line-height: 1.2em;
 		}
 
 		.x-table-standings .team-standings__pos {
@@ -672,6 +824,45 @@
 		.x-table-standings .team-standings__team {
 			width: auto !important;
 			min-width: 0;
+		}
+
+		.x-table-top-scorers .team-standings__pos,
+		.x-table-best-defense .team-standings__pos {
+			width: 22px !important;
+			max-width: 22px !important;
+			text-align: center;
+		}
+
+		.x-table-top-scorers .team-standings__player,
+		.x-table-sanctions .team-standings__player,
+		.x-table-suspended .team-standings__player {
+			width: 50% !important;
+		}
+
+		.x-table-top-scorers .team-standings__team,
+		.x-table-sanctions .team-standings__team,
+		.x-table-suspended .team-standings__team,
+		.x-table-best-defense .team-standings__team {
+			width: auto !important;
+		}
+
+		.x-table-top-scorers .team-standings__goals-for,
+		.x-table-sanctions td:nth-child(3),
+		.x-table-sanctions td:nth-child(4),
+		.x-table-sanctions th:nth-child(3),
+		.x-table-sanctions th:nth-child(4),
+		.x-table-best-defense td:last-child,
+		.x-table-best-defense th:last-child,
+		.x-table-suspended td:last-child,
+		.x-table-suspended th:last-child {
+			text-align: center;
+			width: 34px !important;
+		}
+
+		.x-table-top-scorers .team-standings__goals-for,
+		.x-table-suspended td:last-child,
+		.x-table-suspended th:last-child {
+			width: 42px !important;
 		}
 
 		.x-table-standings .team-standings__played,
@@ -693,21 +884,33 @@
 			font-weight: 700;
 		}
 
-		.x-table-standings .team-meta {
+		.x-table-standings .team-meta,
+		.x-table-top-scorers .team-meta,
+		.x-table-sanctions .team-meta,
+		.x-table-best-defense .team-meta,
+		.x-table-suspended .team-meta {
 			align-items: center;
 			display: flex;
 			gap: 4px;
 			min-width: 0;
 		}
 
-		.x-table-standings .team-meta__logo {
+		.x-table-standings .team-meta__logo,
+		.x-table-top-scorers .team-meta__logo,
+		.x-table-sanctions .team-meta__logo,
+		.x-table-best-defense .team-meta__logo,
+		.x-table-suspended .team-meta__logo {
 			flex: 0 0 20px;
 			height: 20px;
 			margin-right: 0;
 			width: 20px;
 		}
 
-		.x-table-standings .team-meta__logo img {
+		.x-table-standings .team-meta__logo img,
+		.x-table-top-scorers .team-meta__logo img,
+		.x-table-sanctions .team-meta__logo img,
+		.x-table-best-defense .team-meta__logo img,
+		.x-table-suspended .team-meta__logo img {
 			height: 20px;
 			object-fit: contain;
 			width: 20px;
@@ -719,25 +922,68 @@
 			object-fit: cover;
 		}
 
-		.x-table-standings .team-meta__info {
+		.x-table-standings .team-meta__info,
+		.x-table-top-scorers .team-meta__info,
+		.x-table-sanctions .team-meta__info,
+		.x-table-best-defense .team-meta__info,
+		.x-table-suspended .team-meta__info {
 			min-width: 0;
 		}
 
-		.x-table-standings .team-meta__name {
+		.x-table-standings .team-meta__name,
+		.x-table-top-scorers .team-meta__name,
+		.x-table-sanctions .team-meta__name,
+		.x-table-best-defense .team-meta__name,
+		.x-table-suspended .team-meta__name {
+			color: #31404b;
 			display: block;
-			font-size: 10px;
-			line-height: 1.1;
+			font-size: 11px;
+			font-weight: 400;
+			line-height: 1.2em;
 			margin: 0;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
 
+		.x-table-top-scorers .team-standings__player .team-meta__logo,
+		.x-table-sanctions .team-standings__player .team-meta__logo,
+		.x-table-suspended .team-standings__player .team-meta__logo {
+			flex-basis: 24px;
+			height: 24px;
+			width: 24px;
+		}
+
+		.x-table-top-scorers .team-standings__player .team-meta__logo img,
+		.x-table-sanctions .team-standings__player .team-meta__logo img,
+		.x-table-suspended .team-standings__player .team-meta__logo img {
+			height: 24px;
+			width: 24px;
+		}
+
+		.x-table-top-scorers .team-standings__player .team-meta__name,
+		.x-table-sanctions .team-standings__player .team-meta__name,
+		.x-table-suspended .team-standings__player .team-meta__name {
+			font-weight: 700;
+		}
+
 		@media (max-width: 360px) {
 			.x-table-standings th,
 			.x-table-standings td,
-			.x-table-standings .team-meta__name {
-				font-size: 9px;
+			.x-table-standings .team-meta__name,
+			.x-table-top-scorers th,
+			.x-table-top-scorers td,
+			.x-table-top-scorers .team-meta__name,
+			.x-table-sanctions th,
+			.x-table-sanctions td,
+			.x-table-sanctions .team-meta__name,
+			.x-table-best-defense th,
+			.x-table-best-defense td,
+			.x-table-best-defense .team-meta__name,
+			.x-table-suspended th,
+			.x-table-suspended td,
+			.x-table-suspended .team-meta__name {
+				font-size: 10px;
 			}
 
 			.x-table-standings .team-standings__played,
@@ -796,20 +1042,12 @@
 		
 		<header class="app-header">
 			<div class="app-header__top">
-				<button id="openTournamentModal" class="app-header__btn btn-open-tournament-modal" aria-label="Seleccionar torneo">
-					<i class="fas fa-search" style="font-size:20px;"></i>
-				</button>
 				<div class="app-header__brand">
 					<img id="appClientLogo" class="app-header__logo" alt="" hidden>
 					<div id="appClientLogoFallback" class="app-header__logo-fallback">F11</div>
 				</div>
-				<button type="button" class="app-header__btn app-header__user" aria-label="Usuario">
-					<span class="app-header__avatar">
-						<i class="fas fa-user"></i>
-					</span>
-				</button>
 			</div>
-			<div id="appTournamentPill" class="app-header__tournament">Torneo</div>
+			<button id="appTournamentPill" type="button" class="app-header__tournament" aria-label="Seleccionar torneo">Torneo</button>
 		</header>
 		
 		<!-- Content
@@ -859,8 +1097,8 @@
 								<thead>
 									<tr>
 										<th class="team-standings__pos">#</th>
+										<th class="team-standings__player">Jugador</th>
 										<th class="team-standings__team">Equipo</th>
-										<th class="">Jugador</th>
 										<th class="team-standings__goals-for">Goles</th>
 									</tr>
 								</thead>
@@ -878,8 +1116,8 @@
 							<table class="table table-hover table-standings table-standings--full table-standings--full-soccer x-table-sanctions">
 								<thead>
 									<tr>
+										<th class="team-standings__player">Jugador</th>
 										<th class="team-standings__team">Equipo</th>
-										<th class="">JUGADOR</th>
 										<th class="" aria-label="Tarjetas amarillas" title="Tarjetas amarillas"><span class="card-marker-header card-marker-header--yellow"></span></th>
 										<th class="" aria-label="Tarjetas rojas" title="Tarjetas rojas"><span class="card-marker-header card-marker-header--red"></span></th>
 									</tr>
@@ -913,7 +1151,7 @@
 									<tr>
 										<th class="team-standings__pos">#</th>
 										<th class="team-standings__team">Equipo</th>
-										<th class="">GOLES RECIBIDOS</th>
+										<th class="">GR</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -933,7 +1171,7 @@
 									<tr>
 										<th>Nombre</th>
 										<th class="team-standings__team">Equipo</th>
-										<th>Restan / Total</th>
+										<th>Restan</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -1001,7 +1239,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" id="tournamentBackBtn" class="modal-nav-back-btn" aria-label="Volver" style="display:none;">←</button>
-					<h5 id="tournamentModalTitle" class="modal-title w-100 text-center" style="font-weight:700; color:#333;">
+					<h5 id="tournamentModalTitle" class="modal-title w-100 text-center">
 						Seleccionar Torneo
 					</h5>
 					<button type="button" class="close-modal-btn" aria-label="Close">×</button>
@@ -1077,16 +1315,6 @@
 	  {{#top_scorers}}
 	  	<tr>
 				<td class="team-standings__pos">{{pos}}</td>
-				<td class="team-standings__team">
-					<div class="team-meta">
-						<figure class="team-meta__logo">
-							<img src="{{team_logo_url}}" alt="">
-						</figure>
-						<div class="team-meta__info">
-							<h6 class="team-meta__name">{{team_name}}</h6>
-						</div>
-					</div>
-				</td>
 				<td class="team-standings__player">
 					<div class="team-meta player-meta">
 						<figure class="team-meta__logo">
@@ -1096,6 +1324,9 @@
 							<h6 class="team-meta__name">{{player_name}}</h6>
 						</div>
 					</div>
+				</td>
+				<td class="team-standings__team">
+					<span class="team-meta__name">{{team_name}}</span>
 				</td>
 				<td class="team-standings__goals-for">{{goals}}</td>
 			</tr>
@@ -1105,16 +1336,6 @@
 	<script id="sanctions-template" type="x-tmpl-mustache">
 	  {{#sanctions}}
 	  	<tr>
-				<td class="team-standings__team">
-					<div class="team-meta">
-						<figure class="team-meta__logo">
-							<img src="{{team_logo_url}}" alt="">
-						</figure>
-						<div class="team-meta__info">
-							<h6 class="team-meta__name">{{team_name}}</h6>
-						</div>
-					</div>
-				</td>
 				<td class="team-standings__player">
 					<div class="team-meta player-meta">
 						<figure class="team-meta__logo">
@@ -1124,6 +1345,9 @@
 							<h6 class="team-meta__name">{{player_name}}</h6>
 						</div>
 					</div>
+				</td>
+				<td class="team-standings__team">
+					<span class="team-meta__name">{{team_name}}</span>
 				</td>
 				<td class="">{{ta}}</td>
 				<td class="">{{tr}}</td>
@@ -1145,16 +1369,9 @@
 					</div>
 				</td>
 				<td class="team-standings__team">
-					<div class="team-meta">
-						<figure class="team-meta__logo">
-							<img src="{{team_logo_url}}" alt="">
-						</figure>
-						<div class="team-meta__info">
-							<h6 class="team-meta__name">{{team_name}}</h6>
-						</div>
-					</div>
+					<span class="team-meta__name">{{team_name}}</span>
 				</td>
-				<td>{{suspension_remaining}} / {{suspension_total}}</td>
+				<td>{{suspension_remaining}}</td>
 			</tr>
 	  {{/suspended}}
 	</script>
@@ -1268,6 +1485,61 @@
 			return resolveLogoUrl(photoPath) || PLAYER_FALLBACK_PHOTO;
 		}
 
+		function resolvePersonName(record) {
+			const firstLastName = `${record?.nombre || ""} ${record?.apellido || ""}`.trim();
+			return (
+				record?.player_name ||
+				record?.jugador_nombre ||
+				record?.nombre_jugador ||
+				record?.jugador ||
+				record?.arquero_nombre ||
+				record?.portero_nombre ||
+				record?.goalkeeper_name ||
+				record?.keeper_name ||
+				firstLastName
+			);
+		}
+
+		function resolvePersonPhotoUrl(record) {
+			return resolvePlayerPhotoUrl(
+				record?.player_photo_url ||
+				record?.jugador_foto_perfil ||
+				record?.foto_perfil ||
+				record?.foto ||
+				record?.foto_url ||
+				record?.arquero_foto ||
+				record?.portero_foto ||
+				record?.goalkeeper_photo_url ||
+				record?.keeper_photo_url
+			);
+		}
+
+		function resolvePlayerId(record, allowRecordId = false) {
+			const rawId = record && (
+				record.player_id ??
+				record.jugador_id ??
+				record.id_jugador ??
+				(allowRecordId ? record.id : null)
+			);
+
+			if (rawId === undefined || rawId === null || rawId === "") return null;
+			return String(rawId);
+		}
+
+		function normalizeBestDefenseEntry(entry, index) {
+			const playerName = resolvePersonName(entry);
+
+			return {
+				...entry,
+				pos: entry?.pos || index + 1,
+				team_name: entry?.team_name || entry?.equipo_nombre || entry?.equipo || "Equipo",
+				team_logo_url: resolveLogoUrl(entry?.team_logo_url || entry?.escudo_img || entry?.logo_url),
+				player_name: playerName,
+				player_photo_url: playerName ? resolvePersonPhotoUrl(entry) : "",
+				gc: entry?.gc ?? entry?.goles_recibidos ?? entry?.goles_ac ?? entry?.goles_en_contra ?? 0
+			};
+		}
+
 		function parseEvents(rawEvents) {
 			if (!rawEvents) return [];
 
@@ -1297,11 +1569,20 @@
 					const rawType = ev && (ev.type || ev.evento);
 					const type = eventTypeMap[rawType] || rawType;
 					if (!type) return null;
+					const rawPhoto = ev && (
+						ev.player_photo_url ||
+						ev.jugador_foto_perfil ||
+						ev.foto_perfil ||
+						ev.foto ||
+						ev.foto_url
+					);
+
 					return {
+						player_id: resolvePlayerId(ev),
 						player_name: (ev && (ev.player_name || ev.jugador)) || "Jugador",
-						player_photo_url: resolvePlayerPhotoUrl(
-							ev && (ev.player_photo_url || ev.jugador_foto_perfil || ev.foto_perfil || ev.foto || ev.foto_url)
-						),
+						player_photo_url: rawPhoto ? resolvePlayerPhotoUrl(rawPhoto) : "",
+						team_id: ev && (ev.team_id ?? ev.equipo_id) || null,
+						instance_id: ev && (ev.instance_id ?? ev.instancia_id) || null,
 						type
 					};
 				})
@@ -1346,6 +1627,7 @@
 						pos: index + 1,
 						team_name: team.equipo_nombre || "Equipo",
 						team_logo_url: resolveLogoUrl(team.escudo_img),
+						player_id: resolvePlayerId(player, true),
 						player_name: `${player.nombre || ""} ${player.apellido || ""}`.trim() || "Jugador",
 						player_photo_url: resolvePlayerPhotoUrl(player.foto_perfil || player.foto || player.foto_url),
 						goals: player?.pivot?.jugador_goles || 0
@@ -1359,6 +1641,7 @@
 					team_id: player.equipo_id || null,
 					team_name: team.equipo_nombre || "Equipo",
 					team_logo_url: resolveLogoUrl(team.escudo_img),
+					player_id: resolvePlayerId(player, true),
 					player_name: `${player.nombre || ""} ${player.apellido || ""}`.trim() || "Jugador",
 					player_photo_url: resolvePlayerPhotoUrl(player.foto_perfil || player.foto || player.foto_url),
 					ta: player?.pivot?.jugador_amarillas || 0,
@@ -1372,12 +1655,7 @@
 			const best_defense = standings
 				.slice()
 				.sort((a, b) => (a.gc || 0) - (b.gc || 0))
-				.map((team, index) => ({
-					pos: index + 1,
-					team_name: team.team_name,
-					team_logo_url: team.team_logo_url,
-					gc: team.gc
-				}));
+				.map(normalizeBestDefenseEntry);
 			const normalizedSanctions = sanctions.map(normalizeSanction);
 			const suspended = normalizedSanctions.filter(player =>
 				String(player.status || "").toLowerCase().includes("suspend")
@@ -1454,6 +1732,7 @@
 			return {
 				...sanction,
 				status,
+				player_id: resolvePlayerId(sanction, true),
 				player_photo_url: resolvePlayerPhotoUrl(
 					sanction.player_photo_url || sanction.foto_perfil || sanction.foto || sanction.foto_url
 				),
@@ -1524,24 +1803,19 @@
 				? stats.best_defense
 				: tournament.best_defense;
 			const bestDefense = Array.isArray(bestDefenseSource) && bestDefenseSource.length
-				? bestDefenseSource
+				? bestDefenseSource.map(normalizeBestDefenseEntry)
 				: standings
 					.slice()
 					.sort((a, b) => (a.gc || 0) - (b.gc || 0))
-					.map((team, index) => ({
-						pos: index + 1,
-						team_name: team.team_name,
-						team_logo_url: team.team_logo_url,
-						gc: team.gc || 0
-					}));
+					.map(normalizeBestDefenseEntry);
 			const topScorers = (Array.isArray(stats.top_scorers)
 				? stats.top_scorers
 				: (Array.isArray(tournament.top_scorers) ? tournament.top_scorers : []))
 				.map(player => ({
 					...player,
-					player_photo_url: resolvePlayerPhotoUrl(
-						player.player_photo_url || player.foto_perfil || player.foto || player.foto_url
-					)
+					player_id: resolvePlayerId(player, true),
+					player_name: player.player_name || resolvePersonName(player) || "Jugador",
+					player_photo_url: resolvePersonPhotoUrl(player)
 				}));
 
 			return {
@@ -1602,15 +1876,15 @@
 			});
 
 			document.querySelector(".x-table-standings tbody").innerHTML =
-				'<tr><td colspan="10" class="text-center">Sin datos</td></tr>';
+				'<tr><td colspan="8" class="text-center">Sin datos</td></tr>';
 			document.querySelector(".x-table-top-scorers tbody").innerHTML =
-				'<tr><td colspan="5" class="text-center">Sin datos</td></tr>';
+				'<tr><td colspan="4" class="text-center">Sin datos</td></tr>';
 			document.querySelector(".x-table-sanctions tbody").innerHTML =
 				'<tr><td colspan="4" class="text-center">Sin datos</td></tr>';
 			document.querySelector(".x-table-suspended tbody").innerHTML =
 				'<tr><td colspan="3" class="text-center">Sin datos</td></tr>';
 			document.querySelector(".x-table-best-defense tbody").innerHTML =
-				'<tr><td colspan="4" class="text-center">Sin datos</td></tr>';
+				'<tr><td colspan="3" class="text-center">Sin datos</td></tr>';
 
 			document.getElementById("fixtures-list").innerHTML =
 				'<li class="widget-results__item"><div class="widget-results__content text-center">Sin partidos disponibles</div></li>';
@@ -1634,6 +1908,7 @@
 			}
 
 			let currentTournament = tournaments[0];
+			let hasSelectedTournament = false;
 			const savedTournamentIdOrName = localStorage.getItem(TOURNAMENT_STORAGE_KEY);
 			if (savedTournamentIdOrName) {
 				const savedTournament = tournaments.find(t =>
@@ -1642,6 +1917,9 @@
 				);
 				if (savedTournament) {
 					currentTournament = savedTournament;
+					hasSelectedTournament = true;
+				} else {
+					localStorage.removeItem(TOURNAMENT_STORAGE_KEY);
 				}
 			}
 
@@ -1753,12 +2031,20 @@
 				return Array.isArray(node && node.children) ? node.children : [];
 			}
 
+			function getTournamentNavIcon(node, isTournament) {
+				const text = String((node && node.text) || "").toLowerCase();
+				if (text.includes("hist")) return "fa-calendar-alt";
+				if (text.includes("domingo") || text.includes("sabado") || text.includes("sábado")) return "fa-trophy";
+				if (isTournament) return "fa-trophy";
+				return "fa-folder";
+			}
+
 			function renderNavLevel() {
 				const currentLevel = navStack[navStack.length - 1] || { title: "Seleccionar Torneo", nodes: [] };
 				const nodes = currentLevel.nodes || [];
 
 				if (!nodes.length) {
-					tournamentModalContent.html('<p>No hay torneos o categorías en este nivel.</p>');
+					tournamentModalContent.html('<p class="empty-state">No hay torneos o categorías en este nivel.</p>');
 					tournamentModalTitle.textContent = currentLevel.title || "Seleccionar Torneo";
 					tournamentBackBtn.style.display = navStack.length > 1 ? "block" : "none";
 					return;
@@ -1769,11 +2055,14 @@
 						${nodes.map((node, idx) => {
 							const isTournament = nodeHasTournamentId(node);
 							const isSelected = isTournament && String(currentTournament.tournament_id) === String(node.id);
+							const iconClass = getTournamentNavIcon(node, isTournament);
 							return `
-								<a href="#" class="list-group-item list-group-item-action nav-item ${isTournament ? "tournament-item" : "nav-category-item"} ${isSelected ? "active" : ""}" data-id="${node.id || ""}" data-idx="${idx}">
-									${isTournament
-										? `<i class="fas fa-trophy me-2" style="color:#e6b800;"></i> ${node.text || "Sin nombre"}`
-										: `${node.text || "Sin nombre"} <i class="fas fa-chevron-right ms-2" style="color:#999;"></i>`}
+								<a href="#" class="list-group-item list-group-item-action nav-item tournament-nav-item ${isTournament ? "tournament-item" : "nav-category-item"} ${isSelected ? "active" : ""}" data-id="${node.id || ""}" data-idx="${idx}">
+									<span class="tournament-nav-item__icon">
+										<i class="fas ${iconClass}"></i>
+									</span>
+									<span class="tournament-nav-item__label">${node.text || "Sin nombre"}</span>
+									<i class="fas fa-chevron-right tournament-nav-item__chevron"></i>
 								</a>
 							`;
 						}).join('')}
@@ -1783,14 +2072,23 @@
 				tournamentBackBtn.style.display = navStack.length > 1 ? "block" : "none";
 			}
 
-			function renderTournament(tournament) {
+			function openTournamentModal() {
+				navStack = [{ title: "Seleccionar Torneo", nodes: navRoot }];
+				renderNavLevel();
+				tournamentModal.modal('show');
+			}
+
+			function renderTournament(tournament, shouldPersist = true) {
 				currentTournament = tournament;
-				localStorage.setItem(
-					TOURNAMENT_STORAGE_KEY,
-					currentTournament.tournament_id != null
-						? String(currentTournament.tournament_id)
-						: currentTournament.tournament_name
-				);
+				if (shouldPersist) {
+					localStorage.setItem(
+						TOURNAMENT_STORAGE_KEY,
+						currentTournament.tournament_id != null
+							? String(currentTournament.tournament_id)
+							: currentTournament.tournament_name
+					);
+					hasSelectedTournament = true;
+				}
 
 				document.querySelectorAll(".tournament_name").forEach(el => {
 					el.innerHTML = currentTournament.tournament_name;
@@ -1847,7 +2145,10 @@
 			}
 
 			// Initial render using saved tournament (if any)
-			renderTournament(currentTournament);
+			renderTournament(currentTournament, hasSelectedTournament);
+			if (!hasSelectedTournament) {
+				openTournamentModal();
+			}
 
 			// Handle select change
 			fixtureSelect.addEventListener('change', (e) => {
@@ -1916,19 +2217,43 @@
 					return String(name || '').trim().replace(/\s+/g, ' ').toLowerCase();
 				}
 
-				function findPlayerPhotoUrlByName(name) {
+				function playerNameKeys(name) {
 					const key = normalizePlayerNameKey(name);
-					if (!key) return "";
+					if (!key) return [];
+
+					const keys = [key];
+					const reversedKey = key.split(' ').reverse().join(' ');
+					if (reversedKey && reversedKey !== key) {
+						keys.push(reversedKey);
+					}
+
+					return keys;
+				}
+
+				function findPlayerPhotoUrlForEvent(event) {
+					const eventPlayerId = resolvePlayerId(event);
+					const eventNameKeys = playerNameKeys(event?.player_name || event?.jugador);
+					if (!eventPlayerId && !eventNameKeys.length) return "";
 
 					const playerSources = []
 						.concat(currentTournament.top_scorers || [])
 						.concat(currentTournament.sanctions || [])
 						.concat(currentTournament.suspended || []);
-					const match = playerSources.find(player =>
-						normalizePlayerNameKey(player.player_name) === key
+
+					if (eventPlayerId) {
+						const matchById = playerSources.find(player =>
+							resolvePlayerId(player, true) === eventPlayerId
+						);
+						if (matchById && matchById.player_photo_url) {
+							return matchById.player_photo_url;
+						}
+					}
+
+					const matchByName = playerSources.find(player =>
+						eventNameKeys.includes(normalizePlayerNameKey(player.player_name || resolvePersonName(player)))
 					);
 
-					return match && match.player_photo_url ? match.player_photo_url : "";
+					return matchByName && matchByName.player_photo_url ? matchByName.player_photo_url : "";
 				}
 
 				function renderTeamEvents(events, alignRight = false) {
@@ -1946,7 +2271,7 @@
 									ev.foto_perfil ||
 									ev.foto ||
 									ev.foto_url ||
-									findPlayerPhotoUrlByName(ev.player_name)
+									findPlayerPhotoUrlForEvent(ev)
 								);
 								const photo = `<img class="alc-event-header__performance-photo" src="${escapeHtml(photoUrl)}" alt="" onerror="this.src='${PLAYER_FALLBACK_PHOTO}'">`;
 								const name = `<span class="alc-event-header__performance-name">${escapeHtml(text)}</span>`;
@@ -2050,12 +2375,10 @@
 			});
 
 			// Open tournament modal
-			$('#openTournamentModal').on('click', function(e) {
+			$('#appTournamentPill').on('click', function(e) {
 				e.preventDefault();
 				e.stopPropagation();
-				navStack = [{ title: "Seleccionar Torneo", nodes: navRoot }];
-				renderNavLevel();
-				tournamentModal.modal('show');
+				openTournamentModal();
 			});
 
 			// Close modal button
