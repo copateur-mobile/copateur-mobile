@@ -1,4 +1,0 @@
-Cuando se genere el json en php y guarde en S3 u otro lado, poner esa URL aca:
-const LEAGUE_ID = "la_reserva";
-const LEAGUE_API_URL = `/leagues/${LEAGUE_ID}.json`;
-

@@ -1047,7 +1047,7 @@
 					<div id="appClientLogoFallback" class="app-header__logo-fallback">F11</div>
 				</div>
 			</div>
-			<button id="appTournamentPill" type="button" class="app-header__tournament" aria-label="Seleccionar torneo">Torneo</button>
+			<button id="appTournamentPill" type="button" class="app-header__tournament" aria-label="Seleccionar campeonato">Campeonato</button>
 		</header>
 		
 		<!-- Content
@@ -1240,7 +1240,7 @@
 				<div class="modal-header">
 					<button type="button" id="tournamentBackBtn" class="modal-nav-back-btn" aria-label="Volver" style="display:none;">←</button>
 					<h5 id="tournamentModalTitle" class="modal-title w-100 text-center">
-						Seleccionar Torneo
+						Seleccionar Campeonato
 					</h5>
 					<button type="button" class="close-modal-btn" aria-label="Close">×</button>
 				</div>
@@ -1734,7 +1734,7 @@
 
 			return {
 				tournament_id: campeonato.id,
-				tournament_name: campeonato.nombre || "Torneo",
+				tournament_name: campeonato.nombre || "Campeonato",
 				standings,
 				top_scorers,
 				figures: [],
@@ -1833,7 +1833,7 @@
 		function normalizeTournamentSummary(tournament) {
 			return {
 				tournament_id: tournament?.tournament_id ?? tournament?.id,
-				tournament_name: tournament?.tournament_name || tournament?.nombre || tournament?.text || "Torneo"
+				tournament_name: tournament?.tournament_name || tournament?.nombre || tournament?.text || "Campeonato"
 			};
 		}
 
@@ -1845,7 +1845,7 @@
 				...fallbackSummary,
 				...source,
 				tournament_id: source?.tournament_id ?? source?.id ?? fallbackSummary?.tournament_id ?? fallbackSummary?.id,
-				tournament_name: source?.tournament_name || source?.nombre || fallbackSummary?.tournament_name || fallbackSummary?.nombre || "Torneo"
+				tournament_name: source?.tournament_name || source?.nombre || fallbackSummary?.tournament_name || fallbackSummary?.nombre || "Campeonato"
 			};
 
 			return normalizeNormalizedTournament(mergedTournament);
@@ -1938,7 +1938,7 @@
 
 			return {
 				tournament_id: tournament.tournament_id ?? tournament.id,
-				tournament_name: tournament.tournament_name || tournament.nombre || "Torneo",
+				tournament_name: tournament.tournament_name || tournament.nombre || "Campeonato",
 				standings,
 				top_scorers: topScorers,
 				figures: Array.isArray(stats.figures) ? stats.figures : (Array.isArray(tournament.figures) ? tournament.figures : []),
@@ -2094,10 +2094,10 @@
 			const navRoot = (loadedData.primary_nav && loadedData.primary_nav.length)
 				? loadedData.primary_nav
 				: tournaments.map(t => ({ text: t.tournament_name, id: t.tournament_id, isTournament: true }));
-			let navStack = [{ title: "Seleccionar Torneo", nodes: navRoot }];
+			let navStack = [{ title: "Seleccionar Campeonato", nodes: navRoot }];
 
 			function setTournamentTitle(tournament) {
-				const tournamentName = tournament?.tournament_name || tournament?.nombre || "Torneo";
+				const tournamentName = tournament?.tournament_name || tournament?.nombre || "Campeonato";
 
 				document.querySelectorAll(".tournament_name").forEach(el => {
 					el.innerHTML = tournamentName;
@@ -2122,24 +2122,24 @@
 					'<tr><td colspan="3" class="text-center">Cargando...</td></tr>';
 				fixtureSelect.innerHTML = "";
 				fixtureList.innerHTML =
-					'<li class="widget-results__item"><div class="widget-results__content text-center">Cargando torneo...</div></li>';
+					'<li class="widget-results__item"><div class="widget-results__content text-center">Cargando campeonato...</div></li>';
 			}
 
 			function showTournamentError(error) {
 				console.error("Failed to load tournament data from API:", error);
 				document.querySelector(".x-table-standings tbody").innerHTML =
-					'<tr><td colspan="8" class="text-center">No se pudo cargar el torneo</td></tr>';
+					'<tr><td colspan="8" class="text-center">No se pudo cargar el campeonato</td></tr>';
 				document.querySelector(".x-table-top-scorers tbody").innerHTML =
-					'<tr><td colspan="4" class="text-center">No se pudo cargar el torneo</td></tr>';
+					'<tr><td colspan="4" class="text-center">No se pudo cargar el campeonato</td></tr>';
 				document.querySelector(".x-table-sanctions tbody").innerHTML =
-					'<tr><td colspan="4" class="text-center">No se pudo cargar el torneo</td></tr>';
+					'<tr><td colspan="4" class="text-center">No se pudo cargar el campeonato</td></tr>';
 				document.querySelector(".x-table-suspended tbody").innerHTML =
-					'<tr><td colspan="3" class="text-center">No se pudo cargar el torneo</td></tr>';
+					'<tr><td colspan="3" class="text-center">No se pudo cargar el campeonato</td></tr>';
 				document.querySelector(".x-table-best-defense tbody").innerHTML =
-					'<tr><td colspan="3" class="text-center">No se pudo cargar el torneo</td></tr>';
+					'<tr><td colspan="3" class="text-center">No se pudo cargar el campeonato</td></tr>';
 				fixtureSelect.innerHTML = "";
 				fixtureList.innerHTML =
-					'<li class="widget-results__item"><div class="widget-results__content text-center">No se pudo cargar el torneo</div></li>';
+					'<li class="widget-results__item"><div class="widget-results__content text-center">No se pudo cargar el campeonato</div></li>';
 			}
 
 			function prepareFixtures(matches) {
@@ -2217,12 +2217,12 @@
 			}
 
 			function renderNavLevel() {
-				const currentLevel = navStack[navStack.length - 1] || { title: "Seleccionar Torneo", nodes: [] };
+				const currentLevel = navStack[navStack.length - 1] || { title: "Seleccionar Campeonato", nodes: [] };
 				const nodes = currentLevel.nodes || [];
 
 				if (!nodes.length) {
-					tournamentModalContent.html('<p class="empty-state">No hay torneos o categorías en este nivel.</p>');
-					tournamentModalTitle.textContent = currentLevel.title || "Seleccionar Torneo";
+					tournamentModalContent.html('<p class="empty-state">No hay campeonatos o categorías en este nivel.</p>');
+					tournamentModalTitle.textContent = currentLevel.title || "Seleccionar Campeonato";
 					tournamentBackBtn.style.display = navStack.length > 1 ? "block" : "none";
 					return;
 				}
@@ -2245,12 +2245,12 @@
 						}).join('')}
 					</div>`);
 
-				tournamentModalTitle.textContent = currentLevel.title || "Seleccionar Torneo";
+				tournamentModalTitle.textContent = currentLevel.title || "Seleccionar Campeonato";
 				tournamentBackBtn.style.display = navStack.length > 1 ? "block" : "none";
 			}
 
 			function openTournamentModal() {
-				navStack = [{ title: "Seleccionar Torneo", nodes: navRoot }];
+				navStack = [{ title: "Seleccionar Campeonato", nodes: navRoot }];
 				renderNavLevel();
 				tournamentModal.modal('show');
 			}
