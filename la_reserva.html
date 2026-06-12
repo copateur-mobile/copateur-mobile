@@ -1453,6 +1453,7 @@
 		const LEAGUE_API_URL = `${S3_APP_BASE_URL}/${LEAGUE_ID}.json`;
 		const TOURNAMENT_STORAGE_KEY = `selected_tournament_${LEAGUE_ID}`;
 		const PLAYER_FALLBACK_PHOTO = "assets/images/player-placeholder-26x26.png";
+		const tournamentDataCache = new Map();
 
 		window.leagueData = null;
 
@@ -1468,6 +1469,43 @@
 			}
 			const rawData = await response.json();
 			return normalizeLeagueData(rawData);
+		}
+
+		function tournamentApiUrl(tournamentId) {
+			return `${S3_APP_BASE_URL}/${LEAGUE_ID}_tournament_${encodeURIComponent(tournamentId)}.json`;
+		}
+
+		async function fetchTournamentData(tournamentSummary) {
+			const tournamentId = tournamentSummary?.tournament_id ?? tournamentSummary?.id;
+			if (tournamentId === undefined || tournamentId === null || tournamentId === "") {
+				throw new Error("Tournament id missing");
+			}
+
+			const cacheKey = String(tournamentId);
+			if (tournamentDataCache.has(cacheKey)) {
+				return tournamentDataCache.get(cacheKey);
+			}
+
+			if (hasTournamentDetail(tournamentSummary)) {
+				const normalizedTournament = normalizeNormalizedTournament(tournamentSummary);
+				tournamentDataCache.set(cacheKey, normalizedTournament);
+				return normalizedTournament;
+			}
+
+			const response = await fetch(`${tournamentApiUrl(tournamentId)}?t=${Date.now()}`, {
+				cache: "no-store",
+				headers: {
+					"Cache-Control": "no-cache"
+				}
+			});
+			if (!response.ok) {
+				throw new Error(`HTTP ${response.status}`);
+			}
+
+			const rawTournament = await response.json();
+			const normalizedTournament = normalizeTournamentPayload(rawTournament, tournamentSummary);
+			tournamentDataCache.set(cacheKey, normalizedTournament);
+			return normalizedTournament;
 		}
 
 		function resolveLogoUrl(logoPath) {
@@ -1778,12 +1816,92 @@
 				.map((team, index) => ({ ...team, pos: index + 1 }));
 		}
 
+		function hasTournamentDetail(tournament) {
+			return !!(
+				tournament &&
+				(
+					Array.isArray(tournament.standings) ||
+					Array.isArray(tournament.posiciones) ||
+					Array.isArray(tournament.fixtures) ||
+					Array.isArray(tournament.fixture) ||
+					tournament.stats ||
+					tournament.fair_play
+				)
+			);
+		}
+
+		function normalizeTournamentSummary(tournament) {
+			return {
+				tournament_id: tournament?.tournament_id ?? tournament?.id,
+				tournament_name: tournament?.tournament_name || tournament?.nombre || tournament?.text || "Torneo"
+			};
+		}
+
+		function normalizeTournamentPayload(rawTournament, fallbackSummary = {}) {
+			const source = rawTournament && rawTournament.tournament
+				? rawTournament.tournament
+				: (rawTournament || {});
+			const mergedTournament = {
+				...fallbackSummary,
+				...source,
+				tournament_id: source?.tournament_id ?? source?.id ?? fallbackSummary?.tournament_id ?? fallbackSummary?.id,
+				tournament_name: source?.tournament_name || source?.nombre || fallbackSummary?.tournament_name || fallbackSummary?.nombre || "Torneo"
+			};
+
+			return normalizeNormalizedTournament(mergedTournament);
+		}
+
+		function sortedFixtureKeys(fixtureMap) {
+			return Object.keys(fixtureMap || {}).sort((a, b) => {
+				const numericA = Number(a);
+				const numericB = Number(b);
+
+				if (Number.isFinite(numericA) && Number.isFinite(numericB)) {
+					return numericA - numericB;
+				}
+
+				return String(a).localeCompare(String(b), undefined, { numeric: true });
+			});
+		}
+
+		function normalizeFixtureRounds(tournament, fixtureMap) {
+			const availableKeys = new Set(Object.keys(fixtureMap || {}));
+			const rawRounds = Array.isArray(tournament.fixture_rounds)
+				? tournament.fixture_rounds
+				: [];
+			const rounds = rawRounds
+				.map((round, index) => {
+					const key = String(
+						round?.key ??
+						round?.value ??
+						round?.id ??
+						round?.phase_number ??
+						round?.fase_numero ??
+						index + 1
+					);
+
+					return {
+						...(round || {}),
+						key,
+						label: round?.label || `Fecha ${key}`
+					};
+				})
+				.filter(round => availableKeys.has(round.key));
+
+			if (rounds.length) return rounds;
+
+			return sortedFixtureKeys(fixtureMap).map(key => ({
+				key: String(key),
+				label: `Fecha ${key}`
+			}));
+		}
+
 		function normalizeNormalizedTournament(tournament) {
 			const fixtures = Array.isArray(tournament.fixtures)
 				? tournament.fixtures
 				: [tournament.fixtures || {}];
 			const fixtureMap = fixtures[0] || {};
-			const fixtureKeys = Object.keys(fixtureMap).sort((a, b) => Number(a) - Number(b));
+			const fixtureRounds = normalizeFixtureRounds(tournament, fixtureMap);
 			const standings = Array.isArray(tournament.standings) ? tournament.standings : [];
 			const stats = tournament.stats || {};
 			const fairPlayData = tournament.fair_play || {};
@@ -1828,16 +1946,28 @@
 				suspended,
 				fair_play: fairPlayStandings,
 				best_defense: bestDefense,
-				current_fixture_date: tournament.current_fixture_date || (fixtureKeys.length ? Number(fixtureKeys[0]) : 1),
+				fixture_rounds: fixtureRounds,
+				current_fixture_date: tournament.current_fixture_date || (fixtureRounds.length ? fixtureRounds[0].key : 1),
 				fixtures
 			};
 		}
 
 		function normalizeLeagueData(rawData) {
 			const hasNormalizedTournaments = Array.isArray(rawData.tournaments);
-			const tournaments = hasNormalizedTournaments
-				? rawData.tournaments.map(normalizeNormalizedTournament)
+			const rawTournaments = hasNormalizedTournaments
+				? rawData.tournaments
 				: (Array.isArray(rawData.campeonatos) ? rawData.campeonatos : []).map(normalizeCampeonato);
+			const tournaments = rawTournaments.map(tournament => {
+				if (hasTournamentDetail(tournament)) {
+					const normalizedTournament = normalizeNormalizedTournament(tournament);
+					if (normalizedTournament.tournament_id !== undefined && normalizedTournament.tournament_id !== null) {
+						tournamentDataCache.set(String(normalizedTournament.tournament_id), normalizedTournament);
+					}
+					return normalizeTournamentSummary(normalizedTournament);
+				}
+
+				return normalizeTournamentSummary(tournament);
+			});
 			const campeonatos = Array.isArray(rawData.campeonatos) ? rawData.campeonatos : [];
 			const firstRegulation = campeonatos[0] && campeonatos[0].reglamento;
 
@@ -1909,6 +2039,7 @@
 
 			let currentTournament = tournaments[0];
 			let hasSelectedTournament = false;
+			let tournamentRequestId = 0;
 			const savedTournamentIdOrName = localStorage.getItem(TOURNAMENT_STORAGE_KEY);
 			if (savedTournamentIdOrName) {
 				const savedTournament = tournaments.find(t =>
@@ -1964,6 +2095,52 @@
 				? loadedData.primary_nav
 				: tournaments.map(t => ({ text: t.tournament_name, id: t.tournament_id, isTournament: true }));
 			let navStack = [{ title: "Seleccionar Torneo", nodes: navRoot }];
+
+			function setTournamentTitle(tournament) {
+				const tournamentName = tournament?.tournament_name || tournament?.nombre || "Torneo";
+
+				document.querySelectorAll(".tournament_name").forEach(el => {
+					el.innerHTML = tournamentName;
+				});
+				if (appTournamentPill) {
+					appTournamentPill.textContent = tournamentName;
+				}
+			}
+
+			function showTournamentLoading(tournament) {
+				currentTournament = tournament;
+				setTournamentTitle(tournament);
+				document.querySelector(".x-table-standings tbody").innerHTML =
+					'<tr><td colspan="8" class="text-center">Cargando...</td></tr>';
+				document.querySelector(".x-table-top-scorers tbody").innerHTML =
+					'<tr><td colspan="4" class="text-center">Cargando...</td></tr>';
+				document.querySelector(".x-table-sanctions tbody").innerHTML =
+					'<tr><td colspan="4" class="text-center">Cargando...</td></tr>';
+				document.querySelector(".x-table-suspended tbody").innerHTML =
+					'<tr><td colspan="3" class="text-center">Cargando...</td></tr>';
+				document.querySelector(".x-table-best-defense tbody").innerHTML =
+					'<tr><td colspan="3" class="text-center">Cargando...</td></tr>';
+				fixtureSelect.innerHTML = "";
+				fixtureList.innerHTML =
+					'<li class="widget-results__item"><div class="widget-results__content text-center">Cargando torneo...</div></li>';
+			}
+
+			function showTournamentError(error) {
+				console.error("Failed to load tournament data from API:", error);
+				document.querySelector(".x-table-standings tbody").innerHTML =
+					'<tr><td colspan="8" class="text-center">No se pudo cargar el torneo</td></tr>';
+				document.querySelector(".x-table-top-scorers tbody").innerHTML =
+					'<tr><td colspan="4" class="text-center">No se pudo cargar el torneo</td></tr>';
+				document.querySelector(".x-table-sanctions tbody").innerHTML =
+					'<tr><td colspan="4" class="text-center">No se pudo cargar el torneo</td></tr>';
+				document.querySelector(".x-table-suspended tbody").innerHTML =
+					'<tr><td colspan="3" class="text-center">No se pudo cargar el torneo</td></tr>';
+				document.querySelector(".x-table-best-defense tbody").innerHTML =
+					'<tr><td colspan="3" class="text-center">No se pudo cargar el torneo</td></tr>';
+				fixtureSelect.innerHTML = "";
+				fixtureList.innerHTML =
+					'<li class="widget-results__item"><div class="widget-results__content text-center">No se pudo cargar el torneo</div></li>';
+			}
 
 			function prepareFixtures(matches) {
 				return matches.map(match => {
@@ -2080,6 +2257,15 @@
 
 			function renderTournament(tournament, shouldPersist = true) {
 				currentTournament = tournament;
+				const tournamentIndex = tournaments.findIndex(t =>
+					String(t.tournament_id) === String(currentTournament.tournament_id)
+				);
+				if (tournamentIndex >= 0) {
+					tournaments[tournamentIndex] = {
+						...tournaments[tournamentIndex],
+						...currentTournament
+					};
+				}
 				if (shouldPersist) {
 					localStorage.setItem(
 						TOURNAMENT_STORAGE_KEY,
@@ -2090,12 +2276,7 @@
 					hasSelectedTournament = true;
 				}
 
-				document.querySelectorAll(".tournament_name").forEach(el => {
-					el.innerHTML = currentTournament.tournament_name;
-				});
-				if (appTournamentPill) {
-					appTournamentPill.textContent = currentTournament.tournament_name || "Torneo";
-				}
+				setTournamentTitle(currentTournament);
 
 				const standingsHtml = Mustache.render(standingsTemplate, currentTournament);
 				document.querySelector(".x-table-standings tbody").innerHTML = standingsHtml;
@@ -2128,24 +2309,40 @@
 				document.querySelector(".x-table-best-defense tbody").innerHTML = bestDefenseHtml;
 
 				const fixtureMap = getCurrentFixtureMap();
-				const fixtureKeys = Object.keys(fixtureMap).sort((a, b) => Number(a) - Number(b));
+				const fixtureRounds = Array.isArray(currentTournament.fixture_rounds) && currentTournament.fixture_rounds.length
+					? currentTournament.fixture_rounds
+					: sortedFixtureKeys(fixtureMap).map(key => ({ key: String(key), label: `Fecha ${key}` }));
 
-				fixtureSelect.innerHTML = fixtureKeys.map(key =>
-					`<option value="${key}">Fecha ${key}</option>`
+				fixtureSelect.innerHTML = fixtureRounds.map(round =>
+					`<option value="${round.key}">${round.label}</option>`
 				).join("");
 
 				const defaultFixture = String(
-					fixtureKeys.includes(String(currentTournament.current_fixture_date))
+					fixtureRounds.some(round => String(round.key) === String(currentTournament.current_fixture_date))
 						? currentTournament.current_fixture_date
-						: fixtureKeys[0]
+						: (fixtureRounds[0] ? fixtureRounds[0].key : "")
 				);
 
 				fixtureSelect.value = defaultFixture;
 				renderFixtureFor(defaultFixture);
 			}
 
+			async function loadAndRenderTournament(tournamentSummary, shouldPersist = true) {
+				const requestId = ++tournamentRequestId;
+				showTournamentLoading(tournamentSummary);
+
+				try {
+					const tournament = await fetchTournamentData(tournamentSummary);
+					if (requestId !== tournamentRequestId) return;
+					renderTournament(tournament, shouldPersist);
+				} catch (error) {
+					if (requestId !== tournamentRequestId) return;
+					showTournamentError(error);
+				}
+			}
+
 			// Initial render using saved tournament (if any)
-			renderTournament(currentTournament, hasSelectedTournament);
+			await loadAndRenderTournament(currentTournament, hasSelectedTournament);
 			if (!hasSelectedTournament) {
 				openTournamentModal();
 			}
@@ -2395,8 +2592,8 @@
 				const selectedTournament = tournaments.find(t => String(t.tournament_id) === String(tournamentId));
 				if (!selectedTournament) return;
 
-				renderTournament(selectedTournament);
 				tournamentModal.modal('hide');
+				loadAndRenderTournament(selectedTournament);
 			});
 
 			// Navigate deeper into nested categories
