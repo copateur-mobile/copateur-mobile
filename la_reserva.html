@@ -287,13 +287,12 @@
 		#tournamentModal .close-modal-btn {
 			position: absolute;
 			right: 0;
-			top: 50%;
+			top: -8px;
 			color: #2d343c;
 			font-size: 30px;
 			font-weight: 400;
 			line-height: 1;
 			padding: 0;
-			transform: translateY(-50%);
 		}
 
 		#tournamentModal .modal-dialog, #matchModal .modal-dialog {
@@ -2695,13 +2694,6 @@
 				return Array.isArray(node && node.children) ? node.children : [];
 			}
 
-			function getNavCategoryMeta(node) {
-				const text = String((node && node.text) || "").toLowerCase();
-				return text.includes("hist") || /^\d{4}$/.test(text)
-					? "Ver campeonatos anteriores"
-					: "Ver campeonatos";
-			}
-
 			function renderNavLevel() {
 				const currentLevel = navStack[navStack.length - 1] || { title: "Seleccionar Campeonato", nodes: [] };
 				const nodes = currentLevel.nodes || [];
@@ -2724,9 +2716,9 @@
 							const chevronHtml = isTournament
 								? ''
 								: '<i class="fas fa-chevron-right tournament-nav-item__chevron"></i>';
-							const metaHtml = isTournament
-								? (isSelected ? '<span class="tournament-nav-item__meta">Campeonato actual</span>' : '')
-								: `<span class="tournament-nav-item__meta">${getNavCategoryMeta(node)}</span>`;
+								const metaHtml = isTournament
+									? (isSelected ? '<span class="tournament-nav-item__meta">Campeonato actual</span>' : '')
+									: '';
 							return `
 								<a href="#" class="list-group-item list-group-item-action nav-item tournament-nav-item ${isTournament ? "tournament-item" : "nav-category-item"} ${isSelected ? "active" : ""}" data-id="${node.id || ""}" data-idx="${idx}">
 									${iconHtml}
