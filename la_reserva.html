@@ -1,39 +1,20 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="es">
 <head>
 
-	<!-- Basic Page Needs
-	================================================== -->
 	<title id='league_name'></title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-
-	<!-- Mobile Specific Metas
-	================================================== -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-
-	<!-- Google Web Fonts
-	================================================== -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&amp;family&#x3D;Source+Sans+Pro:wght@400;700&amp;display&#x3D;swap" rel="stylesheet">
 
-	<!-- CSS
-	================================================== -->
-	<!-- Vendor CSS -->
 	<link href="assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
-	<link href="assets/fonts/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
-	<link href="assets/vendor/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
-	<link href="assets/vendor/slick/slick.css" rel="stylesheet">
-
-	<!-- Template CSS-->
-	<link href="assets/css/style-soccer.css" rel="stylesheet">
-
-	<!-- Custom CSS-->
-	<link href="assets/css/custom.css" rel="stylesheet">
+	<link href="assets/css/app.css" rel="stylesheet">
 
 	<style type="text/css">
 		:root {
@@ -125,6 +106,62 @@
 			text-transform: uppercase;
 			white-space: nowrap;
 			width: 68%;
+		}
+
+		.app-loading-overlay {
+			align-items: center;
+			background: rgba(0, 0, 0, 0.72);
+			display: flex;
+			inset: 0;
+			justify-content: center;
+			opacity: 1;
+			pointer-events: auto;
+			position: fixed;
+			transition: opacity 0.2s ease, visibility 0.2s ease;
+			visibility: visible;
+			z-index: 3000;
+		}
+
+		.app-loading-overlay.is-hidden {
+			opacity: 0;
+			pointer-events: none;
+			visibility: hidden;
+		}
+
+		.app-loading-overlay__content {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			gap: 18px;
+			justify-content: center;
+			min-width: 120px;
+		}
+
+		.app-loading-overlay__logo {
+			display: block;
+			max-height: 86px;
+			max-width: 128px;
+			object-fit: contain;
+		}
+
+		.app-loading-overlay__logo[hidden] {
+			display: none;
+		}
+
+		.app-loading-overlay__spinner {
+			animation: appLoaderSpin 0.8s linear infinite;
+			border: 3px solid rgba(255, 255, 255, 0.22);
+			border-radius: 50%;
+			border-top-color: var(--app-main-color, #fff);
+			display: block;
+			height: 34px;
+			width: 34px;
+		}
+
+		@keyframes appLoaderSpin {
+			to {
+				transform: rotate(360deg);
+			}
 		}
 
 		/* Prevent page content from hiding under the fixed nav */
@@ -295,56 +332,100 @@
 		#tournamentList {
 			display: flex;
 			flex-direction: column;
-			gap: 16px;
+			gap: 14px;
 		}
 
 		#tournamentModal .list-group-item {
 			align-items: center;
-			background: #fff;
-			border: 1px solid #eef0f3;
-			border-radius: 8px;
-			box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-			color: #56616c;
+			background: linear-gradient(145deg, #fff 0%, #f6f9fc 100%);
+			border: 1px solid rgba(229, 234, 240, 0.98);
+			border-radius: 18px;
+			box-shadow:
+				0 16px 30px rgba(26, 36, 50, 0.08),
+				inset 0 1px 0 rgba(255, 255, 255, 0.95);
+			color: #2d3640;
 			display: grid;
 			font-family: "Montserrat", sans-serif;
 			font-size: 13px;
 			font-weight: 700;
-			gap: 14px;
-			grid-template-columns: 34px minmax(0, 1fr) 18px;
+			gap: 13px;
 			line-height: 1.2;
 			margin: 0;
 			min-height: 64px;
-			padding: 14px 16px;
+			padding: 10px 14px;
 			text-align: left;
-			text-transform: uppercase;
-			transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+			text-transform: none;
+			transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 		}
 
 		#tournamentModal .list-group-item:hover,
 		#tournamentModal .list-group-item:focus {
-			background: #fbfcfd;
-			box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+			border-color: rgba(210, 217, 226, 0.95);
+			box-shadow:
+				0 18px 32px rgba(26, 36, 50, 0.1),
+				inset 0 1px 0 rgba(255, 255, 255, 0.98);
 			color: #2d343c;
 			text-decoration: none;
 			transform: translateY(-1px);
 		}
 
 		#tournamentModal .list-group-item.active {
-			background: #fbfcfd;
-			border-color: #e3e7ec;
+			border-color: var(--app-main-color, #17479e);
+			background: linear-gradient(145deg, #fff 0%, #f8fafc 100%);
+			border-color: color-mix(in srgb, var(--app-main-color, #17479e) 26%, #e4e9ef);
 			color: #2d343c;
+		}
+
+		#tournamentModal .list-group-item.tournament-item {
+			grid-template-columns: 42px minmax(0, 1fr);
+		}
+
+		#tournamentModal .list-group-item.nav-category-item {
+			grid-template-columns: minmax(0, 1fr) 36px;
 		}
 
 		.tournament-nav-item__icon {
 			align-items: center;
-			background: #f3f4f6;
-			border-radius: 50%;
-			color: #a5acb4;
+			background: linear-gradient(145deg, #fff 0%, #edf2f7 100%);
+			border: 1px solid rgba(223, 229, 236, 0.96);
+			border-radius: 14px;
+			box-shadow:
+				0 9px 16px rgba(35, 45, 58, 0.08),
+				inset 0 1px 0 rgba(255, 255, 255, 0.98),
+				inset 0 -1px 1px rgba(154, 169, 184, 0.1);
+			color: #7f8a94;
 			display: inline-flex;
-			font-size: 16px;
-			height: 34px;
+			font-size: 15px;
+			height: 42px;
 			justify-content: center;
-			width: 34px;
+			line-height: 1;
+			width: 42px;
+		}
+
+		.tournament-nav-item__icon i,
+		.tournament-nav-item__icon i::before {
+			box-shadow: none !important;
+			filter: none !important;
+			line-height: 1;
+			text-shadow: none !important;
+		}
+
+		#tournamentModal .list-group-item.active .tournament-nav-item__icon {
+			background: #fff;
+			border-color: var(--app-main-color, #17479e);
+			background: color-mix(in srgb, var(--app-main-color, #17479e) 12%, #fff);
+			border-color: color-mix(in srgb, var(--app-main-color, #17479e) 32%, #dfe6ee);
+			box-shadow:
+				inset 0 1px 0 rgba(255, 255, 255, 0.96),
+				inset 0 -1px 2px rgba(154, 169, 184, 0.12);
+			color: var(--app-main-color, #17479e);
+		}
+
+		.tournament-nav-item__text {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+			min-width: 0;
 		}
 
 		.tournament-nav-item__label {
@@ -354,11 +435,36 @@
 			white-space: nowrap;
 		}
 
+		.tournament-nav-item__meta {
+			align-items: center;
+			color: #7c8793;
+			display: inline-flex;
+			font-size: 10px;
+			font-weight: 500;
+			gap: 6px;
+			line-height: 1;
+			white-space: nowrap;
+		}
+
 		.tournament-nav-item__chevron {
-			color: #7f8a94;
-			font-size: 20px;
+			align-items: center;
+			background: linear-gradient(145deg, #fff 0%, #edf2f7 100%);
+			border: 1px solid rgba(223, 229, 236, 0.96);
+			border-radius: 50%;
+			box-shadow:
+				0 8px 15px rgba(35, 45, 58, 0.08),
+				inset 0 1px 0 rgba(255, 255, 255, 0.98),
+				inset 0 -1px 1px rgba(154, 169, 184, 0.1);
+			color: #74808c;
+			display: inline-flex;
+			filter: none !important;
+			font-size: 12px;
+			height: 36px;
+			justify-content: center;
 			justify-self: end;
 			line-height: 1;
+			text-shadow: none !important;
+			width: 36px;
 		}
 
 		#tournamentModal .empty-state {
@@ -382,7 +488,13 @@
 			display: flex;
 			gap: 0;
 			margin: -10px 0 16px;
+			-ms-overflow-style: none;
 			overflow-x: auto;
+			scrollbar-width: none;
+		}
+
+		.app-subtabs::-webkit-scrollbar {
+			display: none;
 		}
 
 		.app-subtabs[hidden] {
@@ -402,6 +514,10 @@
 			text-align: center;
 			text-transform: uppercase;
 			white-space: nowrap;
+		}
+
+		.app-subtab:last-child {
+			border-right: 0 !important;
 		}
 
 		.app-subtab.is-active::after {
@@ -434,7 +550,7 @@
 
 		.app-bottom-nav {
 			align-items: stretch;
-			background: var(--app-main-color, #17479e);
+			background: #050505;
 			bottom: 0;
 			box-shadow: 0 -2px 8px rgba(0,0,0,0.18);
 			display: flex;
@@ -810,7 +926,7 @@
 		.x-table-sanctions > thead > tr > th,
 		.x-table-best-defense > thead > tr > th,
 		.x-table-suspended > thead > tr > th {
-			color: #9a9da2;
+			color: #000 !important;
 			font-size: 9px !important;
 			line-height: 1.2em;
 		}
@@ -1020,25 +1136,17 @@
 	</style>
 
 </head>
-<body data-template="template-soccer" class="page-loader-disable">
+<body>
 
+
+	<div id="appLoadingOverlay" class="app-loading-overlay" aria-live="polite" aria-busy="true">
+		<div class="app-loading-overlay__content">
+			<img id="appLoadingLogo" class="app-loading-overlay__logo" alt="" hidden>
+			<span class="app-loading-overlay__spinner" role="status" aria-label="Cargando"></span>
+		</div>
+	</div>
 
 	<div class="site-wrapper clearfix">
-		<div class="site-overlay"></div>
-
-		
-		<!-- Pushy Panel - Dark -->
-		<aside class="pushy-panel pushy-panel--dark">
-			<div class="pushy-panel__inner">
-				<header class="pushy-panel__header">
-					<div class="pushy-panel__logo">
-						<a href="_soccer_index.html"><img src="assets/images/soccer/logo.png" srcset="assets/images/soccer/logo@2x.png 2x"></a>
-					</div>
-				</header>
-			</div>
-		</aside>
-		<!-- Pushy Panel - Dark / End -->
-		
 		
 		<header class="app-header">
 			<div class="app-header__top">
@@ -1253,18 +1361,9 @@
 
 
 
-	<!-- Javascript Files
-	================================================== -->
-	<!-- Core JS -->
 	<script src="assets/vendor/jquery/jquery.min.js"></script>
-	<script src="assets/vendor/jquery/jquery-migrate.min.js"></script>
 	<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="assets/js/core.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
-	
-	<!-- Template JS -->
-	<script src="assets/js/init.js"></script>
-	<script src="assets/js/custom.js"></script>
 
 	<script>
 		// Disable pinch and double-tap zoom on iOS Safari without breaking scroll
@@ -1287,7 +1386,7 @@
 	</script>
 
 
-	<script id="standings-template" type="x-tmpl-mustache">
+		<script id="standings-markup" type="application/x-mustache">
 	  {{#standings}}
 	  	<tr>
 			  <td class="team-standings__pos">{{pos}}</td>
@@ -1311,7 +1410,7 @@
 	  {{/standings}}
 	</script>
 
-	<script id="top-scorers-template" type="x-tmpl-mustache">
+		<script id="top-scorers-markup" type="application/x-mustache">
 	  {{#top_scorers}}
 	  	<tr>
 				<td class="team-standings__pos">{{pos}}</td>
@@ -1333,7 +1432,7 @@
 	  {{/top_scorers}}
 	</script>
 
-	<script id="sanctions-template" type="x-tmpl-mustache">
+		<script id="sanctions-markup" type="application/x-mustache">
 	  {{#sanctions}}
 	  	<tr>
 				<td class="team-standings__player">
@@ -1355,7 +1454,7 @@
 	  {{/sanctions}}
 	</script>
 
-	<script id="suspended-template" type="x-tmpl-mustache">
+		<script id="suspended-markup" type="application/x-mustache">
 	  {{#suspended}}
 			<tr>
 				<td class="team-standings__player">
@@ -1376,7 +1475,7 @@
 	  {{/suspended}}
 	</script>
 
-	<script id="best-defense-template" type="x-tmpl-mustache">
+		<script id="best-defense-markup" type="application/x-mustache">
 	  {{#best_defense}}
 	  	<tr>
 				<td class="team-standings__pos">{{pos}}</td>
@@ -1395,7 +1494,7 @@
 	  {{/best_defense}}
 	</script>
 
-	<script id="fixtures-template" type="x-tmpl-mustache">
+		<script id="fixtures-markup" type="application/x-mustache">
 		{{#matches}}
 			<li class="widget-results__item">
 				<div class="widget-results__content">
@@ -2018,10 +2117,53 @@
 
 			document.getElementById("fixtures-list").innerHTML =
 				'<li class="widget-results__item"><div class="widget-results__content text-center">Sin partidos disponibles</div></li>';
+
+			hideAppLoadingOverlay();
+		}
+
+		function showAppLoadingOverlay() {
+			const overlay = document.getElementById("appLoadingOverlay");
+			if (!overlay) return;
+
+			overlay.classList.remove("is-hidden");
+			overlay.setAttribute("aria-busy", "true");
+		}
+
+		function hideAppLoadingOverlay() {
+			const overlay = document.getElementById("appLoadingOverlay");
+			if (!overlay) return;
+
+			overlay.classList.add("is-hidden");
+			overlay.setAttribute("aria-busy", "false");
+		}
+
+		function setAppLoadingLogo(logoUrl, altText) {
+			const loadingLogo = document.getElementById("appLoadingLogo");
+			if (!loadingLogo) return;
+
+			if (!logoUrl) {
+				loadingLogo.hidden = true;
+				loadingLogo.removeAttribute("src");
+				return;
+			}
+
+			loadingLogo.alt = altText || "";
+			loadingLogo.hidden = true;
+			loadingLogo.onload = () => {
+				loadingLogo.hidden = false;
+			};
+			loadingLogo.onerror = () => {
+				loadingLogo.onload = null;
+				loadingLogo.hidden = true;
+				loadingLogo.removeAttribute("src");
+			};
+			loadingLogo.src = logoUrl;
 		}
 
 		// Main
 		document.addEventListener("DOMContentLoaded", async () => {
+			showAppLoadingOverlay();
+
 			let loadedData;
 			try {
 				loadedData = await fetchLeagueData();
@@ -2076,16 +2218,17 @@
 					appClientLogoFallback.hidden = true;
 				}
 			}
+			setAppLoadingLogo(loadedData.logo_url, loadedData.league_name);
 
 			// Fixture
 			const fixtureSelect = document.querySelector('select[name="select_date"]');
 			const fixtureList = document.getElementById('fixtures-list');
-			const fixtureTemplate = document.getElementById("fixtures-template").innerHTML;
-			const standingsTemplate = document.getElementById("standings-template").innerHTML;
-			const topScorersTemplate = document.getElementById("top-scorers-template").innerHTML;
-			const sanctionsTemplate = document.getElementById("sanctions-template").innerHTML;
-			const suspendedTemplate = document.getElementById("suspended-template").innerHTML;
-			const bestDefenseTemplate = document.getElementById("best-defense-template").innerHTML;
+				const fixtureMarkup = document.getElementById("fixtures-markup").innerHTML;
+				const standingsMarkup = document.getElementById("standings-markup").innerHTML;
+				const topScorersMarkup = document.getElementById("top-scorers-markup").innerHTML;
+				const sanctionsMarkup = document.getElementById("sanctions-markup").innerHTML;
+				const suspendedMarkup = document.getElementById("suspended-markup").innerHTML;
+				const bestDefenseMarkup = document.getElementById("best-defense-markup").innerHTML;
 			const tournamentModal = $('#tournamentModal');
 			const tournamentModalContent = $('#tournamentModalContent');
 			const tournamentModalTitle = document.getElementById("tournamentModalTitle");
@@ -2108,6 +2251,7 @@
 			}
 
 			function showTournamentLoading(tournament) {
+				showAppLoadingOverlay();
 				currentTournament = tournament;
 				setTournamentTitle(tournament);
 				document.querySelector(".x-table-standings tbody").innerHTML =
@@ -2140,6 +2284,7 @@
 				fixtureSelect.innerHTML = "";
 				fixtureList.innerHTML =
 					'<li class="widget-results__item"><div class="widget-results__content text-center">No se pudo cargar el campeonato</div></li>';
+				hideAppLoadingOverlay();
 			}
 
 			function prepareFixtures(matches) {
@@ -2183,7 +2328,7 @@
 
 				const preparedMatches = prepareFixtures(matches);
 
-				const fixtureHtml = Mustache.render(fixtureTemplate, {
+				const fixtureHtml = Mustache.render(fixtureMarkup, {
 					matches: preparedMatches
 				});
 
@@ -2208,12 +2353,11 @@
 				return Array.isArray(node && node.children) ? node.children : [];
 			}
 
-			function getTournamentNavIcon(node, isTournament) {
+			function getNavCategoryMeta(node) {
 				const text = String((node && node.text) || "").toLowerCase();
-				if (text.includes("hist")) return "fa-calendar-alt";
-				if (text.includes("domingo") || text.includes("sabado") || text.includes("sábado")) return "fa-trophy";
-				if (isTournament) return "fa-trophy";
-				return "fa-folder";
+				return text.includes("hist") || /^\d{4}$/.test(text)
+					? "Ver campeonatos anteriores"
+					: "Ver campeonatos";
 			}
 
 			function renderNavLevel() {
@@ -2232,14 +2376,23 @@
 						${nodes.map((node, idx) => {
 							const isTournament = nodeHasTournamentId(node);
 							const isSelected = isTournament && String(currentTournament.tournament_id) === String(node.id);
-							const iconClass = getTournamentNavIcon(node, isTournament);
+							const iconHtml = isTournament
+								? '<span class="tournament-nav-item__icon"><i class="fas fa-trophy"></i></span>'
+								: '';
+							const chevronHtml = isTournament
+								? ''
+								: '<i class="fas fa-chevron-right tournament-nav-item__chevron"></i>';
+							const metaHtml = isTournament
+								? (isSelected ? '<span class="tournament-nav-item__meta">Campeonato actual</span>' : '')
+								: `<span class="tournament-nav-item__meta">${getNavCategoryMeta(node)}</span>`;
 							return `
 								<a href="#" class="list-group-item list-group-item-action nav-item tournament-nav-item ${isTournament ? "tournament-item" : "nav-category-item"} ${isSelected ? "active" : ""}" data-id="${node.id || ""}" data-idx="${idx}">
-									<span class="tournament-nav-item__icon">
-										<i class="fas ${iconClass}"></i>
+									${iconHtml}
+									<span class="tournament-nav-item__text">
+										<span class="tournament-nav-item__label">${node.text || "Sin nombre"}</span>
+										${metaHtml}
 									</span>
-									<span class="tournament-nav-item__label">${node.text || "Sin nombre"}</span>
-									<i class="fas fa-chevron-right tournament-nav-item__chevron"></i>
+									${chevronHtml}
 								</a>
 							`;
 						}).join('')}
@@ -2278,13 +2431,13 @@
 
 				setTournamentTitle(currentTournament);
 
-				const standingsHtml = Mustache.render(standingsTemplate, currentTournament);
+				const standingsHtml = Mustache.render(standingsMarkup, currentTournament);
 				document.querySelector(".x-table-standings tbody").innerHTML = standingsHtml;
 
-				const topScorersHtml = Mustache.render(topScorersTemplate, currentTournament);
+				const topScorersHtml = Mustache.render(topScorersMarkup, currentTournament);
 				document.querySelector(".x-table-top-scorers tbody").innerHTML = topScorersHtml;
 
-				const sanctionsHtml = Mustache.render(sanctionsTemplate, currentTournament);
+				const sanctionsHtml = Mustache.render(sanctionsMarkup, currentTournament);
 				document.querySelector(".x-table-sanctions tbody").innerHTML = sanctionsHtml;
 
 				const suspendedPlayers = (Array.isArray(currentTournament.suspended) && currentTournament.suspended.length
@@ -2302,10 +2455,10 @@
 						};
 					});
 				document.querySelector(".x-table-suspended tbody").innerHTML = suspendedPlayers.length
-					? Mustache.render(suspendedTemplate, { suspended: suspendedPlayers })
+					? Mustache.render(suspendedMarkup, { suspended: suspendedPlayers })
 					: '<tr><td colspan="3" class="text-center">Sin suspendidos</td></tr>';
 
-				const bestDefenseHtml = Mustache.render(bestDefenseTemplate, currentTournament);
+				const bestDefenseHtml = Mustache.render(bestDefenseMarkup, currentTournament);
 				document.querySelector(".x-table-best-defense tbody").innerHTML = bestDefenseHtml;
 
 				const fixtureMap = getCurrentFixtureMap();
@@ -2325,6 +2478,7 @@
 
 				fixtureSelect.value = defaultFixture;
 				renderFixtureFor(defaultFixture);
+				requestAnimationFrame(hideAppLoadingOverlay);
 			}
 
 			async function loadAndRenderTournament(tournamentSummary, shouldPersist = true) {
