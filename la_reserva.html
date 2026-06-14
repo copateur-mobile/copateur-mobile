@@ -1423,6 +1423,248 @@
 			font-weight: 700;
 		}
 
+		.player-link {
+			align-items: center;
+			appearance: none;
+			background: transparent;
+			border: 0;
+			color: inherit;
+			display: inline-flex;
+			max-width: 100%;
+			padding: 0;
+			text-align: left;
+		}
+
+		.player-link:hover .team-meta__name,
+		.player-link:focus .team-meta__name,
+		.player-link:hover .alc-event-header__performance-name,
+		.player-link:focus .alc-event-header__performance-name {
+			color: var(--app-main-color);
+		}
+
+		#playerModal {
+			padding-right: 0 !important;
+		}
+
+		#playerModal .modal-dialog {
+			align-items: flex-end;
+			display: flex;
+			height: 100%;
+			margin: 0 auto;
+			max-width: 580px;
+			pointer-events: none;
+			width: 100%;
+		}
+
+		#playerModal.fade .modal-dialog {
+			transform: translateY(100%);
+			transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+
+		#playerModal.fade.show .modal-dialog {
+			transform: translateY(0);
+		}
+
+		#playerModal .modal-content {
+			background: #fff;
+			border: 0;
+			border-radius: 24px 24px 0 0;
+			box-shadow: 0 -12px 42px rgba(0, 0, 0, 0.22);
+			max-height: calc(100vh - 72px);
+			max-height: calc(100dvh - 72px);
+			overflow: hidden;
+			padding: 0;
+			pointer-events: auto;
+			width: 100%;
+		}
+
+		#playerModal .match-sheet__handle {
+			background: #b8bdc3;
+			border-radius: 999px;
+			height: 6px;
+			margin: 16px auto 5px;
+			width: 56px;
+		}
+
+		#playerModal .modal-header {
+			min-height: 42px;
+			padding: 0;
+			position: relative;
+		}
+
+		#playerModal .close-modal-btn {
+			align-items: center;
+			color: #42484d;
+			display: flex;
+			font-size: 34px;
+			height: 42px;
+			justify-content: center;
+			opacity: 1;
+			padding: 0;
+			position: absolute;
+			right: 18px;
+			top: 0;
+			width: 42px;
+			z-index: 2;
+		}
+
+		#playerModal .modal-body {
+			max-height: calc(100vh - 135px);
+			max-height: calc(100dvh - 135px);
+			overflow-x: hidden;
+			overflow-y: auto;
+			padding: 0 22px calc(28px + env(safe-area-inset-bottom));
+		}
+
+		.player-profile__header {
+			align-items: center;
+			display: grid;
+			gap: 14px;
+			grid-template-columns: 76px minmax(0, 1fr);
+			padding-right: 36px;
+		}
+
+		.player-profile__photo {
+			background: #eef2f7;
+			border-radius: 19px;
+			height: 76px;
+			object-fit: cover;
+			width: 76px;
+		}
+
+		.player-profile__eyebrow {
+			color: var(--app-main-color);
+			font-family: "Montserrat", sans-serif;
+			font-size: 10px;
+			font-weight: 700;
+			letter-spacing: 0.04em;
+			text-transform: uppercase;
+		}
+
+		.player-profile__name {
+			color: #263445;
+			font-family: "Montserrat", sans-serif;
+			font-size: 21px;
+			font-weight: 700;
+			line-height: 1.05;
+			margin: 4px 0 8px;
+		}
+
+		.player-profile__team {
+			align-items: center;
+			color: #7a8794;
+			display: flex;
+			font-size: 11px;
+			font-weight: 700;
+			gap: 7px;
+			text-transform: uppercase;
+		}
+
+		.player-profile__team img {
+			height: 22px;
+			object-fit: contain;
+			width: 22px;
+		}
+
+		.player-profile__stats {
+			display: grid;
+			gap: 8px;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			margin: 22px 0;
+		}
+
+		.player-profile__stat {
+			background: #f6f9fc;
+			border: 1px solid #e6edf5;
+			border-radius: 14px;
+			padding: 13px 8px;
+			text-align: center;
+		}
+
+		.player-profile__stat strong {
+			color: #263445;
+			display: block;
+			font-size: 22px;
+			line-height: 1;
+		}
+
+		.player-profile__stat span {
+			color: #7a8794;
+			display: block;
+			font-size: 10px;
+			font-weight: 700;
+			margin-top: 7px;
+			text-transform: uppercase;
+		}
+
+		.player-profile__section {
+			border-top: 1px solid #edf2f7;
+			padding-top: 16px;
+		}
+
+		.player-profile__section + .player-profile__section {
+			margin-top: 16px;
+		}
+
+		.player-profile__section-title {
+			color: #263445;
+			font-size: 12px;
+			font-weight: 700;
+			margin: 0 0 10px;
+			text-transform: uppercase;
+		}
+
+		.player-profile__tournament,
+		.player-profile__event {
+			align-items: center;
+			border-bottom: 1px solid #edf2f7;
+			display: grid;
+			gap: 10px;
+			grid-template-columns: minmax(0, 1fr) auto;
+			padding: 9px 0;
+		}
+
+		.player-profile__tournament:last-child,
+		.player-profile__event:last-child {
+			border-bottom: 0;
+		}
+
+		.player-profile__row-title {
+			color: #263445;
+			font-size: 12px;
+			font-weight: 700;
+			margin: 0;
+		}
+
+		.player-profile__row-meta {
+			color: #7a8794;
+			font-size: 11px;
+			font-weight: 600;
+		}
+
+		.player-profile__badge {
+			background: color-mix(in srgb, var(--app-main-color) 10%, #fff);
+			border-radius: 999px;
+			color: var(--app-main-color);
+			font-size: 11px;
+			font-weight: 700;
+			padding: 6px 9px;
+			white-space: nowrap;
+		}
+
+		.player-profile__loading,
+		.player-profile__error {
+			align-items: center;
+			color: #7a8794;
+			display: flex;
+			font-size: 12px;
+			font-weight: 700;
+			justify-content: center;
+			min-height: 180px;
+			text-align: center;
+			text-transform: uppercase;
+		}
+
 		@media (max-width: 360px) {
 			.x-table-standings th,
 			.x-table-standings td,
@@ -1682,6 +1924,21 @@
 		</div>
 	</div>
 
+	<!-- Player Modal -->
+	<div id="playerModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="match-sheet__handle" aria-hidden="true"></div>
+				<div class="modal-header">
+					<button type="button" class="close-modal-btn" aria-label="Close">×</button>
+				</div>
+				<div class="modal-body" id="playerModalContent">
+					<!-- dynamic content goes here -->
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- Tournament Selector Modal -->
 	<div id="tournamentModal" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
@@ -1757,6 +2014,19 @@
 	  	<tr>
 				<td class="team-standings__pos">{{pos}}</td>
 				<td class="team-standings__player">
+					{{#player_uuid}}
+					<button type="button" class="player-link" data-player-uuid="{{player_uuid}}">
+						<div class="team-meta player-meta">
+							<figure class="team-meta__logo">
+								<img src="{{player_photo_url}}" alt="" onerror="this.src='assets/images/player-placeholder-26x26.png'">
+							</figure>
+							<div class="team-meta__info">
+								<h6 class="team-meta__name">{{player_name}}</h6>
+							</div>
+						</div>
+					</button>
+					{{/player_uuid}}
+					{{^player_uuid}}
 					<div class="team-meta player-meta">
 						<figure class="team-meta__logo">
 							<img src="{{player_photo_url}}" alt="" onerror="this.src='assets/images/player-placeholder-26x26.png'">
@@ -1765,6 +2035,7 @@
 							<h6 class="team-meta__name">{{player_name}}</h6>
 						</div>
 					</div>
+					{{/player_uuid}}
 				</td>
 				<td class="team-standings__team">
 					<span class="team-meta__name">{{team_name}}</span>
@@ -1778,6 +2049,19 @@
 	  {{#sanctions}}
 	  	<tr>
 				<td class="team-standings__player">
+					{{#player_uuid}}
+					<button type="button" class="player-link" data-player-uuid="{{player_uuid}}">
+						<div class="team-meta player-meta">
+							<figure class="team-meta__logo">
+								<img src="{{player_photo_url}}" alt="" onerror="this.src='assets/images/player-placeholder-26x26.png'">
+							</figure>
+							<div class="team-meta__info">
+								<h6 class="team-meta__name">{{player_name}}</h6>
+							</div>
+						</div>
+					</button>
+					{{/player_uuid}}
+					{{^player_uuid}}
 					<div class="team-meta player-meta">
 						<figure class="team-meta__logo">
 							<img src="{{player_photo_url}}" alt="" onerror="this.src='assets/images/player-placeholder-26x26.png'">
@@ -1786,6 +2070,7 @@
 							<h6 class="team-meta__name">{{player_name}}</h6>
 						</div>
 					</div>
+					{{/player_uuid}}
 				</td>
 				<td class="team-standings__team">
 					<span class="team-meta__name">{{team_name}}</span>
@@ -1800,6 +2085,19 @@
 	  {{#suspended}}
 			<tr>
 				<td class="team-standings__player">
+					{{#player_uuid}}
+					<button type="button" class="player-link" data-player-uuid="{{player_uuid}}">
+						<div class="team-meta player-meta">
+							<figure class="team-meta__logo">
+								<img src="{{player_photo_url}}" alt="" onerror="this.src='assets/images/player-placeholder-26x26.png'">
+							</figure>
+							<div class="team-meta__info">
+								<h6 class="team-meta__name">{{player_name}}</h6>
+							</div>
+						</div>
+					</button>
+					{{/player_uuid}}
+					{{^player_uuid}}
 					<div class="team-meta player-meta">
 						<figure class="team-meta__logo">
 							<img src="{{player_photo_url}}" alt="" onerror="this.src='assets/images/player-placeholder-26x26.png'">
@@ -1808,6 +2106,7 @@
 							<h6 class="team-meta__name">{{player_name}}</h6>
 						</div>
 					</div>
+					{{/player_uuid}}
 				</td>
 				<td class="team-standings__team">
 					<span class="team-meta__name">{{team_name}}</span>
@@ -2005,6 +2304,18 @@
 			return String(rawId);
 		}
 
+		function resolvePlayerUuid(record) {
+			const rawUuid = record && (
+				record.player_uuid ??
+				record.jugador_uuid ??
+				record.public_id ??
+				record.uuid
+			);
+
+			if (rawUuid === undefined || rawUuid === null || rawUuid === "") return "";
+			return String(rawUuid);
+		}
+
 		function normalizeBestDefenseEntry(entry, index) {
 			const playerName = resolvePersonName(entry);
 
@@ -2057,8 +2368,9 @@
 					);
 
 					return {
-						player_id: resolvePlayerId(ev),
-						player_name: (ev && (ev.player_name || ev.jugador)) || "Jugador",
+				player_id: resolvePlayerId(ev),
+				player_uuid: resolvePlayerUuid(ev),
+				player_name: (ev && (ev.player_name || ev.jugador)) || "Jugador",
 						player_photo_url: rawPhoto ? resolvePlayerPhotoUrl(rawPhoto) : "",
 						team_id: ev && (ev.team_id ?? ev.equipo_id) || null,
 						instance_id: ev && (ev.instance_id ?? ev.instancia_id) || null,
@@ -2107,6 +2419,7 @@
 						team_name: team.equipo_nombre || "Equipo",
 						team_logo_url: resolveLogoUrl(team.escudo_img),
 						player_id: resolvePlayerId(player, true),
+						player_uuid: resolvePlayerUuid(player),
 						player_name: `${player.nombre || ""} ${player.apellido || ""}`.trim() || "Jugador",
 						player_photo_url: resolvePlayerPhotoUrl(player.foto_perfil || player.foto || player.foto_url),
 						goals: player?.pivot?.jugador_goles || 0
@@ -2121,6 +2434,7 @@
 					team_name: team.equipo_nombre || "Equipo",
 					team_logo_url: resolveLogoUrl(team.escudo_img),
 					player_id: resolvePlayerId(player, true),
+					player_uuid: resolvePlayerUuid(player),
 					player_name: `${player.nombre || ""} ${player.apellido || ""}`.trim() || "Jugador",
 					player_photo_url: resolvePlayerPhotoUrl(player.foto_perfil || player.foto || player.foto_url),
 					ta: player?.pivot?.jugador_amarillas || 0,
@@ -2174,7 +2488,7 @@
 			const currentFixtureDate = fixtureKeys.length ? Number(fixtureKeys[0]) : 1;
 
 			return {
-				tournament_id: campeonato.id,
+				tournament_id: tournamentPublicId(campeonato),
 				tournament_name: campeonato.nombre || "Campeonato",
 				standings,
 				top_scorers,
@@ -2212,6 +2526,7 @@
 				...sanction,
 				status,
 				player_id: resolvePlayerId(sanction, true),
+				player_uuid: resolvePlayerUuid(sanction),
 				player_photo_url: resolvePlayerPhotoUrl(
 					sanction.player_photo_url || sanction.foto_perfil || sanction.foto || sanction.foto_url
 				),
@@ -2271,9 +2586,13 @@
 			);
 		}
 
+		function tournamentPublicId(tournament) {
+			return tournament?.tournament_id ?? tournament?.tournament_uuid ?? tournament?.uuid ?? tournament?.id;
+		}
+
 		function normalizeTournamentSummary(tournament) {
 			return {
-				tournament_id: tournament?.tournament_id ?? tournament?.id,
+				tournament_id: tournamentPublicId(tournament),
 				tournament_name: tournament?.tournament_name || tournament?.nombre || tournament?.text || "Campeonato"
 			};
 		}
@@ -2285,7 +2604,7 @@
 			const mergedTournament = {
 				...fallbackSummary,
 				...source,
-				tournament_id: source?.tournament_id ?? source?.id ?? fallbackSummary?.tournament_id ?? fallbackSummary?.id,
+				tournament_id: tournamentPublicId(source) ?? tournamentPublicId(fallbackSummary),
 				tournament_name: source?.tournament_name || source?.nombre || fallbackSummary?.tournament_name || fallbackSummary?.nombre || "Campeonato"
 			};
 
@@ -2373,13 +2692,15 @@
 				.map(player => ({
 					...player,
 					player_id: resolvePlayerId(player, true),
+					player_uuid: resolvePlayerUuid(player),
 					player_name: player.player_name || resolvePersonName(player) || "Jugador",
 					player_photo_url: resolvePersonPhotoUrl(player)
 				}));
 
 			return {
-				tournament_id: tournament.tournament_id ?? tournament.id,
+				tournament_id: tournamentPublicId(tournament),
 				tournament_name: tournament.tournament_name || tournament.nombre || "Campeonato",
+				public_api_base_url: tournament.public_api_base_url || "",
 				standings,
 				top_scorers: topScorers,
 				figures: Array.isArray(stats.figures) ? stats.figures : (Array.isArray(tournament.figures) ? tournament.figures : []),
@@ -2427,6 +2748,7 @@
 					""
 				),
 				regulation: rawData.regulation || rawData.reglamento || firstRegulation || "<p>Reglamento no disponible.</p>",
+				public_api_base_url: rawData.public_api_base_url || rawData.api_base_url || "",
 				tournaments,
 				primary_nav: Array.isArray(rawData.primary_nav) ? rawData.primary_nav : []
 			};
@@ -2844,12 +3166,14 @@
 			// Bootstrap 4 modal handling
 			const modalEl = $('#matchModal');
 			const modalContent = $('#matchModalContent');
+			const playerModal = $('#playerModal');
+			const playerModalContent = $('#playerModalContent');
 
-			$('#matchModal, #tournamentModal').on('show.bs.modal', function() {
+			$('#matchModal, #playerModal, #tournamentModal').on('show.bs.modal', function() {
 				document.body.classList.add('bottom-sheet-open');
 			});
 
-			$('#matchModal, #tournamentModal').on('hidden.bs.modal', function() {
+			$('#matchModal, #playerModal, #tournamentModal').on('hidden.bs.modal', function() {
 				if (!document.querySelector('.modal.show')) {
 					document.body.classList.remove('bottom-sheet-open');
 				}
@@ -2872,6 +3196,15 @@
 				}
 			}
 
+			function escapeHtml(value) {
+				return String(value || '')
+					.replace(/&/g, '&amp;')
+					.replace(/</g, '&lt;')
+					.replace(/>/g, '&gt;')
+					.replace(/"/g, '&quot;')
+					.replace(/'/g, '&#039;');
+			}
+
 			// Open modal dynamically
 			function openMatchModal(matchData) {
 				const t1 = matchData.team_1;
@@ -2886,15 +3219,6 @@
 						case 'yellow_card': return '<i class="icon-svg icon-yellow-card"></i>';
 						default: return '';
 					}
-				}
-
-				function escapeHtml(value) {
-					return String(value || '')
-						.replace(/&/g, '&amp;')
-						.replace(/</g, '&lt;')
-						.replace(/>/g, '&gt;')
-						.replace(/"/g, '&quot;')
-						.replace(/'/g, '&#039;');
 				}
 
 				function abbreviateLongPlayerName(name) {
@@ -2970,7 +3294,11 @@
 									findPlayerPhotoUrlForEvent(ev)
 								);
 								const photo = `<img class="alc-event-header__performance-photo" src="${escapeHtml(photoUrl)}" alt="" onerror="this.src='${PLAYER_FALLBACK_PHOTO}'">`;
-								const name = `<span class="alc-event-header__performance-name">${escapeHtml(text)}</span>`;
+								const playerUuid = ev.player_uuid || ev.jugador_uuid || "";
+								const nameContent = `<span class="alc-event-header__performance-name">${escapeHtml(text)}</span>`;
+								const name = playerUuid
+									? `<button type="button" class="player-link" data-player-uuid="${escapeHtml(playerUuid)}">${nameContent}</button>`
+									: nameContent;
 
 								return `
 									<div class="alc-event-header__performance alc-event-header__performance--${alignRight ? 'right' : 'left'}">
@@ -3019,6 +3347,147 @@
 				modalContent.html(modalHTML);
 				modalEl.modal('show');
 			}
+
+			function playerApiBaseUrl() {
+				return (
+					currentTournament.public_api_base_url ||
+					loadedData.public_api_base_url ||
+					""
+				).replace(/\/+$/, "");
+			}
+
+			function playerStatsUrl(playerUuid) {
+				const baseUrl = playerApiBaseUrl();
+				if (!baseUrl || !currentTournament.tournament_id || !playerUuid) return "";
+
+				return `${baseUrl}/api/public/campeonatos/${encodeURIComponent(currentTournament.tournament_id)}/jugadores/${encodeURIComponent(playerUuid)}`;
+			}
+
+			async function fetchPlayerStats(playerUuid) {
+				const url = playerStatsUrl(playerUuid);
+				if (!url) {
+					throw new Error("Player stats URL missing");
+				}
+
+				const response = await fetch(`${url}?t=${Date.now()}`, { cache: "no-store" });
+				if (!response.ok) {
+					throw new Error(`HTTP ${response.status}`);
+				}
+
+				return response.json();
+			}
+
+			function profileStat(value, label) {
+				return `
+					<div class="player-profile__stat">
+						<strong>${Number.isFinite(Number(value)) ? Number(value) : 0}</strong>
+						<span>${escapeHtml(label)}</span>
+					</div>`;
+			}
+
+			function renderPlayerTournaments(tournaments) {
+				if (!Array.isArray(tournaments) || !tournaments.length) return "";
+
+				return `
+					<div class="player-profile__section">
+						<h5 class="player-profile__section-title">Campeonatos jugados</h5>
+						${tournaments.map(tournament => `
+							<div class="player-profile__tournament">
+								<div>
+									<p class="player-profile__row-title">${escapeHtml(tournament.tournament_name || "Campeonato")}</p>
+									<div class="player-profile__row-meta">${Number(tournament.yellow_cards || 0)} TA · ${Number(tournament.red_cards || 0)} TR</div>
+								</div>
+								<span class="player-profile__badge">${Number(tournament.goals || 0)} goles</span>
+							</div>
+						`).join("")}
+					</div>`;
+			}
+
+			function renderPlayerEvents(events) {
+				if (!Array.isArray(events) || !events.length) return "";
+
+				return `
+					<div class="player-profile__section">
+						<h5 class="player-profile__section-title">Últimos eventos</h5>
+						${events.map(event => `
+							<div class="player-profile__event">
+								<div>
+									<p class="player-profile__row-title">${escapeHtml(event.label || "Evento")}</p>
+									<div class="player-profile__row-meta">${escapeHtml(event.tournament_name || "Campeonato")}${event.opponent_name ? ` · vs ${escapeHtml(event.opponent_name)}` : ""}</div>
+								</div>
+								<span class="player-profile__badge">${escapeHtml(event.date_time || "")}</span>
+							</div>
+						`).join("")}
+					</div>`;
+			}
+
+			function renderPlayerProfile(profile) {
+				const player = profile.player || {};
+				const totals = profile.totals || {};
+				const current = profile.current_tournament || {};
+				const rankings = profile.rankings || {};
+				const topScorerRank = rankings.top_scorer_rank
+					? ` · #${Number(rankings.top_scorer_rank)} goleador`
+					: "";
+
+				return `
+					<div class="player-profile">
+						<div class="player-profile__header">
+							<img class="player-profile__photo" src="${escapeHtml(player.player_photo_url || PLAYER_FALLBACK_PHOTO)}" alt="" onerror="this.src='${PLAYER_FALLBACK_PHOTO}'">
+							<div>
+								<div class="player-profile__eyebrow">${escapeHtml(player.position || current.status || "Jugador")}</div>
+								<h4 class="player-profile__name">${escapeHtml(player.player_name || "Jugador")}</h4>
+								<div class="player-profile__team">
+									<img src="${escapeHtml(player.team_logo_url || "")}" alt="">
+									${escapeHtml(player.team_name || "Equipo")}
+								</div>
+							</div>
+						</div>
+						<div class="player-profile__stats">
+							${profileStat(totals.goals, "Goles")}
+							${profileStat(totals.yellow_cards, "Amarillas")}
+							${profileStat(totals.red_cards, "Rojas")}
+							${profileStat(totals.tournaments, "Campeonatos")}
+						</div>
+						<div class="player-profile__section">
+							<h5 class="player-profile__section-title">En este campeonato</h5>
+							<div class="player-profile__tournament">
+								<div>
+									<p class="player-profile__row-title">${escapeHtml(current.tournament_name || "Sin datos")}</p>
+									<div class="player-profile__row-meta">${Number(current.yellow_cards || 0)} TA · ${Number(current.red_cards || 0)} TR · ${escapeHtml(current.status || "Sin estado")}${topScorerRank}</div>
+								</div>
+								<span class="player-profile__badge">${Number(current.goals || 0)} goles</span>
+							</div>
+						</div>
+						${renderPlayerTournaments(profile.tournaments)}
+						${renderPlayerEvents(profile.recent_events)}
+					</div>`;
+			}
+
+			async function openPlayerModal(playerUuid) {
+				if (!playerUuid) return;
+
+				playerModalContent.html('<div class="player-profile__loading">Cargando jugador...</div>');
+				playerModal.modal('show');
+
+				try {
+					const profile = await fetchPlayerStats(playerUuid);
+					playerModalContent.html(renderPlayerProfile(profile));
+				} catch (error) {
+					console.error("Failed to load player stats:", error);
+					playerModalContent.html('<div class="player-profile__error">No se pudieron cargar las estadísticas del jugador.</div>');
+				}
+			}
+
+			$(document).on('click', '.player-link', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				const playerUuid = $(this).data('player-uuid');
+				if (playerUuid) {
+					openPlayerModal(String(playerUuid));
+				}
+			});
 
 			// Click listener for all matches (finished or pending)
 			document.getElementById('fixtures-list').addEventListener('click', e => {
